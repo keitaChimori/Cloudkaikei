@@ -25,4 +25,11 @@ class Cloudkaikei_model extends CI_model
         return $this->db->where('id', $id)
         ->update('user_data', $data);
     }
+
+    public function delete($id,$data)
+    {
+        return $this->db->where('id', $id)
+        ->update('user_data', $data);
+    }
+
 }

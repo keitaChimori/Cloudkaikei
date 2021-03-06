@@ -43,7 +43,7 @@ class Cloudkaikei extends CI_controller
             $data['bank_account'] = $this->input->post('BankAccount',TRUE);
             $id = $data['user_id'];
             if($this->Cloudkaikei_model->edit_update($id,$data)){
-                redirect('http://cloudkaikei.work/Cloudkaikei/Cloudkaikei/ledger');
+                redirect(base_url('Cloudkaikei/ledger'));
             }
         }
         $data['info'] = $this->Cloudkaikei_model->load();
@@ -74,12 +74,18 @@ class Cloudkaikei extends CI_controller
             $data['bank_account'] = $this->input->post('BankAccount',TRUE);
             $id = $data['id'];
             if($this->Cloudkaikei_model->edit_update($id,$data)){
-                redirect('http://cloudkaikei.work/Cloudkaikei/Cloudkaikei/admin');
-                // print_r($_POST);
+                redirect(base_url('Cloudkaikei/admin'));
             }
         }
         $data['info'] = $this->Cloudkaikei_model->load();
         $this->load->view('editpage_view.php',$data);
     }
 
+    public function delete(){
+        $data['delete_flag'] = 1;
+        $id = $this->input->post('user_id',TRUE);;
+        if($this->Cloudkaikei_model->delete($id,$data)){
+            redirect(base_url('Cloudkaikei/admin'));
+        }
+    }
 }
