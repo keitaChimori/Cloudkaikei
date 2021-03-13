@@ -14,10 +14,10 @@ class Cloudkaikei extends CI_controller
         // $this->load->library('jquery');
     }
 
-    public function login()
-    {
-        $this->load->view('login_view.php');
-    }
+    // public function login()
+    // {
+    //     $this->load->view('login_view.php');
+    // }
 
     public function ledger()
     {
