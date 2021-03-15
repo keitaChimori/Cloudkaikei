@@ -1,5 +1,5 @@
 <!-- ******************************** -->
-<!-- ****    ユーザー新規登録   ***** -->
+<!-- **  パスワード再設定フォーム *** -->
 <!-- ******************************** -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>新規登録</title>
+  <title>パスワード再設定</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -23,29 +23,16 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <b>CloudKaikei<br>新規登録</b>
+      <b>CloudKaikei<br>パスワード再設定</b>
     </div>
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
+        <p class="login-box-msg">新しいパスワードを入力してください</p>
 
-        <!-- エラーメッセージ -->
-        <?php if(!empty(validation_errors())): ?>
-          <div class="error_list">
-            <p><?= validation_errors(); ?></p>
-          </div>
-        <?php endif; ?>
-
-        <!-- 登録完了メッセージ -->
-        <?php if($this->session->flashdata('message')): ?>
-          <?php echo $this->session->flashdata('message'); ?>
-        <?php endif; ?>
-
-        <!-- 登録フォーム -->
-        <form method="post" id="form" action="/login/register_done">
+        <form method="POST" id="form">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" name="Email" placeholder="メールアドレス"
-              value="<?php if(!empty($email)){ echo $_SESSION['email']; } ?>">
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="パスワード">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -53,15 +40,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" name="password1" placeholder="パスワード">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" name="password2" placeholder="パスワード【確認用】">
+            <input type="password" class="form-control" name="password2" id="password2" placeholder="パスワード【確認用】">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -70,19 +49,44 @@
           </div>
 
           <div class="row">
-            <button type="submit" class="btn btn-primary btn-block" name="submit" value="submit">新規登録</button>
+            <button type="submit" class="btn btn-primary btn-block" name="submit">パスワード再設定</button>
           </div>
         </form>
 
-        <p class="mb-0">
-          <a href="/login" class="text-center">ログインする</a>
-        </p>
+        <!-- <p class="mb-0">
+        <a href="/login/register" class="text-center">ユーザー登録する</a><br>
+        <a href="/login/password_reissue" class="text-center">パスワードを忘れた方はこちら</a>
+      </p> -->
 
       </div>
       <!-- /.login-card-body -->
     </div>
   </div>
   <!-- /.login-box -->
+
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  <script>
+  $('#form').on('submit', function() {
+    event.preventDefault();
+    $.ajax({
+      url: "/login/password_reissue_done",
+      type: "POST",
+      data: {
+        'password1': $('#password1').val(),
+        'password2': $('#password2').val(),
+      },
+      dataType: "json",
+    }).then(
+      function(data) {
+        if (data.success == 1) {
+          // ログイン成功
+          window.location.href = '/';
+        } else {
+          alert(data.message);
+        }
+      })
+  });
+  </script>
 
   <!-- jQuery -->
   <script src="<?=base_url() ?>assets/js/jquery.min.js"></script>

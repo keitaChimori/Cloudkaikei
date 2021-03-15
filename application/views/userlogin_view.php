@@ -51,7 +51,8 @@
       </form>
 
       <p class="mb-0">
-        <a href="/login/register" class="text-center">ユーザー登録する</a>
+        <a href="/login/register" class="text-center">ユーザー登録する</a><br>
+        <a href="/login/password_reissue" class="text-center">パスワードを忘れた方はこちら</a>
       </p>
 
     </div>
