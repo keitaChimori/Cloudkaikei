@@ -116,17 +116,16 @@ class Login extends CI_controller
           $mail->isHTML(true);
           // 送信内容設定
           $passReissueToken = md5(uniqid(rand(),true));
-          $mail->Subject = 'クラウド会計サービスパスワード再設定';
-          $mailContent = "<h1>クラウド会計サービスパスワード再設定</h1>
-            <p>下記URLにアクセスして、新しいパスワードの再設定を完了させてください。<br>
-            ※URL有効期限は、1時間となります。</p><br>
-            <a href='http://cloudkaikei.work/login/password_reissue_form?passReset=$passReissueToken'>http://cloudkaikei.work/login/password_reissue_form?passReset=$passReissueToken</a>";
+          $mail->Subject = 'クラウド会計サービス【パスワード再設定】';
+          $mailContent = "<h1>クラウド会計サービス【パスワード再設定】</h1>
+            <p>下記URLから新しいパスワードの再設定を完了させてください。</p><br>
+            <a href='http://cloudkaikei.work/login/password_reissue_form?passReset=$email'>http://cloudkaikei.work/login/password_reissue_form?passReset=$email</a>";
           $mail->Body = $mailContent;
 
           // 送信
           if($mail->send()){
             // echo json_encode(['success' => 1]);
-            echo json_encode(['success_message' => 'メール送信完了']);
+            echo json_encode(['success_message' => 'メール送信が完了しました']);
             exit();
           }
         }catch(Throwable $e){
@@ -140,14 +139,21 @@ class Login extends CI_controller
     // パスワード再設定フォーム表示
     public function password_reissue_form()
     {
-      $this->load->view('password_reissue_form_view');
+      $email = $this->input->get('passReset');
+      if(empty($email)){
+        $this->load->view('error_view');
+      }else{
+        $data['email'] = $email;
+        $this->load->view('password_reissue_form_view',$data);
+      }
     }
 
-        // パスワード再設定フォーム表示
+    // パスワード再設定実行
     public function password_reissue_done()
     {
       header("Content-Type: application/json; charset=utf-8");
       if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $email = $this->input->post('email',true);
         $password1 = $this->input->post('password1',true);
         if(empty($password1)){
           // ログイン失敗
@@ -175,27 +181,64 @@ class Login extends CI_controller
           )
         );
 
-
         if($this->form_validation->run() == false){
           // 失敗
           $error_message = str_replace("<p>", "", validation_errors()); 
           $error_message = str_replace("</p>", "",$error_message); 
-          echo json_encode(['message' =>$error_message]);
+          echo json_encode(['message' => $error_message]);
           exit();
-          // $this->load->view('password_reissue_view');
-          validation_errors();
         }else{
           // 成功
           $hash_password = password_hash($password1,PASSWORD_DEFAULT);// passwordハッシュ化
           $data = null;
           $data = [
+            'mail' => $email,
             'password' => $hash_password,
           ];
+
           // DBへ登録
-          // if(){
-          //   header('location:/login/password_reissue_finish');
-          //   exit();
-          // }
+          if($this->Login_model->password_reissue($email,$data)){
+            echo json_encode(['success' => 1]);
+            // パスワード再設定完了メール送信
+            try
+            {
+              $this->load->library('phpmailer_lib');
+
+              $mail = $this->phpmailer_lib->load();
+
+              // 文字エンコードを指定
+              $mail->CharSet = 'utf-8';
+              $mail->isSMTP();    // SMTPの使用宣言
+              $mail->Host     = 'smtp.gmail.com';   // SMTPサーバーを指定
+              $mail->SMTPAuth = true;   // SMTP authenticationを有効化
+              $mail->Username = 'sendmailtest.programming@gmail.com';  // SMTPサーバーのユーザ名
+              $mail->Password = 'oebpilyelgdboidg';   // SMTPサーバーのパスワード
+              $mail->SMTPSecure = 'tls';  // 暗号化を有効（tls or ssl）無効の場合はfalse
+              $mail->Port     = 587;  // TCPポートを指定（tlsの場合は465や587）
+              
+              // 送受信先設定（第二引数は省略可）
+              $mail->setFrom('sendmailtest.programming@gmail.com', 'クラウド会計');   // 送信者
+              // $mail->addReplyTo('info@example.com', 'CodexWorld');    // 返信先
+
+              $mail->addAddress($email);    // 宛先
+
+              $mail->isHTML(true);
+              // 送信内容設定
+              $passReissueToken = md5(uniqid(rand(),true));
+              $mail->Subject = 'クラウド会計サービス【パスワード再設定完了】';
+              $mailContent = "<h1>クラウド会計サービス【パスワード再設定完了】</h1>
+                <p>パスワードの再設定が完了しました。</p>";
+              $mail->Body = $mailContent;
+              $mail->send();
+            }catch(Throwable $e){
+              // 送信エラーの場合
+              echo '送信失敗: ', $mail->ErrorInfo;
+            }
+            exit();
+          }else{
+            echo json_encode(['messege' => 'error']);
+            exit();      
+          }
         }
       }else{
         // POST以外のとき
@@ -209,6 +252,8 @@ class Login extends CI_controller
     {
       $this->load->view('password_reissue_finish_view');
     }
+
+
 
 
     
@@ -299,7 +344,45 @@ class Login extends CI_controller
           ];
           // DBへ登録
           if($this->Login_model->insert($data)){
-            $this->session->set_flashdata("message","新規登録が完了しました。");
+            $this->session->set_flashdata("message","新規登録が完了しました。ログインページからログインを行ってください。");
+          
+            // 新規登録完了メール送信
+            try
+            {
+              $this->load->library('phpmailer_lib');
+
+              $mail = $this->phpmailer_lib->load();
+
+              // 文字エンコードを指定
+              $mail->CharSet = 'utf-8';
+              $mail->isSMTP();    // SMTPの使用宣言
+              $mail->Host     = 'smtp.gmail.com';   // SMTPサーバーを指定
+              $mail->SMTPAuth = true;   // SMTP authenticationを有効化
+              $mail->Username = 'sendmailtest.programming@gmail.com';  // SMTPサーバーのユーザ名
+              $mail->Password = 'oebpilyelgdboidg';   // SMTPサーバーのパスワード
+              $mail->SMTPSecure = 'tls';  // 暗号化を有効（tls or ssl）無効の場合はfalse
+              $mail->Port     = 587;  // TCPポートを指定（tlsの場合は465や587）
+              
+              // 送受信先設定（第二引数は省略可）
+              $mail->setFrom('sendmailtest.programming@gmail.com', 'クラウド会計');   // 送信者
+              // $mail->addReplyTo('info@example.com', 'CodexWorld');    // 返信先
+
+              $mail->addAddress($email);    // 宛先
+
+              $mail->isHTML(true);
+              // 送信内容設定
+              $passReissueToken = md5(uniqid(rand(),true));
+              $mail->Subject = 'クラウド会計サービス【新規登録完了】';
+              $mailContent = "<h1>クラウド会計サービス【新規登録完了】</h1>
+                <p>ご登録ありがとうございます。新規登録が完了しました。<br>
+                下記URLのログインページからログインを行ってください。<br>
+                <a href='http://cloudkaikei.work/login'>http://cloudkaikei.work/login</a></p>";
+              $mail->Body = $mailContent;
+              $mail->send();
+            }catch(Throwable $e){
+              // 送信エラーの場合
+              echo '送信失敗: ', $mail->ErrorInfo;
+            }
             header('location:/login/register');
             exit();
           }
@@ -343,11 +426,11 @@ class Login extends CI_controller
       exit();
     }
 
-
-
-
-
-    	
+    // エラー画面
+    public function error()
+    {
+      $this->load->view('');
+    }
 
 
 

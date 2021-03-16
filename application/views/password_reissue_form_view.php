@@ -49,14 +49,10 @@
           </div>
 
           <div class="row">
+            <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
             <button type="submit" class="btn btn-primary btn-block" name="submit">パスワード再設定</button>
           </div>
         </form>
-
-        <!-- <p class="mb-0">
-        <a href="/login/register" class="text-center">ユーザー登録する</a><br>
-        <a href="/login/password_reissue" class="text-center">パスワードを忘れた方はこちら</a>
-      </p> -->
 
       </div>
       <!-- /.login-card-body -->
@@ -74,14 +70,16 @@
       data: {
         'password1': $('#password1').val(),
         'password2': $('#password2').val(),
+        'email': $('#email').val(),
       },
       dataType: "json",
     }).then(
       function(data) {
         if (data.success == 1) {
-          // ログイン成功
-          window.location.href = '/';
+          // パスワード再設定成功
+          window.location.href = '/login/password_reissue_finish';
         } else {
+          // パスワード再設定失敗
           alert(data.message);
         }
       })
