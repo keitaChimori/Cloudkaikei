@@ -17,6 +17,31 @@ class Login_model extends CI_model
                       ->row_array();
     }
 
+    // ログイン処理(delete_flagのチェック)
+    public function fetch_delete($email)
+    {
+      return $this->db->where('mail',$email)
+                      ->select('delete_flag')
+                      ->get('user_data')
+                      ->row_array();
+    }
+
+    // パスワード再発行メール送信用
+    public function fetch_mail($email)
+    {
+      return $this->db->where('mail',$email)
+                      ->select('mail')
+                      ->get('user_data')
+                      ->row_array();
+    }
+
+    // パスワード再設定DB登録
+    public function password_reissue($email,$data)
+    {
+      return $this->db->where('mail',$email)
+                      ->update('user_data',$data);
+    }
+
     // ユーザー新規登録
     public function insert($data)
     {
