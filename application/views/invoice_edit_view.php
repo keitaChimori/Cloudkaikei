@@ -36,7 +36,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>請求書新規登録</h1>
+              <h1>請求書編集</h1>
             </div>
           </div>
         </div><!-- /.container-fluid -->
@@ -56,14 +56,18 @@
                       <select name="customer">
                         <?php if( !empty($customer) ): ?>
                           <?php foreach( $customer as $value_c ): ?>
-                            <option value="<?php echo $value_c['id'] ?>"><?php echo $value_c['name']; ?></option>
+                            <?php if( $info['customer_id'] == $value_c['id'] ): ?>
+                                <option value="<?php echo $value_c['id'] ?>" selected><?php echo $value_c['name']; ?></option>    
+                            <?php else: ?>
+                                <option value="<?php echo $value_c['id'] ?>"><?php echo $value_c['name']; ?></option>
+                            <?php endif; ?>
                           <?php endforeach; ?>
                         <?php endif; ?>
                       </select>
                       <span>　御中</span>
                       <small class="float-right">
                         請求日：
-                        <input name="date" id="inputDate" type="date" />
+                        <input name="date" id="inputDate" type="date" value="<?php echo $info['created_at']; ?>"/>
                         <script>
                           var date = new Date();
       
@@ -71,7 +75,7 @@
                           var mm = ("0"+(date.getMonth()+1)).slice(-2);
                           var dd = ("0"+date.getDate()).slice(-2);
       
-                          document.getElementById("inputDate").value=yyyy+'-'+mm+'-'+dd;
+                        //   document.getElementById("inputDate").value=yyyy+'-'+mm+'-'+dd;
                         </script>
                       </small>
                     </h4>
@@ -120,10 +124,10 @@
                       </thead>
                       <tbody>
                       <tr>
-                        <td><input type="text" name="product_name" value="材料"></td>
-                        <td><input type="text" name="price" value="10000"></td>
-                        <td><input type="text" name="num" value="10"></td>
-                        <td><input type="text" name="unit" value="個"></td>
+                        <td><input type="text" name="product_name" value="<?php echo $info['product_name']; ?>"></td>
+                        <td><input type="text" name="price" value="<?php echo $info['price']; ?>"></td>
+                        <td><input type="text" name="num" value="<?php echo $info['num']; ?>"></td>
+                        <td><input type="text" name="unit" value="<?php echo $info['unit']; ?>"></td>
                       </tbody>
                     </table>
                   </div>
@@ -131,23 +135,23 @@
                 </div>
                 <!-- /.row -->
                 <b>備考欄</b><br>
-                <input type="text" name="note" value="なし" size="40">
+                <input type="text" name="note" value="" size="40">
               </div>
               <!-- /.invoice -->
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </section>
-      <input type="submit" value="送信する">
+      <input type="submit" value="登録">
       <!-- /.content -->
     </form>
   </div>
 
   <!-- /.content-wrapper -->
-  <footer class="main-footer no-print">
-    <b>備考欄</b><br>
-    <text>サンプルサンプルサンプルサンプルサンプル</text>
-  </footer>
+  <!-- <footer class="main-footer no-print"> -->
+    <!-- <b>備考欄</b><br> -->
+    <!-- <text>サンプルサンプルサンプルサンプルサンプル</text> -->
+  <!-- </footer> -->
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->

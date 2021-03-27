@@ -1,6 +1,6 @@
 <?php
 
-class Cloudkaikei_model extends CI_model
+class Ledger_model extends CI_model
 {
     public function __construct()
     {
