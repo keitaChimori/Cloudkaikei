@@ -281,23 +281,23 @@
               flag = 1;
 
               if(words1 != ""){   //期間が指定されているとき
-                  var days1 = new Date(data);
-                  var days2 = new Date(time1);
-                  // 経過時間をミリ秒で取得
-                  var ms = days1.getTime() - days2.getTime();
-                  // ミリ秒を日付に変換(端数切捨て)
-                  var days3 = Math.floor(ms / (1000*60*60*24)) + 1;
-                  console.log(days3);
-                  var days1 = new Date(time2);
-                  var days2 = new Date(data);
-                  // 経過時間をミリ秒で取得
-                  var ms = days1.getTime() - days2.getTime();
-                  // ミリ秒を日付に変換(端数切捨て)
-                  var days4 = Math.floor(ms / (1000*60*60*24));
-                  console.log(days4);
-                  if(days3>=0 && days4>=0){
-                    flag = 0;
-                  }
+                var days1 = new Date(data);
+                var days2 = new Date(time1);
+                // 経過時間をミリ秒で取得
+                var ms = days1.getTime() - days2.getTime();
+                // ミリ秒を日付に変換(端数切捨て)
+                var days3 = Math.floor(ms / (1000*60*60*24)) + 1;
+                console.log(days3);
+                var days1 = new Date(time2);
+                var days2 = new Date(data);
+                // 経過時間をミリ秒で取得
+                var ms = days1.getTime() - days2.getTime();
+                // ミリ秒を日付に変換(端数切捨て)
+                var days4 = Math.floor(ms / (1000*60*60*24));
+                console.log(days4);
+                if(days3>=0 && days4>=0){
+                  flag = 0;
+                }
               }else{
                 flag = 0;
               }

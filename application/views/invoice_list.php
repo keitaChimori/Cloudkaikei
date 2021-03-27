@@ -8,23 +8,23 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/css/adminlte.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/daterangepicker/daterangepicker.css">
   <!-- summernote -->
-  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="<?=base_url() ?>assets/summernote/summernote-bs4.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -74,7 +74,7 @@
 
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img src="dist/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
+      <img src="<?=base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
       <span class="brand-text font-weight-light">Croudkaikei</span>
     </a>
 
@@ -82,7 +82,7 @@
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/Vote 2020 Stickers - Monster and Sign.png" class="img-circle elevation-2" alt="User Image">
+          <img src="<?=base_url() ?>assets/img/Vote 2020 Stickers - Monster and Sign.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">User's name</a>
@@ -92,16 +92,16 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 納品書
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="./invoice.html" class="nav-link">
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 請求書
@@ -127,6 +127,7 @@
     <section class="content">
       <section class="content">
         <div class="container-fluid">
+          <br>
           <!-- Main row -->
           <div class="row">
             <!-- Left col -->
@@ -179,16 +180,12 @@
                   <!-- preview用index -->
                   <ul class="nav nav-tabs flex-column">
                     <li class="nav-item">
-                      <a href="#tes1" class="nav-link" data-toggle="tab">タブ1</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#tes2" class="nav-link" data-toggle="tab">タブ2</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#tes3" class="nav-link" data-toggle="tab">タブ3</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#tes4" class="nav-link" data-toggle="tab">タブ4</a>
+                      <?php if( !empty($id) ): ?>
+                        <?php foreach( $id as $value ): ?>
+                          <!-- <a href="/invoice?id=<?php echo $value['id']; ?>" class="nav-link" data-toggle="tab">id：<?php echo $value['id']; ?></a> -->
+                          <a href="/invoice?id=<?php echo $value['id']; ?>" class="nav-link">id：<?php echo $value['id']; ?></a>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
                     </li>
                   </ul>
                 </div>
@@ -206,7 +203,7 @@
               <!-- TABLE: LATEST ORDERS -->
               <div class="card">
                 <div class="card-header border-transparent">
-                  <p>作成日：###</p>
+                  <p>作成日：<?= date("Y年m月d日", strtotime($info["created_at"])); ?></p>
                   <h3 class="card-title">請求宛先No1</h3>
                   <p>請求件名</p>
                   <div class="card-tools">
@@ -228,8 +225,13 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer clearfix">
-                  <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-                  <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+                  <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a> -->
+                  <!-- <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a> -->
+                  <a href="/invoice/register" class="btn-sm">新規登録</a>
+                  <a href="/invoice/edit?id=<?php echo $info['id']; ?>" class="btn-sm">編集</a>
+                  <a href="/invoice/delete?id=<?php echo $info['id']; ?>" class="btn-sm">削除</a>
+                  <a href="" class="btn-sm">PDF</a>
+                  <a href="" class="btn-sm">印刷</a>
                 </div>
                 <!-- /.card-footer -->
                 
@@ -281,8 +283,13 @@
                                   <div class="row">
                                     <div class="col-12">
                                       <h4>
-                                        <i class="fas fa-globe"></i> 請求先株式会社_様
-                                        <small class="float-right">請求日: 2021/1/16</small>
+                                        <i class="fas fa-globe"></i> 請求先株式会社　御中
+                                        <small class="float-right">
+                                          請求日:
+                                          <?php
+                                            // echo $value['created_at']; 
+                                          ?>
+                                        </small>
                                       </h4>
                                     </div>
                                     <!-- /.col -->
@@ -290,19 +297,26 @@
                                   <!-- info row -->
                                   <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
-                                      <address>
-                                        〒123-4567<br>
-                                        xx県xx市xxxxxx<br>
-                                      </address>
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-4 invoice-col">
-                                      <b>請求書番号:  123</b><br>
+                                      <b>請求書番号:  <?php echo $info['id']; ?></b><br>
                                       <br>
-                                      <b>請求元株式会社:</b><br>
+                                      <?php if( !empty($user) ): ?>
+                                        <?php foreach( $user as $value_u ): ?>
+                                          <?php
+                                            if($value_u['id'] == 2){
+                                              break;
+                                            }
+                                          ?>
+                                        <?php endforeach; ?>
+                                      <?php endif; ?>
+                                      <b>請求元:<?php echo $value_u['name']; ?></b><br>
                                       <address>
-                                        〒234-5678<br>
-                                        xx県xx市xxxxxxz<br>
+                                        〒<?php echo $value_u['post']; ?><br>
+                                        <?php
+                                          $prefs = array ('選択してください','北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','山梨県','新潟県','富山県','石川県','福井県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県');
+                                          echo $prefs[$value_u['prefecture']];
+                                          echo $value_u['adress1'].$value_u['address2'];
+                                        ?>
+                                        <br>
                                       </address> 
                                     </div>
                                     <!-- /.col -->
@@ -316,17 +330,19 @@
                                         <thead>
                                         <tr>
                                           <th>詳細</th>
+                                          <th>価格</th>
                                           <th>数量</th>
-                                          <th>単価</th>
+                                          <th>単位</th>
                                           <th>金額</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                          <td>サービス＃１</td>
-                                          <td>1</td>
-                                          <td>式</td>
-                                          <td>1,000,000</td>
+                                          <td><?php echo $info['product_name']; ?></td>
+                                          <td><?php echo $info['price']; ?>円</td>
+                                          <td><?php echo $info['num']; ?></td>
+                                          <td><?php echo $info['unit']; ?></td>
+                                          <td><?php echo $info['price']*$info['num']; ?>円</td>
                                         </tbody>
                                       </table>
                                     </div>
@@ -343,15 +359,15 @@
                                         <table class="table">
                                           <tr>
                                             <th style="width:50%">小計:</th>
-                                            <td>1,000,000</td>
+                                            <td><?php echo $info['price']*$info['num']; ?>円</td>
                                           </tr>
                                           <tr>
                                             <th>消費税:</th>
-                                            <td>100,000</td>
+                                            <td><?php echo ($info['price']*$info['num'])/10.0; ?>円</td>
                                           </tr>
                                           <tr>
                                             <th>合計:</th>
-                                            <td>1,100,000</td>
+                                            <td><?php echo ($info['price']*$info['num'])+(($info['price']*$info['num'])/10.0); ?>円</td>
                                           </tr>
                                         </table>
                                       </div>
@@ -414,40 +430,40 @@
 
 <!-- script -->
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="<?=base_url() ?>assets/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?=base_url() ?>assets/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?=base_url() ?>assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="<?=base_url() ?>assets/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="plugins/sparklines/sparkline.js"></script>
+<script src="<?=base_url() ?>assets/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
-<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<script src="<?=base_url() ?>assets/jqvmap/jquery.vmap.min.js"></script>
+<script src="<?=base_url() ?>assets/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
-<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<script src="<?=base_url() ?>assets/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?=base_url() ?>assets/moment/moment.min.js"></script>
+<script src="<?=base_url() ?>assets/daterangepicker/daterangepicker.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="<?=base_url() ?>assets/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
-<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<script src="<?=base_url() ?>assets/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="<?=base_url() ?>assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.js"></script>
+<script src="<?=base_url() ?>assets/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="<?=base_url() ?>assets/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
+<script src="<?=base_url() ?>assets/js/pages/dashboard.js"></script>
 <!-- preview機能追加 -->
-<script src="dist/js/preview.js"></script>
+<script src="<?=base_url() ?>assets/js/preview.js"></script>
 </body>
 </html>

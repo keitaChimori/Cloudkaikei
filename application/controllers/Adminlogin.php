@@ -1,5 +1,5 @@
 <?php
-class Ledger extends CI_controller
+class Adminlogin extends CI_controller
 {
     // デフォルトの設定
     public function __construct()
@@ -9,13 +9,12 @@ class Ledger extends CI_controller
         $this->load->helper('url');
         $this->load->helper(array('form', 'url'));
         $this->load->helper('file');
-        $this->load->model('Ledger_model');
+        $this->load->model('Cloudkaikei_model');
         $this->load->library('javascript');
-        // $this->load->library('jquery');
     }
+
     public function index()
     {
-        $data['info'] = $this->Ledger_model->load_invoice();
-        $this->load->view('ledger_view.php',$data);
+        $this->load->view('adminlogin_view.php');
     }
 }
