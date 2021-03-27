@@ -65,7 +65,7 @@
       dataType: "json",
     }).then(
       function(data){
-        if(data.success_message == 'メール送信完了'){
+        if(data.success_message == 'メール送信が完了しました'){
           // ログイン成功
           alert(data.success_message);
           window.location.href = '/login';

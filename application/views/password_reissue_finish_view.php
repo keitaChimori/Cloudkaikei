@@ -25,11 +25,8 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">パスワードの再設定が完了しました。ログインページからログインしてください。</p>
+      <p class="login-box-msg">パスワードの再設定が完了しました。ログインページからログインしてください。<br><a href="/login" class="text-center">ログインする</a><br></p>
 
-      <p class="mb-0">
-        <a href="/login" class="text-center">ログインする</a><br>
-      </p>
 
     </div>
     <!-- /.login-card-body -->

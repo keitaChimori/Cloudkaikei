@@ -14,6 +14,7 @@ class Delete extends CI_controller
         // $this->load->library('jquery');
     }
 
+    // ユーザーの削除
     public function index(){
         $data['delete_flag'] = 1;
         $id = $this->input->post('user_id',TRUE);;
