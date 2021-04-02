@@ -187,7 +187,7 @@ class Customer extends CI_controller
         $this->session->set_flashdata('message', '顧客情報を削除しました');
         header('location:/customer');
       }
-    } else {
+    }else{
       $this->session->set_flashdata('message', '削除できませんでした');
       header('location:/customer');
     }

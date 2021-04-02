@@ -62,8 +62,7 @@
 
       <!-- Brand Logo -->
       <a href="#" class="brand-link">
-        <img src="<?=base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8; background-color: white;">
+        <img src="<?= base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
         <span class="brand-text font-weight-light">Cloudkaikei</span>
       </a>
 
@@ -71,16 +70,15 @@
       <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="<?=base_url() ?>assets/img/Vote 2020 Stickers - Monster and Sign.png"
-              class="img-circle elevation-2" alt="User Image">
+            <img src="<?= base_url() ?>assets/img/Vote 2020 Stickers - Monster and Sign.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">User's name</a>
+            <a href="#" class="d-block">管理者</a>
           </div>
         </div>
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
+         <!-- Sidebar Menu -->
+         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
               <a href="#" class="nav-link">
@@ -138,23 +136,7 @@
 
                 <div class="card-body">
 
-                  <?php
-                  // if(!empty($_POST['user_id'])){
-                  //   $id = $_POST['user_id'];
-                  //   $_SESSION['user_id'] = $id;
-                  // }else{
-                  //   if(!empty($_SESSION['user_id'])){
-                  //     $id = $_SESSION['user_id'];
-                  //   }
-                  // }
-                  // if( !empty($info)){
-                  //   foreach( $info as $value ){
-                  //     if( $value['id'] == $id){
-                  //       break;
-                  //     }
-                  //   }
-                  // }
-                ?>
+
                   <!-- バリデーションエラー表示 -->
                   <?php if(!empty(validation_errors())): ?>
                   <div class="alert alert-warning" role="alert">
@@ -330,8 +312,6 @@
   function disp() {
     // 削除確認メッセージ
     if (window.confirm('本当に削除しますか？')) {
-      // var delete = document.getElementById("delete");
-      // delete.innerHTML = 0;
       return true;
     } else {
       return false;
