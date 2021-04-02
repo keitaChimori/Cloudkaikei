@@ -159,6 +159,7 @@
               <th>住所</th>
               <th>電話番号</th>
               <th>FAX番号</th>
+              <th>詳細表示</th>
             </tr>
           </thead>
           <tbody>
@@ -182,15 +183,17 @@
                         echo $prefectures[$prefecture_num];
                       }
                     ?> 
-                    
                   </td>
-
                   <!-- 住所 -->
                   <td><?php echo $value['adress1']; ?><?php echo $value['address2']; ?></td>
                   <!-- 電話番号 -->
                   <td><?php echo $value['tel']; ?></td>
                   <!-- FAX -->
                   <td><?php echo $value['fax']; ?></td>
+                  <!-- 詳細表示 -->
+                  <td>
+                    <a href="/Admin/show_userdata?id=<?php echo $value['id']; ?>" class="btn btn-info btn-sm">詳細を見る</a>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             <?php endif; ?>

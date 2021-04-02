@@ -28,6 +28,22 @@ class Admin extends CI_controller
         }
     }
 
+    // ユーザーの詳細を見る
+    public function show_userdata()
+    {
+        if (!empty($_SESSION['admin_login'])) {
+            $id = $this->input->get('id', true);
+            if (!empty($id)) {
+                $data['info'] = $this->Admin_model->load($id);
+                $this->load->view('show_userdata_view', $data);
+            }
+        } else {
+            //ログイン失敗 // セッションが無ければログイン画面へ
+            header('location:/Adminlogin');
+            exit();
+        }
+    }
+
     // 新規登録フォーム表示
     public function registerform()
     {
