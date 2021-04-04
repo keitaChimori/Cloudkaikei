@@ -182,8 +182,23 @@
                     <li class="nav-item">
                       <?php if( !empty($id) ): ?>
                         <?php foreach( $id as $value ): ?>
-                          <!-- <a href="/invoice?id=<?php echo $value['id']; ?>" class="nav-link" data-toggle="tab">id：<?php echo $value['id']; ?></a> -->
-                          <a href="/invoice?id=<?php echo $value['id']; ?>" class="nav-link">id：<?php echo $value['id']; ?></a>
+                          <?php
+                            $y = substr($value['date'], 0, 4);
+                            $m = substr($value['date'], 4, 2);
+                            $d = substr($value['date'], 6, 2);
+                          ?>
+                          <a href="/invoice?id=<?php echo $value['id']; ?>" class="nav-link">
+                            <?php echo $value['id']."　".$y."年".$m."月".$d."日　"; ?>
+                            <?php if( !empty($customer) ): ?>
+                              <?php foreach( $customer as $value_c ): ?>
+                                <?php
+                                  if($value['customer'] == $value_c['id']){
+                                   echo $value_c['name']."　御中";
+                                  }
+                                ?>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+                          </a>
                         <?php endforeach; ?>
                       <?php endif; ?>
                     </li>
@@ -202,19 +217,6 @@
             <div class="col-md-8">
               <!-- TABLE: LATEST ORDERS -->
               <div class="card">
-                <div class="card-header border-transparent">
-                  <p>作成日：<?= date("Y年m月d日", strtotime($info["created_at"])); ?></p>
-                  <h3 class="card-title">請求宛先No1</h3>
-                  <p>請求件名</p>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
                 <!-- /.card-header -->
 
                 <div class="card-body p-0">
@@ -228,8 +230,8 @@
                   <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a> -->
                   <!-- <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a> -->
                   <a href="/invoice/register" class="btn-sm">新規登録</a>
-                  <a href="/invoice/edit?id=<?php echo $info['id']; ?>" class="btn-sm">編集</a>
-                  <a href="/invoice/delete?id=<?php echo $info['id']; ?>" class="btn-sm">削除</a>
+                  <a href="/invoice/edit?id=<?php echo $invoice['id']; ?>" class="btn-sm">編集</a>
+                  <a href="/invoice/delete?id=<?php echo $invoice['id']; ?>" class="btn-sm">削除</a>
                   <a href="" class="btn-sm">PDF</a>
                   <a href="" class="btn-sm">印刷</a>
                 </div>
@@ -283,11 +285,24 @@
                                   <div class="row">
                                     <div class="col-12">
                                       <h4>
-                                        <i class="fas fa-globe"></i> 請求先株式会社　御中
+                                        <i class="fas fa-globe"></i>
+
+                                        <?php if( !empty($customer) ): ?>
+                                          <?php foreach( $customer as $value_c ): ?>
+                                            <?php
+                                              if($invoice['customer'] == $value_c['id']){
+                                                echo $value_c['name']."　御中";
+                                              }
+                                            ?>
+                                          <?php endforeach; ?>
+                                        <?php endif; ?>
                                         <small class="float-right">
                                           請求日:
                                           <?php
-                                            // echo $value['created_at']; 
+                                            $y = substr($invoice['date'], 0, 4);
+                                            $m = substr($invoice['date'], 4, 2);
+                                            $d = substr($invoice['date'], 6, 2);
+                                            echo $y."年".$m."月".$d."日";
                                           ?>
                                         </small>
                                       </h4>
@@ -297,7 +312,7 @@
                                   <!-- info row -->
                                   <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
-                                      <b>請求書番号:  <?php echo $info['id']; ?></b><br>
+                                      <b>請求書番号:  <?php echo $info['invoice_id']; ?></b><br>
                                       <br>
                                       <?php if( !empty($user) ): ?>
                                         <?php foreach( $user as $value_u ): ?>
@@ -385,7 +400,7 @@
                       <!-- /.content-wrapper -->
                       <footer class="main-footer no-print">
                         <b>備考欄</b><br>
-                        <text>サンプルサンプルサンプルサンプルサンプル</text>
+                        <text><?php echo $invoice['note']; ?></text>
                       </footer>
                       <!-- /.control-sidebar -->
                     </div>
