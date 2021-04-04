@@ -1,13 +1,13 @@
-<!-- ********************************** -->
-<!-- ***   管理者画面 編集フォーム  *** -->
-<!-- ********************************** -->
+<!-- ************************************** -->
+<!-- ***   管理者画面 新規登録フォーム  *** -->
+<!-- ************************************** -->
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>管理者画面 編集フォーム</title>
+  <title>管理者画面 新規登録フォーム</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -16,7 +16,12 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/adminlte.min.css" type="text/css" />
 
-
+  <style>
+    .current{
+      background: rgba(255, 255, 255,.2);
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body class="hold-transition">
@@ -26,7 +31,7 @@
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
-        <h4>編集フォーム</h4>
+        <h4>管理者画面</h4>
       </ul>
 
       <!-- Right navbar links -->
@@ -83,7 +88,7 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="nav">
+          <ul class="nav nav-pills nav-sidebar flex-column" id="nav" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
               <a href="/Admin/user_list" class="nav-link">
                 <i class="nav-icon fas fa-list-ol"></i>
@@ -93,7 +98,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/Admin/registerform" class="nav-link">
+              <a href="/Admin/registerform" class="nav-link active">
                 <i class="nav-icon fas fa-user-plus"></i>
                 <p>
                   新規登録
@@ -101,7 +106,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/Admin/editlist" class="nav-link  active">
+              <a href="/Admin/editlist" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   編集
@@ -135,14 +140,18 @@
       <br>
       <!-- Main content -->
       <section class="content">
+        <div class="container-fluid" style="text-align:center;">
+          <h2>新規登録</h2>
+        </div>
+
         <!-- バリデーションエラー表示 -->
         <?php if (!empty(validation_errors())) :  ?>
-          <div class="alert alert-warning py-0" role="alert">
+          <div class="alert alert-warning py-0" style="text-align: center;" role="alert">
             <p><?php echo validation_errors(); ?></p>
           </div>
         <?php endif; ?>
-        <!-- 編集フォーム -->
-        <form action="/Admin/edit" id="form" method="post">
+        <!-- 新規登録フォーム -->
+        <form action="/Admin/register" id="form" method="post">
           <div class="row">
             <div class="col-md-12">
               <div class="card card-primary">
@@ -154,26 +163,26 @@
                       <div class="form-group">
                         <label for="inputName">会社名</label>
                         <span class="badge bg-danger">必須</span>
-                        <input type="text" name="name" id="inputName" class="form-control" value="<?php echo set_value('name', $info['name']); ?>">
+                        <input type="text" name="name" id="inputName" class="form-control" value="<?php echo set_value('name'); ?>">
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputKanaName">会社名(カナ)</label>
-                        <input type="text" name="kana" id="inputKanaName" class="form-control" value="<?php echo set_value('kana', $info['kana']); ?>">
+                        <input type="text" name="kana" id="inputKanaName" class="form-control" value="<?php echo set_value('kana'); ?>">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="inputMail">メールアドレス</label>
-                    <input type="text" name="mail" id="inputMail" class="form-control" value="<?php echo set_value('mail', $info['mail']); ?>">
+                    <input type="text" name="mail" id="inputMail" class="form-control" value="<?php echo set_value('mail'); ?>">
                   </div>
 
                   <div class="form-group">
                     <label for="inputPost">郵便番号<small class="ml-2" style="color: red;">半角数字,ハイフンなし</small></label>
-                    <input type="text" name="post" id="inputPost" class="form-control" value="<?php echo set_value('post', $info['post']); ?>">
+                    <input type="text" name="post" id="inputPost" class="form-control" value="<?php echo set_value('post'); ?>">
                   </div>
 
                   <div class="form-group">
@@ -184,8 +193,8 @@
                       $prefs = array('選択してください', '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '山梨県', '新潟県', '富山県', '石川県', '福井県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県');
                       for ($i = 0; $i <= 47; $i++) {
                         if ($i == 0) {
-                          print('<option value="' . $i . '" disabled>' . $prefs[$i] . '</option>');
-                        } elseif ($i == set_value('prefecture', $info['prefecture'])) {
+                          print('<option value="' . $i . '">' . $prefs[$i] . '</option>');
+                        } elseif ($i == set_value('prefecture')) {
                           print('<option value="' . $i . '" selected>' . $prefs[$i] . '</option>');
                         } else {
                           print('<option value="' . $i . '">' . $prefs[$i] . '</option>');
@@ -199,36 +208,36 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町</small></label>
-                        <input type="text" name="adress1" id="inputAddress1" class="form-control" value="<?php echo set_value('adress1', $info['adress1']); ?>">
+                        <input type="text" name="adress1" id="inputAddress1" class="form-control" value="<?php echo set_value('adress1'); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputAddress2">住所2<small class="ml-3">例:４丁目8-15 銀天街ビル1F</small></label>
-                        <input type="text" name="address2" id="inputAddress2" class="form-control" value="<?php echo set_value('address2', $info['address2']); ?>">
+                        <input type="text" name="address2" id="inputAddress2" class="form-control" value="<?php echo set_value('address2'); ?>">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="inputPhone">電話番号<small class="ml-2" style="color: red;">半角数字,ハイフンなし</small></label>
-                    <input type="tel" name="tel" id="inputPhone" class="form-control" value="<?php echo set_value('tel', $info['tel']); ?>">
+                    <input type="tel" name="tel" id="inputPhone" class="form-control" value="<?php echo set_value('tel'); ?>">
                   </div>
                   <div class="form-group">
                     <label for="inputFax">FAX番号<small class="ml-2" style="color: red;">半角数字,ハイフンなし</small></label>
-                    <input type="tel" name="fax" id="inputFax" class="form-control" value="<?php echo set_value('fax', $info['fax']); ?>">
+                    <input type="tel" name="fax" id="inputFax" class="form-control" value="<?php echo set_value('fax'); ?>">
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputBank">振込先金融機関</label>
-                        <input type="text" name="bank_name" id="inputBank" class="form-control" value="<?php echo set_value('bank_name', $info['bank_name']); ?>">
+                        <input type="text" name="bank_name" id="inputBank" class="form-control" value="<?php echo set_value('bank_name'); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputBank">振込先口座番号</label>
-                        <input type="text" name="bank_account" id="inputBankAccount" class="form-control" value="<?php echo set_value('bank_account', $info['bank_account']); ?>">
+                        <input type="text" name="bank_account" id="inputBankAccount" class="form-control" value="<?php echo set_value('bank_account'); ?>">
                       </div>
                     </div>
                   </div>
@@ -239,14 +248,13 @@
             </div>
 
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-4">
-              <a href="<?= base_url() ?>Admin/editlist" class="btn btn-secondary">戻る</a>
+              <a href="<?= base_url() ?>Admin/user_list" class="btn btn-secondary">戻る</a>
             </div>
             <div class="col-4" style="text-align: center;">
-              <input type="hidden" name="user_id" value="<?php echo $info['id']; ?>">
-              <input type="hidden" name="<?php echo $name; ?>" value="<?php echo $hash; ?>">
-              <input type="submit" value="変更を保存" name="btn" id="btn_submit" class="btn btn-success">
+              <input type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>">
+              <input type="submit" value="新規登録" name="btn" id="btn_submit" class="btn btn-success px-3">
             </div>
           </div>
         </form>
@@ -262,19 +270,21 @@
       </div>
       <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
     </footer>
+
   </div>
   <!-- ./wrapper -->
 
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous">
-  </script>
-  <script type="text/javascript">
+  <!-- current -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script class="text/javascript">
 
     // 2重クリック禁止
     $('#form').on('submit',function(){
       $('#btn_submit').prop('disabled',true);
     });
+    
   </script>
-
   <!-- AdminLTE for demo purposes -->
   <script src="<?= base_url() ?>assets/js/demo.js"></script>
   <!-- jQuery -->
@@ -283,6 +293,7 @@
   <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="<?= base_url() ?>assets/js/adminlte.min.js"></script>
+
 </body>
 
 </html>

@@ -123,13 +123,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <!-- <section class="content-header"> -->
-      <!-- <div class="container-fluid" style="text-align:center;"> -->
-      <!-- <h1>編集ページ</h1> -->
-      <!-- </div> -->
-      <!-- /.container-fluid -->
-      <!-- </section> -->
       <br>
       <!-- Main content -->
       <section class="content">
@@ -140,26 +133,9 @@
 
                 <div class="card-body">
 
-                  <?php
-                  // if(!empty($_POST['user_id'])){
-                  //   $id = $_POST['user_id'];
-                  //   $_SESSION['user_id'] = $id;
-                  // }else{
-                  //   if(!empty($_SESSION['user_id'])){
-                  //     $id = $_SESSION['user_id'];
-                  //   }
-                  // }
-                  // if( !empty($info)){
-                  //   foreach( $info as $value ){
-                  //     if( $value['id'] == $id){
-                  //       break;
-                  //     }
-                  //   }
-                  // }
-                ?>
                 <!-- バリデーションエラー表示 -->
                 <?php if(!empty(validation_errors())): ?>
-                  <div class="alert alert-warning" role="alert">
+                  <div class="alert alert-warning p-0" style="text-align: center;" role="alert">
                     <p><?= validation_errors(); ?></p>
                   </div>
                 <?php endif; ?>
@@ -282,10 +258,6 @@
               <input type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>">
               <input type="submit" name="btn_submit" id="btn_submit" value="新規登録" class="btn btn-success">
             </div>
-            <!-- <div class="col-4" style="text-align: center;">
-              <input type="submit" name="btn_submit" value="登録削除" class="btn btn-danger">
-            </div> -->
-
           </div>
         </form>
       </section>
@@ -311,22 +283,20 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script type="text/javascript">
 
-  // 削除メッセージ
-  function disp() 
-  {
-    if (window.confirm('本当によろしいですか？')) {
-      // var delete = document.getElementById("delete");
-      // delete.innerHTML = 0;
-      window.alert('削除が完了しました');
-    } else {
-      window.alert('キャンセルされました');
+    // 削除メッセージ
+    function disp() 
+    {
+      if (window.confirm('本当によろしいですか？')) {
+        window.alert('削除が完了しました');
+      } else {
+        window.alert('キャンセルされました');
+      }
     }
-  }
 
-  // 二重クリック禁止
-  $('#form').on('submit',function(){
-      $('#btn_submit').prop("disabled",true);
-  })
+    // 二重クリック禁止
+    $('#form').on('submit',function(){
+        $('#btn_submit').prop("disabled",true);
+    });
 
   </script>
   <!-- AdminLTE for demo purposes -->

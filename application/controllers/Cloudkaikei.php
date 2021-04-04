@@ -50,12 +50,6 @@ class Cloudkaikei extends CI_controller
         $this->load->view('mypage_view.php',$data);
     }
 
-    public function admin()
-    {
-        $data['info'] = $this->Cloudkaikei_model->load();
-        $this->load->view('list_view.php',$data);
-    }
-
     public function edit()
     {
         // 変更の処理

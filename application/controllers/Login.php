@@ -252,10 +252,6 @@ class Login extends CI_controller
     {
       $this->load->view('password_reissue_finish_view');
     }
-
-
-
-
     
     // ユーザー画面(ログイン成功後)
     // public function admin()
@@ -271,21 +267,14 @@ class Login extends CI_controller
     //   }
     // }
   
-    // ログアウト
-    public function logout()
-    {
-      if(!empty($_SESSION['user_login']) || $_SESSION['user_login'] === true){
-        // セッション破棄
-        unset($_SESSION['user_login']);
-        header('location:/login');
-        exit();
+    // ユーザーページログアウト
+    public function user_logout()
+    { 
+      if(!empty($_SESSION['user_login'])){
+        unset($_SESSION['user_login']); // セッション破棄
       }
-      if(!empty($_SESSION['admin_login']) || $_SESSION['admin_login'] === true){
-        // セッション破棄
-        unset($_SESSION['user_login']);
-        header('location:/admin_login');
-        exit();
-      }
+      header('location:/login');
+      exit();
     }
 
     // 新規登録画面表示
@@ -390,49 +379,10 @@ class Login extends CI_controller
       }
     }
 
-    // 管理者ログイン画面
-    public function admin_login()
-    {
-      $this->load->view('adminlogin_view');
-    }
-
-    // 管理者ログイン画面
-    public function admin_login_check()
-    {
-      header("Content-Type: application/json; charset=utf-8");
-      if($_SERVER["REQUEST_METHOD"] === "POST"){
-        $password = $this->input->post('password');
-
-        if(empty($password)){
-          // ログイン失敗
-          echo json_encode(["message" => "パスワードを入力してください"]);
-          exit();
-        }
-        define('admin_password','$2y$10$LpyGpGqKI8BmiN3otnOWoex2gLpLTCh27uXgEaCqjjrk7x2toqAkK');//adminpassword
-        if(!empty($password) && password_verify($password,admin_password)){
-          $_SESSION['admin_login'] = true;
-          // ログイン成功
-          echo json_encode(['success' => 1]);
-          exit();
-        }else{
-          // ログイン失敗
-          echo json_encode(['message' => 'パスワードが違います']);
-          exit();
-        }
-      }else{
-        // POST以外のとき
-        echo json_encode(['message' => '許可されていないメソッドです']);
-      }
-      exit();
-    }
-
     // エラー画面
     public function error()
     {
       $this->load->view('');
     }
-
-
-
 
 }
