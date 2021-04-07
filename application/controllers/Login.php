@@ -14,6 +14,7 @@ class Login extends CI_controller
         $this->load->model('Login_model');
         $this->load->library('javascript');
         $this->load->library('form_validation');
+        // $this->load->library('encrypt');
         // $this->load->library('jquery');
     }
 
@@ -43,18 +44,21 @@ class Login extends CI_controller
         
         // DBからpassword,delete_flagを取得
         $user_password = $this->Login_model->fetch_pass($email);
-        $user_delete_flag = $this->Login_model->fetch_delete($email);
+        $user_deleteflag = $this->Login_model->fetch_delete($email);
+        $user_id = $this->Login_model->fetch_id($email);
 
         // delete_flagチェック
-        if(!empty($user_delete_flag) && $user_delete_flag['delete_flag'] == 1){
+        if(!empty($user_delete_flag) && $user_deleteflag['delete_flag'] == 1){
           // ログイン失敗
-          echo json_encode(['message' => '削除されたユーザーです']);
+          echo json_encode(['message' => 'メールアドレスまたはパスワードが違います']);
           exit();
         }
 
         // パスワードチェック
         if(!empty($user_password) && password_verify($password,$user_password['password'])){
-          $_SESSION['user_login'] = true;
+          // $_SESSION[] = true;
+          $data = ['id' => $user_id];
+          $this->session->set_userdata($data);
           // ログイン成功
           echo json_encode(['success' => 1]);
           exit();
@@ -85,10 +89,14 @@ class Login extends CI_controller
         $user_email = $this->Login_model->fetch_mail($email);
 
         if(empty($email) || empty($user_email)){
-          // ログイン失敗
+          // 失敗
           echo json_encode(['message' => '登録したメールアドレスを入力してください']);
           exit();
         }
+
+        // $key = $this->encrypt->get_key();
+        // var_dump($key);
+        // exit();
 
         // メール送信
         try
@@ -142,10 +150,9 @@ class Login extends CI_controller
       $email = $this->input->get('passReset');
       if(empty($email)){
         $this->load->view('error_view');
-      }else{
-        $data['email'] = $email;
-        $this->load->view('password_reissue_form_view',$data);
       }
+      $data['email'] = $email;
+      $this->load->view('password_reissue_form_view',$data);
     }
 
     // パスワード再設定実行
@@ -286,7 +293,7 @@ class Login extends CI_controller
     // 新規登録実行
     public function register_done()
     {
-      if(!empty($this->input->post('submit'))){
+      if($_SERVER["REQUEST_METHOD"] === 'POST') {
         // 値の受け取り
         $email = $this->input->post('Email',true);
         $password  = $this->input->post('password1',true);
@@ -333,8 +340,6 @@ class Login extends CI_controller
           ];
           // DBへ登録
           if($this->Login_model->insert($data)){
-            $this->session->set_flashdata("message","新規登録が完了しました。ログインページからログインを行ってください。");
-          
             // 新規登録完了メール送信
             try
             {
@@ -372,7 +377,9 @@ class Login extends CI_controller
               // 送信エラーの場合
               echo '送信失敗: ', $mail->ErrorInfo;
             }
-            header('location:/login/register');
+
+            $this->session->set_flashdata("message","新規登録が完了しました");
+            header('location:/login');
             exit();
           }
         }

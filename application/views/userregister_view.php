@@ -10,14 +10,13 @@
   <title>新規登録</title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?=base_url() ?>assets/css/all.min.css" type="text/css" />
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/all.min.css" type="text/css" />
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="<?=base_url() ?>assets/css/icheck-bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/icheck-bootstrap.min.css" type="text/css" />
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?=base_url() ?>assets/css/adminlte.min.css" type="text/css" />
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/adminlte.min.css" type="text/css" />
 </head>
 
 <body class="hold-transition login-page">
@@ -30,22 +29,18 @@
       <div class="card-body login-card-body">
 
         <!-- エラーメッセージ -->
-        <?php if(!empty(validation_errors())): ?>
-          <div class="error_list">
-            <p><?= validation_errors(); ?></p>
+        <?php if (!empty(validation_errors())) : ?>
+          <div class="alert alert-warning" role="alert">
+            <div class="error_list">
+              <p><?= validation_errors(); ?></p>
+            </div>
           </div>
-        <?php endif; ?>
-
-        <!-- 登録完了メッセージ -->
-        <?php if($this->session->flashdata('message')): ?>
-          <?php echo $this->session->flashdata('message'); ?>
         <?php endif; ?>
 
         <!-- 登録フォーム -->
         <form method="post" id="form" action="/login/register_done">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" name="Email" placeholder="メールアドレス"
-              value="<?php if(!empty($email)){ echo $_SESSION['email']; } ?>">
+            <input type="email" class="form-control" name="Email" placeholder="メールアドレス" value="<?php if (!empty($email)) { echo $_SESSION['email'];} ?>">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -69,12 +64,12 @@
             </div>
           </div>
 
-          <div class="row">
-            <button type="submit" class="btn btn-primary btn-block" name="submit" value="submit">新規登録</button>
+          <div class="row mb-4">
+            <button type="submit" class="btn btn-primary btn-block" name="submit" id="btn_submit" value="submit">新規登録</button>
           </div>
         </form>
 
-        <p class="mb-0">
+        <p class="text-center mb-0">
           <a href="/login" class="text-center">ログインする</a>
         </p>
 
@@ -85,11 +80,21 @@
   <!-- /.login-box -->
 
   <!-- jQuery -->
-  <script src="<?=base_url() ?>assets/js/jquery.min.js"></script>
+  <!-- <script src="<?= base_url() ?>assets/js/jquery.min.js"></script> -->
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+
+    // 二重クリック防止
+    $('#form').on('submit',function(){
+      $('#btn_submit').prop("disabled",true);
+    });
+    
+  </script>
   <!-- Bootstrap 4 -->
-  <script src="<?=base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="<?=base_url() ?>assets/js/adminlte.min.js"></script>
+  <script src="<?= base_url() ?>assets/js/adminlte.min.js"></script>
 </body>
 
 </html>

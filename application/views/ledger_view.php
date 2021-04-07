@@ -23,6 +23,11 @@
       <h4>売上台帳</h4>
     </ul>
 
+    <?php 
+      $data = $this->session->userdata(); 
+    print_r($data);
+    ?>
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
