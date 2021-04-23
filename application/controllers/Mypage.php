@@ -9,7 +9,7 @@ class Mypage extends CI_controller
         $this->load->helper('url');
         $this->load->helper(array('form', 'url'));
         $this->load->helper('file');
-        $this->load->model('Cloudkaikei_model');
+        $this->load->model('Mypage_model');
         $this->load->library('javascript');
         $this->load->library('form_validation');
     }
