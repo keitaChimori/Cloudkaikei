@@ -9,10 +9,11 @@ class Customer_model extends CI_model
     }
 
     // 顧客リストの全データ取得
-    public function customer_data()
+    public function customer_data($id)
     {
       return $this->db->order_by('id', 'DESC')
                       ->where('deleted_flag',0)
+                      ->where('user_id',$id)
                       ->get('customer')
                       ->result_array();
     }

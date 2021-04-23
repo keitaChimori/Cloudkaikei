@@ -217,7 +217,7 @@
                                             <?php
                                               if(!empty($value_c['id']) && !empty($invoice['customer'])){
                                                 if($invoice['customer'] == $value_c['id']){
-                                                  echo $value_c['name']."　御中";
+                                                  echo $value_c['name']."  御中";
                                                 }
                                               }
                                             ?>

@@ -104,9 +104,9 @@ class Admin extends CI_controller
                     )
                 );
                 $input_prefecture = $this->input->post('prefecture', true);
-                $input_adress1 = $this->input->post('adress1', true);
+                $input_address1 = $this->input->post('address1', true);
                 $this->form_validation->set_rules(
-                    'adress1',
+                    'address1',
                     '住所1',
                     'trim',
                 );
@@ -159,7 +159,7 @@ class Admin extends CI_controller
                     'mail' => $input_mail,
                     'post' => $input_post,
                     'prefecture' => $input_prefecture,
-                    'adress1' => $input_adress1,
+                    'address1' => $input_address1,
                     'address2' => $input_address2,
                     'tel' => $input_tel,
                     'fax' => $input_fax,
@@ -276,9 +276,9 @@ class Admin extends CI_controller
                     )
                 );
                 $input_prefecture = $this->input->post('prefecture', true);
-                $input_adress1 = $this->input->post('adress1', true);
+                $input_address1 = $this->input->post('address1', true);
                 $this->form_validation->set_rules(
-                    'adress1',
+                    'address1',
                     '住所1',
                     'trim',
                 );
@@ -331,7 +331,7 @@ class Admin extends CI_controller
                     'mail' => $input_mail,
                     'post' => $input_post,
                     'prefecture' => $input_prefecture,
-                    'adress1' => $input_adress1,
+                    'address1' => $input_address1,
                     'address2' => $input_address2,
                     'tel' => $input_tel,
                     'fax' => $input_fax,

@@ -194,7 +194,7 @@
                     <div class="form-group">
                       <label for="inputAddress1">住所1</label>
                       <input type="text" name="Address1" id="inputAddress1" class="form-control"
-                      value="<?php echo $info['adress1']; ?>" readonly>
+                      value="<?php echo $info['address1']; ?>" readonly>
                     </div>
                   </div>
                   <div class="col-md-6">

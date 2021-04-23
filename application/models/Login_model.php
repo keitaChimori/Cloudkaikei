@@ -25,6 +25,14 @@ class Login_model extends CI_model
                       ->get('user_data')
                       ->row_array();
     }
+    // ログインセッション用user_id取得
+    public function fetch_id($email)
+    {
+      return $this->db->where('mail',$email)
+                      ->select('id')
+                      ->get('user_data')
+                      ->row_array();
+    }
 
     // パスワード再発行メール送信用
     public function fetch_mail($email)

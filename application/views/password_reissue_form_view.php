@@ -50,7 +50,7 @@
 
           <div class="row">
             <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
-            <button type="submit" class="btn btn-primary btn-block" name="submit">パスワード再設定</button>
+            <button type="submit" class="btn btn-primary btn-block" id="btn_submit" name="submit">パスワード再設定</button>
           </div>
         </form>
 
@@ -62,6 +62,16 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
   <script>
+    // 二重クリック防止
+    $('#form').on('submit', function() {
+      $('#btn_submit').prop("disabled", true);
+
+        // 2秒後に元に戻す
+        setTimeout(function() {
+          $('#btn_submit').prop("disabled", false);
+        }, 2000);
+    });
+
   $('#form').on('submit', function() {
     event.preventDefault();
     $.ajax({
