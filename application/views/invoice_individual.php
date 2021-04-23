@@ -191,27 +191,31 @@
                 <!-- Table row -->
                 <div class="row">
                   <div class="col-12 table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="tblForm">
                       <thead>
                       <tr>
                         <th>詳細</th>
                         <th>価格</th>
                         <th>数量</th>
                         <th>単位</th>
+                        <th></th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
-                        <td><input type="text" name="product_name" value="材料"></td>
-                        <td><input type="text" name="price" value="10000"></td>
-                        <td><input type="text" name="num" value="10"></td>
-                        <td><input type="text" name="unit" value="個"></td>
+                        <td><input type="text" name="product_name[]" value="材料"></td>
+                        <td><input type="text" name="price[]" value="10000"></td>
+                        <td><input type="text" name="num[]" value="10"></td>
+                        <td><input type="text" name="unit[]" value="個"></td>
+                        <td><input class="btnDelete" type="button" value="削除" /></td>
                       </tbody>
                     </table>
                   </div>
                   <!-- /.col -->
                 </div>
                 <!-- /.row -->
+                <input id="btnAdd" type="button" value="＋" style="width:50px; height:50px; border-radius:100%; float:right;" class="btn btn-success"/>
+                <br>
                 <b>備考欄</b><br>
                 <input type="text" name="note" value="なし" size="40">
               </div>
@@ -270,3 +274,25 @@
 <script src="<?=base_url() ?>assets/js/pages/dashboard.js"></script>
 </body>
 </html>
+<script>
+var row = 1;
+jQuery(function($) {
+  $("#btnAdd").on("click", function() {
+    // 最終行ではなく、非表示になっている最初の行なので first-child になっている
+    $("#tblForm tbody tr:first-child").clone(true).appendTo("#tblForm tbody");
+    // 複製後に表示させる
+    $("#tblForm tbody tr:last-child").css("display", "table-row");
+
+    // 行削除
+    $(".btnDelete").on("click", function() {
+      if(row > 1){
+        $(this).parent().parent().remove();
+        row = tblForm.rows.length - 1;
+        console.log(row);
+      }
+    });
+    row = tblForm.rows.length - 1;
+    console.log(row);
+  });
+});
+</script>

@@ -28,7 +28,8 @@ class invoice_model extends CI_model
         }else {
             $this->db->where("deleted_at", 0);
         }
-        return $this->db->get('invoice_detail')->row_array();
+        // return $this->db->get('invoice_detail')->row_array();
+        return $this->db->get('invoice_detail')->result_array();
     }
 
     public function invoice_preview($id)

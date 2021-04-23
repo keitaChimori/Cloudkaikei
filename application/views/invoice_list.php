@@ -312,7 +312,7 @@
                                   <!-- info row -->
                                   <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
-                                      <b>請求書番号:  <?php echo $info['invoice_id']; ?></b><br>
+                                      <b>請求書番号:  <?php echo $info[0]['invoice_id']; ?></b><br>
                                       <br>
                                       <?php if( !empty($user) ): ?>
                                         <?php foreach( $user as $value_u ): ?>
@@ -352,12 +352,20 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                          <td><?php echo $info['product_name']; ?></td>
-                                          <td><?php echo $info['price']; ?>円</td>
-                                          <td><?php echo $info['num']; ?></td>
-                                          <td><?php echo $info['unit']; ?></td>
-                                          <td><?php echo $info['price']*$info['num']; ?>円</td>
+                                          <?php $line = count($info); ?>
+                                          <?php $total = 0; ?>
+                                          <?php for($i=0;$i<$line;$i++){ ?>
+                                            <tr>
+                                              <td><?php echo $info[$i]['product_name']; ?></td>
+                                              <td><?php echo $info[$i]['price']; ?>円</td>
+                                              <td><?php echo $info[$i]['num']; ?></td>
+                                              <td><?php echo $info[$i]['unit']; ?></td>
+                                              <td><?php 
+                                                $total = $total + $info[$i]['price']*$info[$i]['num']; 
+                                                echo $info[$i]['price']*$info[$i]['num']; 
+                                              ?>円</td>
+                                            </tr>
+                                          <?php } ?>
                                         </tbody>
                                       </table>
                                     </div>
@@ -374,15 +382,15 @@
                                         <table class="table">
                                           <tr>
                                             <th style="width:50%">小計:</th>
-                                            <td><?php echo $info['price']*$info['num']; ?>円</td>
+                                            <td><?php echo $total; ?>円</td>
                                           </tr>
                                           <tr>
                                             <th>消費税:</th>
-                                            <td><?php echo ($info['price']*$info['num'])/10.0; ?>円</td>
+                                            <td><?php echo $total/10.0; ?>円</td>
                                           </tr>
                                           <tr>
                                             <th>合計:</th>
-                                            <td><?php echo ($info['price']*$info['num'])+(($info['price']*$info['num'])/10.0); ?>円</td>
+                                            <td><?php echo $total + $total/10.0; ?>円</td>
                                           </tr>
                                         </table>
                                       </div>
