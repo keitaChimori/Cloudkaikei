@@ -24,7 +24,7 @@ class invoice_model extends CI_model
 
     public function detail_preview($id){
         if (!empty($id)) {
-            $this->db->where("invoice_id", $id);
+            $this->db->where("invoice_id", $id)->where("deleted_at", 0);
         }else {
             $this->db->where("deleted_at", 0);
         }
@@ -90,12 +90,19 @@ class invoice_model extends CI_model
         ->row_array();
     }
 
-    public function edit_invoice($id,$data,$detail){
-        $this->db->where('id', $id)
-                    ->update('invoice',$data);
+    public function edit_invoice($id,$data)
+    {
+        return $this->db->where('id', $id)
+                         ->update('invoice',$data);
 
+        // return $this->db->where('invoice_id', $id)
+                    //    ->update('invoice_detail',$detail);
+    }
+
+    public function delete_detail($id,$data)
+    {
         return $this->db->where('invoice_id', $id)
-                       ->update('invoice_detail',$detail);
+                        ->update('invoice_detail',$data);
     }
 
 }

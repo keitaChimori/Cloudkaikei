@@ -28,6 +28,97 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <h4>請求書編集</h4>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+
+      <!-- Messages Dropdown Menu -->
+      <!-- Notifications Dropdown Menu -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="<?=base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
+      <span class="brand-text font-weight-light">Croudkaikei</span>
+    </a>
+
+    <!-- User Account -->
+    <div class="sidebar">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="<?=base_url() ?>assets/img/Vote 2020 Stickers - Monster and Sign.png" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">User's name</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                納品書
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                請求書
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                売上台帳
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
   <div class="content-wrapper">
     
     <form action="" method="post">
@@ -56,7 +147,7 @@
                       <select name="customer">
                         <?php if( !empty($customer) ): ?>
                           <?php foreach( $customer as $value_c ): ?>
-                            <?php if( $info['customer_id'] == $value_c['id'] ): ?>
+                            <?php if( $info[0]['customer_id'] == $value_c['id'] ): ?>
                                 <option value="<?php echo $value_c['id'] ?>" selected><?php echo $value_c['name']; ?></option>    
                             <?php else: ?>
                                 <option value="<?php echo $value_c['id'] ?>"><?php echo $value_c['name']; ?></option>
@@ -67,15 +158,23 @@
                       <span>　御中</span>
                       <small class="float-right">
                         請求日：
-                        <input name="date" id="inputDate" type="date" value="<?php echo $info['created_at']; ?>"/>
+                        <input name="date" id="inputDate" type="date" />
+                        <?php
+                            // $date = substr($invoice['date'],0,-4);
+                            $yyyy = substr($invoice['date'],0,-4);
+                            $mm = substr($invoice['date'],4,-2);
+                            $dd = substr($invoice['date'],6);
+                            // echo $yyyy.$mm.$dd;
+                        ?>
                         <script>
-                          var date = new Date();
-      
-                          var yyyy = date.getFullYear();
-                          var mm = ("0"+(date.getMonth()+1)).slice(-2);
-                          var dd = ("0"+date.getDate()).slice(-2);
-      
-                        //   document.getElementById("inputDate").value=yyyy+'-'+mm+'-'+dd;
+                            var yyyy = <?php echo $yyyy; ?>;
+                            
+                            var m = <?php echo $mm; ?>;
+                            var d = <?php echo $dd; ?>;
+                            var mm = ("0"+m).slice(-2);
+                            var dd = ("0"+d).slice(-2);
+
+                            document.getElementById("inputDate").value=yyyy+'-'+mm+'-'+dd;
                         </script>
                       </small>
                     </h4>
@@ -113,7 +212,7 @@
                 <!-- Table row -->
                 <div class="row">
                   <div class="col-12 table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="tblForm">
                       <thead>
                       <tr>
                         <th>詳細</th>
@@ -123,19 +222,30 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td><input type="text" name="product_name" value="<?php echo $info['product_name']; ?>"></td>
-                        <td><input type="text" name="price" value="<?php echo $info['price']; ?>"></td>
-                        <td><input type="text" name="num" value="<?php echo $info['num']; ?>"></td>
-                        <td><input type="text" name="unit" value="<?php echo $info['unit']; ?>"></td>
+                        <?php
+                        // print_r($info);
+                            $line = count($info);
+                            $total = 0;
+                        ?>
+                        <?php for($i=0;$i<$line;$i++){ ?>
+                            <tr>
+                            <?php if( $info[$i]['invoice_id'] == $info[0]['invoice_id'] ): ?>
+                                <td><input type="text" name="product_name[]" value="<?php echo $info[$i]['product_name']; ?>"></td>
+                                <td><input type="text" name="price[]" value="<?php echo $info[$i]['price']; ?>"></td>
+                                <td><input type="text" name="num[]" value="<?php echo $info[$i]['num']; ?>"></td>
+                                <td><input type="text" name="unit[]" value="<?php echo $info[$i]['unit']; ?>"></td>
+                                <td><input class="btnDelete" type="button" value="削除" /></td>
+                            <?php endif; ?>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
                   <!-- /.col -->
                 </div>
                 <!-- /.row -->
+                <input id="btnAdd" type="button" value="＋" style="width:50px; height:50px; border-radius:100%; float:right;" class="btn btn-success"/>
                 <b>備考欄</b><br>
-                <input type="text" name="note" value="" size="40">
+                <input type="text" name="note" value="<?php echo $invoice['note']; ?>" size="40">
               </div>
               <!-- /.invoice -->
             </div><!-- /.col -->
@@ -192,3 +302,22 @@
 <script src="<?=base_url() ?>assets/js/pages/dashboard.js"></script>
 </body>
 </html>
+<script>
+row = tblForm.rows.length - 1;
+jQuery(function($) {
+    $("#btnAdd").on("click", function() {
+        // 最終行ではなく、非表示になっている最初の行なので first-child になっている
+        $("#tblForm tbody tr:first-child").clone(true).appendTo("#tblForm tbody");
+        // 複製後に表示させる
+        $("#tblForm tbody tr:last-child").css("display", "table-row");
+        row = tblForm.rows.length - 1;
+    });
+    // 行削除
+    $(".btnDelete").on("click", function() {
+        if(row > 1){
+            $(this).parent().parent().remove();
+            row = tblForm.rows.length - 1;
+        }
+    });
+});
+</script>
