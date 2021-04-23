@@ -9,8 +9,15 @@ class Ledger_model extends CI_model
     }
 
     public function load_invoice(){
-        return $this->db->order_by('id', 'ASC')
-        ->get('invoice')
-        ->result_array();
+        return $this->db->where('delete_flag',0)
+                        ->order_by('id', 'ASC')
+                        ->get('invoice')
+                        ->result_array();
+    }
+
+    public function load_customer(){
+        return $this->db
+                    ->get('customer')
+                    ->result_array();
     }
 }

@@ -16,6 +16,7 @@ class Ledger extends CI_controller
     public function index()
     {
         $data['info'] = $this->Ledger_model->load_invoice();
+        $data['customer'] = $this->Ledger_model->load_customer();
         $this->load->view('ledger_view.php',$data);
     }
 }

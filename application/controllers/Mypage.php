@@ -9,9 +9,8 @@ class Mypage extends CI_controller
         $this->load->helper('url');
         $this->load->helper(array('form', 'url'));
         $this->load->helper('file');
-        $this->load->model('Cloudkaikei_model');
+        $this->load->model('Mypage_model');
         $this->load->library('javascript');
-        // $this->load->library('jquery');
     }
     public function index()
     {   
@@ -30,11 +29,11 @@ class Mypage extends CI_controller
             $data['bank_name'] = $this->input->post('Bank',TRUE);
             $data['bank_account'] = $this->input->post('BankAccount',TRUE);
             $id = $data['user_id'];
-            if($this->Cloudkaikei_model->edit_update($id,$data)){
+            if($this->Mypage_model->edit_update($id,$data)){
                 redirect(base_url('Ledger'));
             }
         }
-        $data['info'] = $this->Cloudkaikei_model->load();
+        $data['info'] = $this->Mypage_model->load();
         $this->load->view('mypage_view.php',$data);
     }
 }

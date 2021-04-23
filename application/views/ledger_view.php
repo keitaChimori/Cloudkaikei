@@ -122,10 +122,10 @@
               <div class="col-md-6" style="text-align: center;">
                   <select id="inputCompany" name="inputCompany">
                   <option value="">取引先を選んでください
-                  <?php if( !empty($info) ): ?>
-                    <?php foreach( $info as $value ): ?>
-                      <option value="<?php echo $value['customer']; ?>"><?php echo $value['customer']; ?>
-                    <?php endforeach; ?>
+                  <?php if( !empty($customer) ): ?>
+                  <?php foreach( $customer as $value_c ): ?>
+                    <option value="<?php echo $value_c['name']; ?>"><?php echo $value_c['name']; ?>
+                  <?php endforeach; ?>
                   <?php endif; ?>
                   </select>
                   <span>　</span>
@@ -148,7 +148,7 @@
                   <input type="button" value="すべて表示" id="button2">
                   <span>　合計金額：</span>
                   <span id="money"></span>
-                  <span>円</span>
+                  <span>円（消費税込み）</span>
               </div>
           </div>
       </form>
@@ -157,52 +157,54 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-body p-0">
-          <table class="table table-striped projects" id="data">
+          <table class="table table-striped" id="data">
             <thead>
               <tr>
-                <th>
-                    取引番号
-                </th>
-                <th>
-                    請求日時
-                </th>
-                <th>
-                    取引先
-                </th>
-                <th>
-                    取引金額
-                </th>
-                <th>
-                    備考
-                </th>
+                <th>取引番号</th>
+                <th>請求日</th>
+                <th>取引先</th>
+                <th>取引金額</th>
+                <th>備考</th>
               </tr>
             </thead>
-            <?php if( !empty($info) ): ?>
-              <?php foreach( $info as $value ): ?>
-                <tbody>
-                <!-- 取引番号 -->
-                <td>
-                  <?php echo $value['id']; ?>
-                </td>
-                <!-- 請求日 -->
-                <td>
-                  <?php echo $value['updated_at']; ?>
-                </td>
-                <!-- 取引先 -->
-                <td>
-                  <?php echo $value['customer']; ?>
-                </td>
-                <!-- 取引金額 -->
-                <td>
-                  <?php echo $value['total']; ?>
-                </td>
-                <!-- 備考 -->
-                <td>
-                  <?php echo $value['note']; ?>
-                </td>
-              </tbody>
-              <?php endforeach; ?>
-            <?php endif; ?>
+            <tbody>
+              <?php if( !empty($info) ): ?>
+                <?php foreach( $info as $value ): ?>
+                  <tr>
+                  <!-- 取引番号 -->
+                  <td> <?php echo "\n".$value['id']."\n"; ?> </td>
+                  <!-- 請求日 -->
+                  <td>
+                    <?php
+                      echo "\n".substr($value['date'],0,-4)."/".
+                            substr($value['date'],4,-2)."/".
+                            substr($value['date'],6)."\n";
+                    ?>
+                  </td>
+                  <!-- 取引先 -->
+                  <td>
+                    <?php if( !empty($customer) ): ?>
+                    <?php foreach( $customer as $value_c ): ?>
+                      <?php
+                        if($value['customer'] == $value_c['id']){
+                          echo "\n".$value_c['name']."\n";
+                        }
+                      ?>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                  </td>
+                  <!-- 取引金額 -->
+                  <td>
+                    <?php
+                      echo "\n".number_format($value['total']*1.10)."円\n";
+                    ?>
+                  </td>
+                  <!-- 備考 -->
+                  <td> <?php echo "\n".$value['note']."\n"; ?> </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
           </table>
         </div>
         <!-- /.card-body -->
@@ -246,16 +248,14 @@
   total = 0;
   $("#data tbody tr").each(function(){
     var txt = $(this).find("td").text();
-
     info = txt.split("\n");
-    data = info[4];
-    data = data.replace("                    ", "");
-    data = data.replace(" ", "");
+    data = info[10];
     data = data.replace("円", "");
+    data = data.replace(/,/g, '');
     var data = Number( data );
     total = total + data;
   });
-  total_money.innerHTML = total;
+  total_money.innerHTML = total.toLocaleString();
   $(function(){
       $("#button").bind("click",function(){
           var total_money = document.getElementById("money");
@@ -280,9 +280,10 @@
               var txt = $(this).find("td").text();
 
               info = txt.split("\n");
-              data = info[2];
+              data = info[4];
               data = data.replace("                  ", "");
-              data = data.substr(0,11);
+              data = data.replace("/", "-");
+              data = data.replace("/", "-");
               flag = 1;
 
               if(words1 != ""){   //期間が指定されているとき
@@ -292,14 +293,12 @@
                 var ms = days1.getTime() - days2.getTime();
                 // ミリ秒を日付に変換(端数切捨て)
                 var days3 = Math.floor(ms / (1000*60*60*24)) + 1;
-                console.log(days3);
                 var days1 = new Date(time2);
                 var days2 = new Date(data);
                 // 経過時間をミリ秒で取得
                 var ms = days1.getTime() - days2.getTime();
                 // ミリ秒を日付に変換(端数切捨て)
                 var days4 = Math.floor(ms / (1000*60*60*24));
-                console.log(days4);
                 if(days3>=0 && days4>=0){
                   flag = 0;
                 }
@@ -308,13 +307,12 @@
               }
 
               if(flag == 0){
-                if(info[3].match(re) != null){
+                if(info[7].match(re) != null){
                   $(this).show();
 
-                  data = info[4];
-                  data = data.replace("                    ", "");
-                  data = data.replace(" ", "");
+                  data = info[10];
                   data = data.replace("円", "");
+                  data = data.replace(/,/g, '');
                   var data = Number( data );
                   total = total + data;
                 }else{
@@ -324,7 +322,7 @@
               if(flag == 1){
                   $(this).hide();
               }
-              total_money.innerHTML = total;
+              total_money.innerHTML = total.toLocaleString();
           });
 
       });
@@ -335,17 +333,14 @@
           total = 0;
           $("#data tbody tr").each(function(){
             var txt = $(this).find("td").text();
-
             info = txt.split("\n");
-            data = info[4];
-            data = data.replace("                    ", "");
-            data = data.replace(" ", "");
+            data = info[10];
             data = data.replace("円", "");
+            data = data.replace(/,/g, '');
             var data = Number( data );
             total = total + data;
-            console.log(total);
           });
-          total_money.innerHTML = total;
+          total_money.innerHTML = total.toLocaleString();
       });
   });
 </script>
