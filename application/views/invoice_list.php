@@ -136,47 +136,9 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">請求書一覧</h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
                 </div>
 
                 <div class="card-body p-0">
-                  <!-- test -->
-                  <!-- <div class="table-responsive">
-                    <table class="table m-0">
-                      <thead>
-                      <tr>
-                        <th>請求書番号</th>
-                        <th>宛先</th>
-                        <th>支払い</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td><a href="">123</a></td>
-                        <td>株式会社A</td>
-                        <td><span class="badge badge-success">支払い済</span></td>
-                      </tr>
-                      <tr>
-                        <td><a href="">456</a></td>
-                        <td>B株式会社</td>
-                        <td><span class="badge badge-warning">未払い</span></td>
-                      </tr>
-                      <tr>
-                        <td><a href="">789</a></td>
-                        <td>有限会社C</td>
-                        <td><span class="badge badge-success">支払い済</span></td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div> -->
-                  <!-- /test -->
                   <!-- preview用index -->
                   <ul class="nav nav-tabs flex-column">
                     <li class="nav-item">
@@ -206,10 +168,6 @@
                 </div>
 
                 <!-- /.card-body -->
-                <div class="card-footer text-center">
-                  <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                </div>
-                <!-- /.card-footer -->
               </div>
               <!-- /.card -->
             </div>
@@ -224,41 +182,6 @@
                   </div>
                   <!-- /.table-responsive -->
                 </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer clearfix">
-                  <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a> -->
-                  <!-- <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a> -->
-                  <a href="/invoice/register" class="btn-sm">新規登録</a>
-                  <a href="/invoice/edit?id=<?php echo $invoice['id']; ?>" class="btn-sm">編集</a>
-                  <a href="/invoice/delete?id=<?php echo $invoice['id']; ?>" class="btn-sm">削除</a>
-                  <a href="" class="btn-sm">PDF</a>
-                  <a href="" class="btn-sm">印刷</a>
-                </div>
-                <!-- /.card-footer -->
-                
-                <!-- プレビュー機能 -->
-                <!-- test -->
-                <!-- <form>
-                  <input type="file" id="input-file">
-                </form>
-                <div id="preview"></div> -->
-
-                <!-- <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a href="#tes1" class="nav-link" data-toggle="tab">タブ1</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#tes2" class="nav-link" data-toggle="tab">タブ2</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#tes3" class="nav-link" data-toggle="tab">タブ3</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#tes4" class="nav-link" data-toggle="tab">タブ4</a>
-                  </li>
-                </ul> -->
-                <!-- /test -->
 
                 <div class="tab-content">
                   <div id="tes1" class="tab-pane active">
@@ -267,11 +190,11 @@
                         <!-- Content Header (Page header) -->
                         <section class="content-header">
                           <div class="container-fluid">
-                            <div class="row mb-2">
-                              <div class="col-sm-6">
-                                <h1>請求書</h1>
-                              </div>
-                            </div>
+                            <a href="/invoice/register" class="btn-sm">新規登録</a>
+                            <a href="/invoice/edit?id=<?php if(!empty($invoice['id'])){ echo $invoice['id']; } ?>" class="btn-sm">編集</a>
+                            <a href="/invoice/delete?id=<?php if(!empty($invoice['id'])){ echo $invoice['id']; }?>" class="btn-sm">削除</a>
+                            <a href="" class="btn-sm">請求書出力</a>
+                            <a href="" class="btn-sm">納品書出力</a>
                           </div><!-- /.container-fluid -->
                         </section>
                     
@@ -282,6 +205,8 @@
                                 <!-- Main content -->
                                 <div class="invoice p-3 mb-3">
                                   <!-- title row -->
+                                  <h2 style="text-align:center;">請求書</h2>
+                                  <br>
                                   <div class="row">
                                     <div class="col-12">
                                       <h4>
@@ -290,8 +215,10 @@
                                         <?php if( !empty($customer) ): ?>
                                           <?php foreach( $customer as $value_c ): ?>
                                             <?php
-                                              if($invoice['customer'] == $value_c['id']){
-                                                echo $value_c['name']."　御中";
+                                              if(!empty($value_c['id']) && !empty($invoice['customer'])){
+                                                if($invoice['customer'] == $value_c['id']){
+                                                  echo $value_c['name']."　御中";
+                                                }
                                               }
                                             ?>
                                           <?php endforeach; ?>
@@ -299,10 +226,12 @@
                                         <small class="float-right">
                                           請求日:
                                           <?php
-                                            $y = substr($invoice['date'], 0, 4);
-                                            $m = substr($invoice['date'], 4, 2);
-                                            $d = substr($invoice['date'], 6, 2);
-                                            echo $y."年".$m."月".$d."日";
+                                            if(!empty($invoice['date'])){
+                                              $y = substr($invoice['date'], 0, 4);
+                                              $m = substr($invoice['date'], 4, 2);
+                                              $d = substr($invoice['date'], 6, 2);
+                                              echo $y."年".$m."月".$d."日";
+                                            }
                                           ?>
                                         </small>
                                       </h4>
@@ -312,7 +241,7 @@
                                   <!-- info row -->
                                   <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
-                                      <b>請求書番号:  <?php echo $info[0]['invoice_id']; ?></b><br>
+                                      <b>請求書番号:  <?php if(!empty($info[0]['invoice_id'])){ echo $info[0]['invoice_id']; } ?></b><br>
                                       <br>
                                       <?php if( !empty($user) ): ?>
                                         <?php foreach( $user as $value_u ): ?>
@@ -352,18 +281,23 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                          <?php $line = count($info); ?>
-                                          <?php $total = 0; ?>
+                                          <?php
+                                          // print_r($info);
+                                            $line = count($info);
+                                            $total = 0;
+                                          ?>
                                           <?php for($i=0;$i<$line;$i++){ ?>
                                             <tr>
-                                              <td><?php echo $info[$i]['product_name']; ?></td>
-                                              <td><?php echo $info[$i]['price']; ?>円</td>
-                                              <td><?php echo $info[$i]['num']; ?></td>
-                                              <td><?php echo $info[$i]['unit']; ?></td>
-                                              <td><?php 
-                                                $total = $total + $info[$i]['price']*$info[$i]['num']; 
-                                                echo $info[$i]['price']*$info[$i]['num']; 
-                                              ?>円</td>
+                                              <?php if( $info[$i]['invoice_id'] == $info[0]['invoice_id'] ): ?>
+                                                <td><?php echo $info[$i]['product_name']; ?></td>
+                                                <td><?php echo number_format($info[$i]['price']); ?>円</td>
+                                                <td><?php echo $info[$i]['num']; ?></td>
+                                                <td><?php echo $info[$i]['unit']; ?></td>
+                                                <td><?php 
+                                                  $total = $total + $info[$i]['price']*$info[$i]['num']; 
+                                                  echo number_format($info[$i]['price']*$info[$i]['num']); 
+                                                ?>円</td>
+                                              <?php endif; ?>
                                             </tr>
                                           <?php } ?>
                                         </tbody>
@@ -382,15 +316,24 @@
                                         <table class="table">
                                           <tr>
                                             <th style="width:50%">小計:</th>
-                                            <td><?php echo $total; ?>円</td>
+                                            <td><?php echo number_format($total); ?>円</td>
                                           </tr>
                                           <tr>
                                             <th>消費税:</th>
-                                            <td><?php echo $total/10.0; ?>円</td>
+                                            <td>
+                                              <?php
+                                                $tax = floor($total/10.0);
+                                                echo number_format($tax);
+                                              ?>円
+                                              </td>
                                           </tr>
                                           <tr>
                                             <th>合計:</th>
-                                            <td><?php echo $total + $total/10.0; ?>円</td>
+                                            <td>
+                                              <?php
+                                                echo number_format($total + $tax);
+                                              ?>円
+                                            </td>
                                           </tr>
                                         </table>
                                       </div>
@@ -398,6 +341,14 @@
                                     <!-- /.col -->
                                   </div>
                                   <!-- /.row -->
+                                  <b>振込先：<?php echo $value_u['bank_name'];?></b>
+                                  <b>　口座：<?php echo $value_u['bank_account'];?></b>
+                                  <br>
+                                  <br>
+                                  <footer class="main-footer no-print">
+                                    <b>備考欄</b><br>
+                                    <text><?php if(!empty($invoice['note'])){ echo $invoice['note']; } ?></text>
+                                  </footer>
                                 </div>
                                 <!-- /.invoice -->
                               </div><!-- /.col -->
@@ -406,22 +357,9 @@
                         </section>
                         <!-- /.content -->
                       <!-- /.content-wrapper -->
-                      <footer class="main-footer no-print">
-                        <b>備考欄</b><br>
-                        <text><?php echo $invoice['note']; ?></text>
-                      </footer>
                       <!-- /.control-sidebar -->
                     </div>
                     <!-- ./wrapper -->
-                  </div>
-                  <div id="tes2" class="tab-pane">
-                    <h1>B</h1>
-                  </div>
-                  <div id="tes3" class="tab-pane">
-                    <h1>C</h1>
-                  </div>
-                  <div id="tes4" class="tab-pane">
-                    <h1>D</h1>
                   </div>
                 </div>
               </div>

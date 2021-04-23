@@ -230,10 +230,6 @@
   </div>
 
   <!-- /.content-wrapper -->
-  <footer class="main-footer no-print">
-    <b>備考欄</b><br>
-    <text>サンプルサンプルサンプルサンプルサンプル</text>
-  </footer>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
@@ -275,7 +271,7 @@
 </body>
 </html>
 <script>
-var row = 1;
+var row = tblForm.rows.length - 1;
 jQuery(function($) {
   $("#btnAdd").on("click", function() {
     // 最終行ではなく、非表示になっている最初の行なので first-child になっている
