@@ -83,7 +83,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a href="/Admin/user_list" class="nav-link">
+              <a href="/Admin/user_list" class="nav-link active">
                 <i class="nav-icon fas fa-list-ol"></i>
                 <p>
                   ユーザーリスト
@@ -107,7 +107,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/Admin/deletelist" class="nav-link active">
+              <a href="/Admin/deletelist" class="nav-link">
                 <i class="nav-icon fas fa-trash-alt"></i>
                 <p>
                   削除
@@ -194,7 +194,7 @@
                     <div class="form-group">
                       <label for="inputAddress1">住所1</label>
                       <input type="text" name="Address1" id="inputAddress1" class="form-control"
-                      value="<?php echo $info['adress1']; ?>" readonly>
+                      value="<?php echo $info['address1']; ?>" readonly>
                     </div>
                   </div>
                   <div class="col-md-6">

@@ -10,34 +10,53 @@ class Customer extends CI_controller
     $this->load->helper(array('form', 'url'));
     $this->load->helper('file');
     $this->load->model('Customer_model');
+    $this->load->model('Cloudkaikei_model');
     $this->load->library('javascript');
     $this->load->library('form_validation');
-    // $this->load->library('jquery');
   }
 
   // 顧客リスト表示
   public function index()
   {
-    $data['info'] = $this->Customer_model->customer_data();
-    $this->load->view('customer_list_view', $data);
+    if(!empty($_SESSION['id'])){
+      $user_id = $_SESSION['id'];
+     
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $data['user_name'] = $user_name;
+      $data['info'] = $this->Customer_model->customer_data($user_id['id']);
+      $this->load->view('customer_list_view', $data);
+    }else{
+       // sessionなし、ログイン画面へ
+       header('location:/login');
+       exit;
+    }
   }
 
   // 編集フォーム表示
   public function editform()
   {
-    $id = $this->input->get('id');
-    if (!is_numeric($id)) {
-      return show_404();
+    if(!empty($_SESSION['id'])){
+      $id = $this->input->get('id');
+      if (!is_numeric($id)) {
+        return show_404();
+      }
+      $data = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+      );
+      $data['info'] = $this->Customer_model->fetch_customerdata($id);//カスタマー情報を取得
+      if (is_null($data["info"])) {
+        return show_404();
+      }
+      $user_id = $_SESSION['id'];
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $data['user_name'] = $user_name;
+      $this->load->view('customer_editform_view', $data,$user_name);
+    } else {
+      // sessionなし、ログイン画面へ
+      header('location:/login');
+      exit;
     }
-    $data = array(
-      'name' => $this->security->get_csrf_token_name(),
-      'hash' => $this->security->get_csrf_hash()
-    );
-    $data['info'] = $this->Customer_model->fetch_customerdata($id);
-    if (is_null($data["info"])) {
-      return show_404();
-    }
-    $this->load->view('customer_editform_view', $data);
   }
 
   // 編集実行
@@ -156,6 +175,9 @@ class Customer extends CI_controller
           'hash' => $this->security->get_csrf_hash()
         );
         $data['info'] = $this->Customer_model->fetch_customerdata($id);
+        $user_id = $_SESSION['id'];
+        $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+        $data['user_name'] = $user_name;
         // バリデーションエラーあり
         $this->load->view('customer_editform_view', $data);
       } else {
@@ -197,17 +219,29 @@ class Customer extends CI_controller
   // 顧客新規登録フォーム表示
   public function customer_register()
   {
-    $data = array(
-      'name' => $this->security->get_csrf_token_name(),
-      'hash' => $this->security->get_csrf_hash()
-    );
-    $this->load->view('customer_registerform_view', $data);
+    if(!empty($_SESSION['id'])){
+      $data = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+      );
+      $user_id = $_SESSION['id'];
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $data['user_name'] = $user_name;
+      $data['info'] = $this->Customer_model->customer_data();
+      $this->load->view('customer_registerform_view', $data);
+    }else{
+       // sessionなし、ログイン画面へ
+       header('location:/login');
+       exit;
+    }
   }
 
   // 顧客新規登録実行
   public function customer_register_done()
   {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      // user_id
+      $input_id = $this->session->userdata('id');
       // バリデーション
       $input_name = $this->input->post('name', true);
       $this->form_validation->set_rules(
@@ -295,10 +329,11 @@ class Customer extends CI_controller
         'person',
         '担当者名',
         'trim',
-      );
+      );      
 
       $data = null;
       $data = [
+        'user_id' => $input_id['id'],
         'name' => $input_name,
         'kana' => $input_kana,
         'name_title' => $input_name_title,
@@ -319,6 +354,9 @@ class Customer extends CI_controller
           'name' => $this->security->get_csrf_token_name(),
           'hash' => $this->security->get_csrf_hash()
         );
+        $user_id = $_SESSION['id'];
+        $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+        $data['user_name'] = $user_name;
         $this->load->view('customer_registerform_view', $data);
       } else {
         // バリデーションエラーなし
@@ -330,6 +368,7 @@ class Customer extends CI_controller
         }
       }
     } else {
+      $this->load->view('sidemenu_view');
       $this->load->view('customer_list_view');
     }
   }

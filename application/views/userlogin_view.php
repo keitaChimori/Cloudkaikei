@@ -35,33 +35,33 @@
         <?php endif; ?>
         <p class="login-box-msg">ログインしてください。</p>
 
-          <form method="POST" id="form">
-            <div class="input-group mb-3">
-              <input type="email" class="form-control" name="Email" id="Email" placeholder="メールアドレス">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-envelope"></span>
-                </div>
+        <form method="POST" id="form">
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" name="Email" id="Email" placeholder="メールアドレス">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
               </div>
             </div>
-            <div class="input-group mb-3">
-              <input type="password" class="form-control" name="password" id="password" placeholder="パスワード">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-lock"></span>
-                </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" name="password" id="password" placeholder="パスワード">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
               </div>
             </div>
+          </div>
 
-            <div class="row">
-              <button type="submit" class="btn btn-primary btn-block mb-4" name="submit">ログイン</button>
-            </div>
-          </form>
+          <div class="row">
+            <button type="submit" class="btn btn-primary btn-block mb-4" id="btn_submit" name="submit">ログイン</button>
+          </div>
+        </form>
 
-          <p class="mb-0 text-center">
-            <a href="/login/register" class="">ユーザー登録する</a><br>
-            <a href="/login/password_reissue" class="">パスワードを忘れた方はこちら</a>
-          </p>
+        <p class="mb-0 text-center">
+          <a href="/login/register" class="">ユーザー登録する</a><br>
+          <a href="/login/password_reissue" class="">パスワードを忘れた方はこちら</a>
+        </p>
 
       </div>
       <!-- /.login-card-body -->
@@ -71,6 +71,17 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
   <script>
+    // 二重クリック防止
+    $('#form').on('submit', function() {
+      $('#btn_submit').prop("disabled", true);
+
+      // 1秒後に元に戻す
+      setTimeout(function() {
+        $('#btn_submit').prop("disabled", false);
+      }, 1000);
+    });
+
+    //Ajax 
     $('#form').on('submit', function() {
       event.preventDefault();
       $.ajax({
@@ -88,7 +99,7 @@
             window.location.href = '/Cloudkaikei/ledger';
           } else {
             alert(data.message);
-            document.password.reset();
+
           }
         })
     });

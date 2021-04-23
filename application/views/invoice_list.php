@@ -233,7 +233,7 @@
                   <a href="/invoice/edit?id=<?php echo $invoice['id']; ?>" class="btn-sm">編集</a>
                   <a href="/invoice/delete?id=<?php echo $invoice['id']; ?>" class="btn-sm">削除</a>
                   <a href="" class="btn-sm">PDF</a>
-                  <a href="" class="btn-sm">印刷</a>
+                  <a href="/SamplePdf" class="btn-sm">印刷</a>
                 </div>
                 <!-- /.card-footer -->
                 
@@ -291,7 +291,7 @@
                                           <?php foreach( $customer as $value_c ): ?>
                                             <?php
                                               if($invoice['customer'] == $value_c['id']){
-                                                echo $value_c['name']."　御中";
+                                                echo $value_c['name']."御中";
                                               }
                                             ?>
                                           <?php endforeach; ?>

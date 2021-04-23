@@ -158,7 +158,6 @@
               <th>都道府県</th>
               <th>住所</th>
               <th>電話番号</th>
-              <th>FAX番号</th>
               <th>詳細表示</th>
             </tr>
           </thead>
@@ -185,14 +184,12 @@
                     ?> 
                   </td>
                   <!-- 住所 -->
-                  <td><?php echo $value['adress1']; ?><?php echo $value['address2']; ?></td>
+                  <td><?php echo $value['address1']; ?><?php echo $value['address2']; ?></td>
                   <!-- 電話番号 -->
                   <td><?php echo $value['tel']; ?></td>
-                  <!-- FAX -->
-                  <td><?php echo $value['fax']; ?></td>
                   <!-- 詳細表示 -->
                   <td>
-                    <a href="/Admin/show_userdata?id=<?php echo $value['id']; ?>" class="btn btn-info btn-sm">詳細を見る</a>
+                    <a href="/Admin/show_userdata?id=<?php echo $value['id']; ?>" class="btn btn-info btn-sm">詳細</a>
                   </td>
                 </tr>
               <?php endforeach; ?>

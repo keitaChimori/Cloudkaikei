@@ -199,7 +199,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町</small></label>
-                        <input type="text" name="adress1" id="inputAddress1" class="form-control" value="<?php echo set_value('adress1', $info['adress1']); ?>">
+                        <input type="text" name="address1" id="inputAddress1" class="form-control" value="<?php echo set_value('address1', $info['address1']); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">

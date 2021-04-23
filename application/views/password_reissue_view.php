@@ -41,7 +41,8 @@
 
           <div class="row">
             <button type="submit" class="btn btn-primary btn-block mb-3" id="btn_submit" name="submit">パスワード再発行メール送信</button>
-            <div class="loading">
+            <div class="loading m-auto small pb-2" style="">
+              <i class="fas fa-spinner fa-pulse fa-3x fa-fw" style="display: none;"></i>
             </div>
           </div>
       
@@ -61,27 +62,28 @@
   <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
   <script>
     // 二重クリック防止
-    $('#form').on('submit', function() {
-      $('#btn_submit').prop("disabled", true);
+    // $('#form').on('submit', function() {
+    //   $('#btn_submit').prop("disabled", true);
 
         // 2秒後に元に戻す
-        setTimeout(function() {
-          $('#btn_submit').prop("disabled", false);
-        }, 2000);
-    });
-
-    // $(function() {
-    //   $('.btn').on('click', function() {
-    //     $('.btn').hide();
-    //     $('.loading').show();
-
-    //     // 秒後に元に戻す
-    //     setTimeout(function() {
-    //       $('.btn').show();
-    //       $('.loading').hide();
-    //     }, 2000);
-    //   });
+        // setTimeout(function() {
+        //   $('#btn_submit').prop("disabled", false);
+        // }, 2000);
     // });
+
+    // ローディング
+    $(function() {
+      $('.btn').on('click', function() {
+        $('.btn').hide();
+        $('.fa-spinner').show();
+
+        // 3秒後に元に戻す
+        setTimeout(function() {
+          $('.btn').show();
+          $('.fa-spinner').hide();
+        }, 3000);
+      });
+    });
 
     // Ajax
     $('#form').on('submit', function() {

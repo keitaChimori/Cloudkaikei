@@ -159,7 +159,6 @@
               <th>都道府県</th>
               <th>住所</th>
               <th>電話番号</th>
-              <th>FAX番号</th>
               <th>削除</th>
             </tr>
           </thead>
@@ -186,11 +185,9 @@
                     ?>
                   </td>
                   <!-- 住所 -->
-                  <td><?php echo $value['adress1']; ?><?php echo $value['address2']; ?></td>
+                  <td><?php echo $value['address1']; ?><?php echo $value['address2']; ?></td>
                   <!-- 電話番号 -->
                   <td><?php echo $value['tel']; ?></td>
-                  <!-- FAX -->
-                  <td><?php echo $value['fax']; ?></td>
                   <td>
                     <a href="/Admin/deleteform?id=<?php echo $value['id']; ?>" class="btn btn-info btn-sm btn-danger">削除</a>
                   </td>

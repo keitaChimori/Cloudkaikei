@@ -26,98 +26,9 @@
       <ul class="navbar-nav">
         <h4>顧客リスト</h4>
       </ul>
-
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-          <div class="navbar-search-block">
-            <form class="form-inline">
-              <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                  <button class="btn btn-navbar" type="submit">
-                    <i class="fas fa-search"></i>
-                  </button>
-                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </li>
-
-        <!-- Messages Dropdown Menu -->
-        <!-- Notifications Dropdown Menu -->
-
-        <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-            <i class="fas fa-th-large"></i>
-          </a>
-        </li>
-      </ul>
     </nav>
 
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-
-      <!-- Brand Logo -->
-      <a href="#" class="brand-link">
-        <img src="<?= base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
-        <span class="brand-text font-weight-light">Cloudkaikei</span>
-      </a>
-
-      <!-- User Account -->
-      <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="<?= base_url() ?>assets/img/Vote 2020 Stickers - Monster and Sign.png" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="#" class="d-block">User's name</a>
-          </div>
-        </div>
-
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  納品書
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                  請求書
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-chart-pie"></i>
-                <p>
-                  売上台帳
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/customer" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  顧客リスト
-                </p>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </aside>
+    <?php $this->load->view('sidemenu_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -142,67 +53,52 @@
       <section class="content">
 
         <!-- Default box -->
-        <!-- <div class="card">
-          <div class="card-body p-0"> -->
-            <table class="table table-striped projects" id="table">
-              <thead>
+        <table class="table table-striped projects" id="table">
+          <thead>
+            <tr class="text-center">
+              <!-- <th>ID</th> -->
+              <th>会社名</th>
+              <th>メールアドレス</th>
+              <th>電話番号</th>
+              <th>FAX</th>
+              <th>詳細・編集</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (!empty($info)) : ?>
+              <?php foreach ($info as $value) : ?>
                 <tr>
-                  <th>ID</th>
-                  <th>会社名</th>
-                  <th>メールアドレス</th>
-                  <th>電話番号</th>
-                  <th>FAX</th>
-                  <th>詳細・編集</th>
+                  <!-- id -->
+                  <!-- <td><?php echo $value['id']; ?></td> -->
+                  <!-- 会社名 -->
+                  <td class="pl-3"><?php echo $value['name']; ?></td>
+                  <!-- メール -->
+                  <td><?php echo $value['mail']; ?></td>
+                  <!-- 電話番号 -->
+                  <td><?php echo $value['tel']; ?></td>
+                  <!-- FAX -->
+                  <td><?php echo $value['fax']; ?></td>
+                  <!-- 編集 -->
+                  <td class="text-center">
+                    <a class="btn btn-info btn-sm" href="<?= base_url()  ?>customer/editform?id=<?= $value["id"]; ?>">詳細・編集</a>
+                    </form>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <?php if (!empty($info)) : ?>
-                  <?php foreach ($info as $value) : ?>
-                    <tr>
-                      <!-- id -->
-                      <td><?php echo $value['id']; ?></td>
-                      <!-- 会社名 -->
-                      <td><?php echo $value['name']; ?></td>
-                      <!-- メール -->
-                      <td><?php echo $value['mail']; ?></td>
-                      <!-- 電話番号 -->
-                      <td><?php echo $value['tel']; ?></td>
-                      <!-- FAX -->
-                      <td><?php echo $value['fax']; ?></td>
-                      <!-- 編集 -->
-                      <td>
-                        <!-- <form name="id" action="<?= base_url() ?>customer/editform" method="post">
-                          <input type="hidden" name="id" value="<?php echo $value['id']; ?>">
-                          <input class="btn btn-info btn-sm" name="btn" size="4" value="詳細・編集" type="submit"> -->
-                          <a class="btn btn-info btn-sm" href="<?= base_url() ?>customer/editform?id=<?= $value["id"]; ?>">詳細・編集</a>
-                        </form>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </tbody>
-            </table>
-          <!-- </div> -->
-          <!-- /.card-body -->
-        <!-- </div> -->
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
 
         <!-- <div id="pagination">
           <?php echo $page_link; ?>
         </div> -->
-
-        <!-- /.card -->
       </section>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
-    <footer class="main-footer">
-      <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-      All rights reserved.
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.1.0-rc
-      </div>
-    </footer>
+    <!-- footer表示 -->
+    <?php $this->load->view('footer_view'); ?>
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
@@ -232,8 +128,15 @@
       "language": {
         "url": "https://cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json"
       },
-      "lengthMenu":[10,20,30,40,50],
-      "order":[],
+      "lengthMenu": [10, 20, 30, 40, 50],
+      "order": [],
+    });
+
+    // カレントページ表示
+    $(document).ready(function() {
+      if (location.pathname != "/") {
+        $('.nav li a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+      } else $('.nav li a:eq(0)').addClass('active');
     });
   </script>
 </body>

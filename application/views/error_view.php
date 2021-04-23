@@ -21,8 +21,8 @@
 </head>
 
 <body class="hold-transition login-page">
-<p>エラーが発生しました。</p>
-<a href="/login">ログイン画面にもどる</a>
+  <p class="mt-5">エラーが発生しました。</p>
+  <a href="/login">ログイン画面にもどる</a>
 
   <!-- jQuery -->
   <script src="<?=base_url() ?>assets/js/jquery.min.js"></script>
