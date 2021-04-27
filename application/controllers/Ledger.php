@@ -13,10 +13,10 @@ class Ledger extends CI_controller
         $this->load->library('javascript');
         // $this->load->library('jquery');
     }
-    public function index()
-    {
-        $data['info'] = $this->Ledger_model->load_invoice();
-        $data['customer'] = $this->Ledger_model->load_customer();
-        $this->load->view('ledger_view.php',$data);
-    }
+    // public function index()
+    // {
+    //     $data['info'] = $this->Ledger_model->load_invoice();
+    //     $data['customer'] = $this->Ledger_model->load_customer();
+    //     $this->load->view('ledger_view.php',$data);
+    // }
 }

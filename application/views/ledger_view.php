@@ -1,3 +1,6 @@
+<!-- ******************************** -->
+<!-- *****       売上台帳       ***** -->
+<!-- ******************************** -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -23,7 +26,7 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <h4>売上台帳</h4>
-        <!-- <?php var_dump($this->session->userdata('id')); ?> -->
+        <?php var_dump($this->session->userdata('id')); ?>
       </ul>
     </nav>
 
@@ -134,10 +137,6 @@
     <!-- footer表示 -->
     <?php $this->load->view('footer_view'); ?>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->

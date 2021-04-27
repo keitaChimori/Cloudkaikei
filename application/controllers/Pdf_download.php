@@ -1,5 +1,5 @@
 <?php
-class samplepdf extends CI_Controller
+class pdf_download extends CI_Controller
 {
 
   function __construct()
@@ -20,7 +20,7 @@ class samplepdf extends CI_Controller
     // ページ向き(横)
     $pageOrientation = 'L';
     // ページフォーマット
-    $pageFormat = 'A4';
+    $pageFormat = 'B5';
 
     $pdf = new TCPDF($pageOrientation, 'pt', $pageFormat, true, 'UTF-8', false);
 
@@ -38,7 +38,7 @@ class samplepdf extends CI_Controller
 
     $pdf->writeHTML($html); // 表示htmlを設定
     $pdf->Close();
-    $pdf->Output('cloudkaikei.pdf', 'D');
+    $pdf->Output('seikyu_Cloudkaikei.pdf', 'D');
 
     exit;
   }

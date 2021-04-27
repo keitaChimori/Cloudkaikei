@@ -1,10 +1,13 @@
+<!-- ******************************** -->
+<!-- ****   顧客リスト新規登録   **** -->
+<!-- ******************************** -->
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>顧客情報の新規登録</title>
+  <title>顧客情報の新規登録 | Cloudkaikei</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -24,10 +27,10 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <h4>顧客情報の新規登録</h4>
-        <?php var_dump($this->session->userdata('id')); ?>
       </ul>
     </nav>
 
+    <!-- サイドメニュー表示 -->
     <?php $this->load->view('sidemenu_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->

@@ -1,3 +1,6 @@
+<!-- ******************************** -->
+<!-- ***   サイドメニュー共通化   *** -->
+<!-- ******************************** -->
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4" style="position: fixed;">
 
