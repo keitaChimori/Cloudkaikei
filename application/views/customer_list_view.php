@@ -1,3 +1,6 @@
+<!-- ******************************** -->
+<!-- ****    顧客リストの表示    **** -->
+<!-- ******************************** -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -28,7 +31,8 @@
       </ul>
     </nav>
 
-    <?php $this->load->view('sidemenu_view'); ?>
+   <!-- サイドメニュー表示 -->
+   <?php $this->load->view('sidemenu_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

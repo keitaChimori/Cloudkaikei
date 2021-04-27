@@ -10,6 +10,7 @@ class Mypage extends CI_controller
         $this->load->helper(array('form', 'url'));
         $this->load->helper('file');
         $this->load->model('Mypage_model');
+        $this->load->model('Cloudkaikei_model');
         $this->load->library('javascript');
         $this->load->library('form_validation');
     }
@@ -17,21 +18,18 @@ class Mypage extends CI_controller
     // mypage表示
     public function index()
     {
-        if (!empty($_SESSION['id'])) {
+        if (!empty($_SESSION['id'])) { //セッション確認
             $user_id = $_SESSION['id'];
-            // var_dump($user_id);
-            // exit;
+
             if (!empty($user_id)) {
                 $data = array(
                     'name' => $this->security->get_csrf_token_name(),
                     'hash' => $this->security->get_csrf_hash()
                 );
-                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id['id']);
-                $user_id = $_SESSION['id'];
+                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id['id']);//user_dataを取得
                 $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
                 $data['user_name'] = $user_name;
-                // var_dump($data);
-                // exit;
+                
                 $this->load->view('mypage_view', $data);
             } else {
                 show_404();
@@ -94,7 +92,6 @@ class Mypage extends CI_controller
                 'required',
                 array(
                     'required' => "%sを選択してください",
-
                 )
             );
             $input_address1 = $this->input->post('address1', true);

@@ -23,8 +23,16 @@ class Customer extends CI_controller
      
       $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
       $data['user_name'] = $user_name;
-      $data['info'] = $this->Customer_model->customer_data($user_id['id']);
-      $this->load->view('customer_list_view', $data);
+
+      //nameが未登録の場合はmypageを表示
+      if(empty($user_name['name'])){
+        header('location:/Mypage');
+        exit;
+      }else{
+        // nameが登録済の場合は請求書TOP表示
+        $data['info'] = $this->Customer_model->customer_data($user_id['id']);
+        $this->load->view('customer_list_view', $data);
+      }
     }else{
        // sessionなし、ログイン画面へ
        header('location:/login');
@@ -227,7 +235,9 @@ class Customer extends CI_controller
       $user_id = $_SESSION['id'];
       $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
       $data['user_name'] = $user_name;
-      $data['info'] = $this->Customer_model->customer_data();
+      // $data['info'] = $this->Customer_model->customer_data();
+      // var_dump($data);
+      // exit;
       $this->load->view('customer_registerform_view', $data);
     }else{
        // sessionなし、ログイン画面へ

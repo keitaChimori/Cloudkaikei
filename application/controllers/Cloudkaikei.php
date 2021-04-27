@@ -22,8 +22,6 @@ class Cloudkaikei extends CI_controller
             $user_id = $_SESSION['id'];
             $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
             $data['user_name'] = $user_name;
-            // var_dump($user_name);
-            // exit;
             //nameが未登録の場合はmypageを表示
             if(empty($user_name['name'])){
                 header('location:/Mypage');
@@ -91,7 +89,6 @@ class Cloudkaikei extends CI_controller
                 'required',
                 array(
                     'required' => "%sを選択してください",
-
                 )
             );
             $input_address1 = $this->input->post('address1', true);
@@ -109,7 +106,6 @@ class Cloudkaikei extends CI_controller
                 'address2',
                 '住所2',
                 'trim',
-                
             );
             $input_tel = $this->input->post('tel', true);
             $this->form_validation->set_rules(
