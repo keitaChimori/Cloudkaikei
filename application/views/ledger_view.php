@@ -26,7 +26,8 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <h4>売上台帳</h4>
-        <?php var_dump($this->session->userdata('id')); ?>
+        <?php var_dump($this->session->userdata()); ?>
+        
       </ul>
     </nav>
 

@@ -22,7 +22,7 @@ class Invoice extends CI_controller
 
             // サイドメニューの名前表示用
             $user_id = $_SESSION['id'];
-            $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+            $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
             $data['user_name'] = $user_name;
             //nameが未登録の場合はmypageを表示
             if(empty($user_name['name'])){
@@ -81,7 +81,7 @@ class Invoice extends CI_controller
             
             // サイドメニューの名前表示用
             $user_id = $_SESSION['id'];
-            $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+            $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
             $data['user_name'] = $user_name;
 
             $data['user'] = $this->Invoice_model->load_user();
@@ -145,7 +145,7 @@ class Invoice extends CI_controller
 
             // サイドメニューの名前表示用
             $user_id = $_SESSION['id'];
-            $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']); //nameを取得
+            $user_name = $this->Cloudkaikei_model->fetch_username($user_id); //nameを取得
             $data['user_name'] = $user_name;
 
             $id = null;
