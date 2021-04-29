@@ -21,7 +21,7 @@ class Customer extends CI_controller
     if(!empty($_SESSION['id'])){
       $user_id = $_SESSION['id'];
      
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       $data['user_name'] = $user_name;
 
       //nameが未登録の場合はmypageを表示
@@ -30,7 +30,7 @@ class Customer extends CI_controller
         exit;
       }else{
         // nameが登録済の場合は請求書TOP表示
-        $data['info'] = $this->Customer_model->customer_data($user_id['id']);
+        $data['info'] = $this->Customer_model->customer_data($user_id);
         $this->load->view('customer_list_view', $data);
       }
     }else{
@@ -57,7 +57,7 @@ class Customer extends CI_controller
         return show_404();
       }
       $user_id = $_SESSION['id'];
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       $data['user_name'] = $user_name;
       $this->load->view('customer_editform_view', $data,$user_name);
     } else {
@@ -233,11 +233,8 @@ class Customer extends CI_controller
         'hash' => $this->security->get_csrf_hash()
       );
       $user_id = $_SESSION['id'];
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       $data['user_name'] = $user_name;
-      // $data['info'] = $this->Customer_model->customer_data();
-      // var_dump($data);
-      // exit;
       $this->load->view('customer_registerform_view', $data);
     }else{
        // sessionなし、ログイン画面へ
@@ -251,7 +248,8 @@ class Customer extends CI_controller
   {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       // user_id
-      $input_id = $this->session->userdata('id');
+      $input_id = $_SESSION['id'];
+
       // バリデーション
       $input_name = $this->input->post('name', true);
       $this->form_validation->set_rules(
@@ -343,7 +341,7 @@ class Customer extends CI_controller
 
       $data = null;
       $data = [
-        'user_id' => $input_id['id'],
+        'user_id' => $input_id,
         'name' => $input_name,
         'kana' => $input_kana,
         'name_title' => $input_name_title,

@@ -56,13 +56,13 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label for="name">お客様名<span class="badge badge-danger">必須</span></label>
-                        <input type="text" name="name" id="name" class="form-control" value="<?php echo set_value('name'); ?>">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="例）○○株式会社" value="<?php echo set_value('name'); ?>">
                       </div>
                     </div>
                     <div class="col-md-5">
                       <div class="form-group">
-                        <label for="kana">お客様名(カナ)</label>
-                        <input type="text" name="kana" id="kana" class="form-control" value="<?php echo set_value('kana'); ?>">
+                        <label for="kana">お客様名 <small class="text-danger">(カナ)</small></label>
+                        <input type="text" name="kana" id="kana" class="form-control" placeholder="例）マルマルカブシキカイシャ" value="<?php echo set_value('kana'); ?>">
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -86,15 +86,15 @@
 
                   <div class="form-group">
                     <label for="mail">メールアドレス</label>
-                    <input type="email" name="mail" id="mail" class="form-control" value="<?php echo set_value('mail'); ?>">
+                    <input type="email" name="mail" id="mail" class="form-control" placeholder="例）sample.email@sample.jp" value="<?php echo set_value('mail'); ?>">
                   </div>
 
-                  <div class="form-group">
-                    <label for="post">郵便番号(ハイフンなし)</label>
-                    <input type="text" name="post" id="post" class="form-control" value="<?php echo set_value('post'); ?>">
+                  <div class="form-group w-25">
+                    <label for="post">郵便番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="text" name="post" id="post" class="form-control" placeholder="例）1234567" value="<?php echo set_value('post'); ?>">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group w-25">
                     <label for="prefecture">都道府県</label>
                     <br>
                     <select name="prefecture" id="prefecture" class="form-control custom-select">
@@ -115,43 +115,43 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="address1">住所1(市町村番地)</label>
-                        <input type="text" name="address1" id="address1" class="form-control" value="<?php echo set_value('address1'); ?>">
+                        <label for="address1">住所1 <small class="text-danger">(市区町村番地)</small></label>
+                        <input type="text" name="address1" id="address1" class="form-control" placeholder="例）○○市□□□町1丁目1-11" value="<?php echo set_value('address1'); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="address2">住所2(建物名)</label>
-                        <input type="text" name="address2" id="address2" class="form-control" value="<?php echo set_value('address2'); ?>">
+                        <label for="address2">住所2 <small class="text-danger">(建物名)</small></label>
+                        <input type="text" name="address2" id="address2" class="form-control" placeholder="例）△△△ビル1F" value="<?php echo set_value('address2'); ?>">
                       </div>
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <label for="tel">電話番号(ハイフンなし)</label>
-                    <input type="tel" name="tel" id="tel" class="form-control" value="<?php echo set_value('tel'); ?>">
+                  <div class="form-group w-25">
+                    <label for="tel">電話番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="tel" name="tel" id="tel" class="form-control" placeholder="例）01234567890" value="<?php echo set_value('tel'); ?>">
                   </div>
-                  <div class="form-group">
-                    <label for="fax">FAX番号(ハイフンなし)</label>
-                    <input type="tel" name="fax" id="fax" class="form-control" value="<?php echo set_value('fax'); ?>">
+                  <div class="form-group w-25">
+                    <label for="fax">FAX番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="tel" name="fax" id="fax" class="form-control" placeholder="例）09876543211" value="<?php echo set_value('fax'); ?>">
                   </div>
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="customer_groupe">部門</label>
-                        <input type="text" name="customer_groupe" id="customer_groupe" class="form-control" value="<?php echo set_value('customer_groupe'); ?>">
+                        <input type="text" name="customer_groupe" id="customer_groupe" class="form-control" placeholder="例）営業部" value="<?php echo set_value('customer_groupe'); ?>">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="position">役職</label>
-                        <input type="text" name="position" id="position" class="form-control" value="<?php echo set_value('position'); ?>">
+                        <input type="text" name="position" id="position" class="form-control" placeholder="例）部長" value="<?php echo set_value('position'); ?>">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="person">担当者名</label>
-                        <input type="text" name="person" id="person" class="form-control" value="<?php echo set_value('person'); ?>">
+                        <input type="text" name="person" id="person" class="form-control" placeholder="例） 田中 太郎" value="<?php echo set_value('person'); ?>">
                       </div>
                     </div>
                   </div>

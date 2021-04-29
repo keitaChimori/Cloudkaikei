@@ -41,7 +41,7 @@
 
           <div class="row">
             <button type="submit" class="btn btn-primary btn-block mb-3" id="btn_submit" name="submit">パスワード再発行メール送信</button>
-            <div class="loading m-auto small pb-2" style="">
+            <div class="loading m-auto small pb-2">
               <i class="fas fa-spinner fa-pulse fa-3x fa-fw" style="display: none;"></i>
             </div>
           </div>

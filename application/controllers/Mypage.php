@@ -26,8 +26,8 @@ class Mypage extends CI_controller
                     'name' => $this->security->get_csrf_token_name(),
                     'hash' => $this->security->get_csrf_hash()
                 );
-                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id['id']);//user_dataを取得
-                $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id);//user_dataを取得
+                $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
                 $data['user_name'] = $user_name;
                 
                 $this->load->view('mypage_view', $data);

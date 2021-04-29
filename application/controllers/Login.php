@@ -45,7 +45,7 @@ class Login extends CI_controller
       $user_password = $this->Login_model->fetch_pass($email);
       $user_deleteflag = $this->Login_model->fetch_delete($email);
       $user_id = $this->Login_model->fetch_id($email);
-
+ 
       // delete_flagチェック
       if (!empty($user_delete_flag) && $user_deleteflag['delete_flag'] == 1) {
         // ログイン失敗
@@ -56,8 +56,8 @@ class Login extends CI_controller
       // パスワードチェック
       if (!empty($user_password) && password_verify($password, $user_password['password'])) {
         // セッション発行
-        $data = [ 'id' => $user_id ];
-        $this->session->set_userdata($data);
+        // $data = [ 'id' => $user_id ];
+        $this->session->set_userdata('id',$user_id['id']);
         // ログイン成功
         echo json_encode(['success' => 1]);
         exit();

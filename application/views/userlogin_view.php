@@ -96,10 +96,9 @@
         function(data) {
           if (data.success == 1) {
             // ログイン成功
-            window.location.href = '/Cloudkaikei/ledger';
+            window.location.href = '/ledger';
           } else {
             alert(data.message);
-
           }
         })
     });
