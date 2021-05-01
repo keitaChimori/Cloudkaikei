@@ -56,13 +56,13 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label for="name">お客様名<span class="badge badge-danger">必須</span></label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="例）○○株式会社" value="<?php echo set_value('name'); ?>">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="例）サンプル株式会社" value="<?php echo set_value('name'); ?>">
                       </div>
                     </div>
                     <div class="col-md-5">
                       <div class="form-group">
                         <label for="kana">お客様名 <small class="text-danger">(カナ)</small></label>
-                        <input type="text" name="kana" id="kana" class="form-control" placeholder="例）マルマルカブシキカイシャ" value="<?php echo set_value('kana'); ?>">
+                        <input type="text" name="kana" id="kana" class="form-control" placeholder="例）サンプルカブシキカイシャ" value="<?php echo set_value('kana'); ?>">
                       </div>
                     </div>
                     <div class="col-md-2">

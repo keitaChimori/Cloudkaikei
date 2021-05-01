@@ -49,4 +49,19 @@ class Customer_model extends CI_model
                       ->update('customer',$data);
     }
 
+    // user_dataテーブルからuserのidを取得
+    public function fetch_userid($email)
+    {
+      return $this->db->where('mail',$email)
+                      ->select('id')
+                      ->get('user_data')
+                      ->row_array();
+    }
+
+    // 新規登録時にサンプルデータを追加
+    public function add_sampledata($data)
+    {
+      return $this->db->insert('customer',$data);
+    }
+
 }

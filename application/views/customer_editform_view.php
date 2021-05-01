@@ -34,11 +34,11 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Main content -->
-      <section class="content">
+      <section class="content"><br>
       <!-- 削除ボタン -->
-      <div class="my-1 text-right">
+      <!-- <div class="my-1 text-right">
          <a href="/customer/delete?id=<?php echo $info['id']; ?>" class="btn btn-danger" onclick="return disp()">顧客情報の削除</a>
-      </div>
+      </div> -->
         <form action="/customer/edit" method="post" id="form">
           <div class="row">
             <div class="col-md-12">
@@ -185,14 +185,8 @@
 
     <!-- footer表示 -->
     <?php $this->load->view('footer_view'); ?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+    
+  </div><!-- ./wrapper -->
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script type="text/javascript">
