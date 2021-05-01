@@ -5,7 +5,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4" style="position: fixed;">
 
     <!-- Brand Logo -->
-    <a href="/Cloudkaikei/ledger" class="brand-link">
+    <a href="/ledger" class="brand-link">
       <img src="<?=base_url() ?>assets/img/y0729.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
       <span class="brand-text font-weight-light">Cloudkaikei</span>
     </a>

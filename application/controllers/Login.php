@@ -11,6 +11,7 @@ class Login extends CI_controller
     $this->load->helper(array('form', 'url'));
     $this->load->helper('file');
     $this->load->model('Cloudkaikei_model');
+    $this->load->model('Customer_model');
     $this->load->model('Login_model');
     $this->load->library('javascript');
     $this->load->library('form_validation');
@@ -363,6 +364,26 @@ class Login extends CI_controller
             // 送信エラーの場合
             echo '送信失敗: ', $mail->ErrorInfo;
           }
+
+          // Customerテーブルにサンプルデータを追加
+          $user_id = $this->Customer_model->fetch_userid($email);//Emailからuser_idを取得
+          $sample_data =[
+            'user_id' => $user_id['id'],
+            'name' => 'サンプル株式会社',
+            'kana' => 'サンプルカブシキガイシャ',
+            'name_title' => '様',
+            'mail' => 'sample.company@sample.com',
+            'post' => '1234567',
+            'prefecture' => '13',
+            'address1' => '〇〇区□□□町1丁目1-11',
+            'address2' => '△△△ビル1F',
+            'tel' => '01234567890',
+            'fax' => '09876543211',
+            'customer_group' => '営業部',
+            'position' => '部長',
+            'person' => '田中 太郎',
+          ];
+          $this->Customer_model->add_sampledata($sample_data);
 
           $this->session->set_flashdata("message", "新規登録が完了しました");
           header('location:/login');

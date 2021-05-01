@@ -31,8 +31,8 @@
       </ul>
     </nav>
 
-   <!-- サイドメニュー表示 -->
-   <?php $this->load->view('sidemenu_view'); ?>
+    <!-- サイドメニュー表示 -->
+    <?php $this->load->view('sidemenu_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -66,6 +66,7 @@
               <th>電話番号</th>
               <th>FAX</th>
               <th>詳細・編集</th>
+              <th>削除</th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +86,9 @@
                   <!-- 編集 -->
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="<?= base_url()  ?>customer/editform?id=<?= $value["id"]; ?>">詳細・編集</a>
-                    </form>
+                  </td>
+                  <td class="text-center">
+                    <a class="btn btn-danger btn-sm delete-btn" href="/customer/delete?id=<?php echo $value['id']; ?>" onclick="return disp()">削除</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -117,6 +120,8 @@
   <script src="<?= base_url() ?>assets/js/demo.js"></script>
   <!-- jQuery -->
   <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="<?= base_url() ?>assets/jquery-ui/jquery-ui.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
@@ -141,6 +146,48 @@
       if (location.pathname != "/") {
         $('.nav li a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
       } else $('.nav li a:eq(0)').addClass('active');
+    });
+
+    // 削除確認メッセージ
+    function disp() {
+      // 削除確認メッセージ
+      if (window.confirm('本当に削除しますか？')) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // リストの数が0にならないようにする処理
+    // row = tblForm.rows.length;
+    // console.log(row);
+    // jQuery$(function(){
+
+    //   // $('.delete-btn').on('click',function(){
+    //   //   if($('tbody tr').length >= 2){
+    //   //     $(this).parents('tr').remove();
+    //   //   }
+    //   // });
+
+    //   $(".delete-btn").on("click", function() {
+    //   if (row > 1) {
+    //     $(this).parent().parent().remove();
+    //     row = tblForm.rows.length - 1;
+    //   }
+    // });
+    // });
+
+    var rows = $('table').prop('rows').length - 1;
+    // console.log(rows);
+    $(function() {
+      // 行のソート
+      $('tbody').sortable();
+
+      // 行が１つしかない時削除ボタンを無効にする
+      if (rows == 1) {
+        $(".delete-btn").addClass("disabled");
+        return false;
+      }
     });
   </script>
 </body>
