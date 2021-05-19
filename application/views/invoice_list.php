@@ -39,6 +39,7 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <h4>請求書</h4>
+        <?php var_dump($invoice); ?>
       </ul>
     </nav>
 
@@ -120,7 +121,10 @@
                             <a href="/invoice/delete?id=<?php if (!empty($invoice['id'])) {
                                                           echo $invoice['id'];
                                                         } ?>" class="btn-sm">削除</a>
-                            <a href="/Pdf_download" class="btn-sm">請求書出力</a>
+                            <form method="POST" name="invoice_pdf" action="Pdf_create.php">                           
+                              <a href="/Pdf_create" class="btn-sm" onclick="document.invoice_pdf.submit();">請求書出力</a>
+                              <input type="hidden" name="data" value="">
+                            </form> 
                             <a href="" class="btn-sm">納品書出力</a>
                           </div><!-- /.container-fluid -->
                         </section>
@@ -137,7 +141,6 @@
                                   <div class="row">
                                     <div class="col-12">
                                       <h4>
-                                        <i class="fas fa-globe"></i>
 
                                         <?php if (!empty($customer)) : ?>
                                           <?php foreach ($customer as $value_c) : ?>
