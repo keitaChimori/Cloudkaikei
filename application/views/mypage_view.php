@@ -1,10 +1,13 @@
+<!-- **************************** -->
+<!-- *******  マイページ  ******* -->
+<!-- **************************** -->
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>マイページ</title>
+  <title>マイページ | CloudKaikei</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -15,7 +18,6 @@
 </head>
 
 <body class="hold-transition">
-  <!-- Site wrapper -->
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -50,24 +52,20 @@
 
               <div class="card card-primary">
                 <div class="card-body">
-
-                  <?php
-                  // var_dump($info);
-                  // exit;
-                  ?>
                   <p>ユーザー情報を入力してください</p>
 
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputName">会社名</label>
+                        <label for="inputName">ユーザー名</label>
                         <span class="badge bg-danger">必須</span>
                         <input name="name" type="text" id="inputName" class="form-control" placeholder="例）○○株式会社" value="<?php echo set_value('name', $info['name']); ?>">
                       </div>
                     </div>
+
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputKanaName">会社名 <small class="text-danger">(カナ)</small></label>
+                        <label for="inputKanaName">ユーザー名(カナ)</label>
                         <input name="kana" type="text" id="inputKanaName" class="form-control" placeholder="例）マルマルカブシキカイシャ" value="<?php echo set_value('kana', $info['kana']); ?>">
                       </div>
                     </div>
@@ -79,7 +77,7 @@
                     <input name="mail" type="text" id="inputMail" class="form-control" placeholder="例）sample.email@sample.jp" value="<?php echo set_value('mail', $info['mail']); ?>">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group w-25">
                     <label for="inputPost">郵便番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
                     <span class="badge bg-danger">必須</span>
                     <input name="post" type="text" id="inputPost" class="form-control" placeholder="例）1234567" value="<?php echo set_value('post', $info['post']); ?>">
@@ -113,6 +111,7 @@
                         <input name="address1" type="text" id="inputAddress1" class="form-control" placeholder="例）○○市□□□町1丁目1-11" value="<?php echo set_value('address1', $info['address1']); ?>">
                       </div>
                     </div>
+
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputAddress2">住所2 <small class="text-danger">(建物名)</small></label>
@@ -126,10 +125,12 @@
                     <span class="badge bg-danger">必須</span>
                     <input name="tel" type="tel" id="inputPhone" class="form-control" placeholder="例）01234567890" value="<?php echo set_value('tel', $info['tel']); ?>">
                   </div>
+
                   <div class="form-group w-25">
                     <label for="inputFax">FAX番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
                     <input name="fax" type="tel" id="inputFax" class="form-control"  placeholder="例）09876543211" value="<?php echo set_value('fax', $info['fax']); ?>">
                   </div>
+
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -144,37 +145,27 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+                </div><!-- /.card-body -->
+              </div><!-- /.card -->
             </div>
-          </div>
+          </div><!-- /.row -->
 
           <div class="form-group row justify-content-center">
             <div>
               <input type="hidden" name="user_id" value="<?php echo $info['id'] ?>">
               <input type="submit" value="変更を保存" class="btn btn-success mr-4 px-5">
-              <a href="<?= base_url() ?>Cloudkaikei/ledger" class="btn btn-secondary">戻る</a>
+              <button type="button" onclick="history.back()" class="btn btn-secondary">戻る</button>
             </div>
           </div>
         </form>
-      </section>
-      <!-- /.content -->
+      </section><!-- /.content -->
       <br>
-    </div>
-    <!-- /.content-wrapper -->
+    </div><!-- /.content-wrapper -->
 
     <!-- footer表示 -->
     <?php $this->load->view('footer_view'); ?>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+  </div><!-- ./wrapper -->
 
   <!-- AdminLTE for demo purposes -->
   <script src="<?= base_url() ?>assets/js/demo.js"></script>

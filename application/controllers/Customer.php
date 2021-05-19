@@ -21,7 +21,8 @@ class Customer extends CI_controller
     if(!empty($_SESSION['id'])){
       $user_id = $_SESSION['id'];
      
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
+      //user_nameを取得(サイドメニュー用)
+      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);
       $data['user_name'] = $user_name;
 
       //nameが未登録の場合はmypageを表示
@@ -29,9 +30,9 @@ class Customer extends CI_controller
         header('location:/Mypage');
         exit;
       }else{
-        // nameが登録済の場合は請求書TOP表示
+        // nameが登録済の場合は顧客リストTOPを表示
         $data['info'] = $this->Customer_model->customer_data($user_id);
-        $this->load->view('customer_list_view', $data);
+        $this->load->view('customer/customer_list_view', $data);
       }
     }else{
        // sessionなし、ログイン画面へ
@@ -44,22 +45,28 @@ class Customer extends CI_controller
   public function editform()
   {
     if(!empty($_SESSION['id'])){
+      // getでidを取得
       $id = $this->input->get('id');
       if (!is_numeric($id)) {
         return show_404();
       }
-      $data = array(
-        'name' => $this->security->get_csrf_token_name(),
-        'hash' => $this->security->get_csrf_hash()
-      );
-      $data['info'] = $this->Customer_model->fetch_customerdata($id);//カスタマー情報を取得
+      // csrf対策
+      // $data = array(
+      //   'name' => $this->security->get_csrf_token_name(),
+      //   'hash' => $this->security->get_csrf_hash()
+      // );
+      //選択したカスタマー情報を取得
+      $data['info'] = $this->Customer_model->fetch_customerdata($id);
       if (is_null($data["info"])) {
         return show_404();
       }
+      // サイドメニューユーザー名表示用
       $user_id = $_SESSION['id'];
       $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       $data['user_name'] = $user_name;
-      $this->load->view('customer_editform_view', $data,$user_name);
+
+      // 編集フォーム表示
+      $this->load->view('customer/customer_editform_view', $data,$user_name);
     } else {
       // sessionなし、ログイン画面へ
       header('location:/login');
@@ -72,94 +79,21 @@ class Customer extends CI_controller
   {
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
       $id = $this->input->post('user_id', true);
-      // バリデーション
+      // 値受け取り
       $input_name = $this->input->post('name', true);
-      $this->form_validation->set_rules(
-        'name',
-        'お客様名',
-        'required|trim',
-        array(
-          'required' => "%sが未入力です。",
-        )
-      );
-      $input_kana = $this->input->post('kana', true);
-      $this->form_validation->set_rules(
-        'kana',
-        'お客様名(カナ)',
-        'trim',
-      );
+      $input_kana = $this->input->post('kana', true);     
       $input_name_title = $this->input->post('name_title', true);
-      $input_mail = $this->input->post('mail', true);
-      $this->form_validation->set_rules(
-        'mail',
-        'メールアドレス',
-        'trim|regex_match[/^[0-9a-z_.\/?-]+@([0-9a-z-]+\.)+[0-9a-z-]+$/]',
-        array(
-          'regex_match' => "%sは正しい形式で入力してください。",
-        )
-      );
-      $input_post = $this->input->post('post', true);
-      $this->form_validation->set_rules(
-        'post',
-        '郵便番号',
-        'trim|numeric|regex_match[/^\d{7}$/]',
-        array(
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
+      $input_mail = $this->input->post('mail', true); 
+      $input_post = $this->input->post('post', true);  
       $input_prefecture = $this->input->post('prefecture', true);
       $input_address1 = $this->input->post('address1', true);
-      $this->form_validation->set_rules(
-        'address1',
-        '住所1',
-        'trim',
-      );
-      $input_address2 = $this->input->post('address2', true);
-      $this->form_validation->set_rules(
-        'address2',
-        '住所2',
-        'trim',
-      );
-      $input_tel = $this->input->post('tel', true);
-      $this->form_validation->set_rules(
-        'tel',
-        '電話番号',
-        'trim|numeric|regex_match[/^0\d{9,10}$/]',
-        array(
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
+      $input_address2 = $this->input->post('address2', true);  
+      $input_tel = $this->input->post('tel', true); 
       $input_fax = $this->input->post('fax', true);
-      $this->form_validation->set_rules(
-        'fax',
-        'FAX番号',
-        'trim|numeric|regex_match[/^0\d{9,10}$/]',
-        array(
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
-      $input_customer_group = $this->input->post('customer_group', true);
-      $this->form_validation->set_rules(
-        'customer_group',
-        '部門',
-        'trim',
-      );
-      $input_position = $this->input->post('position', true);
-      $this->form_validation->set_rules(
-        'position',
-        '役職',
-        'trim',
-      );
+      $input_customer_group = $this->input->post('customer_group', true);  
+      $input_position = $this->input->post('position', true);  
       $input_person = $this->input->post('person', true);
-      $this->form_validation->set_rules(
-        'person',
-        '担当者名',
-        'trim',
-      );
-
+   
       $data = [];
       $data = [
         'name' => $input_name,
@@ -177,17 +111,21 @@ class Customer extends CI_controller
         'person' => $input_person,
       ];
       // バリデーションチェック
-      if ($this->form_validation->run() == false) {
-        $data = array(
-          'name' => $this->security->get_csrf_token_name(),
-          'hash' => $this->security->get_csrf_hash()
-        );
-        $data['info'] = $this->Customer_model->fetch_customerdata($id);
-        $user_id = $_SESSION['id'];
-        $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
-        $data['user_name'] = $user_name;
+      if ($this->form_validation->run('customer_edit') == false) {
+        // csrf対策
+        // $data = array(
+        //   'name' => $this->security->get_csrf_token_name(),
+        //   'hash' => $this->security->get_csrf_hash()
+        // );
         // バリデーションエラーあり
-        $this->load->view('customer_editform_view', $data);
+        $data['info'] = $this->Customer_model->fetch_customerdata($id);
+        // サイドメニュー用
+        $user_id = $_SESSION['id'];
+        $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);
+        $data['user_name'] = $user_name;
+        
+        //編集フォームに戻る 
+        $this->load->view('customer/customer_editform_view', $data);
       } else {
         // バリデーションエラーなし
         // DBへ編集登録
@@ -203,16 +141,15 @@ class Customer extends CI_controller
     }
   }
 
-  // 顧客情報削除
+  // 顧客情報削除実行
   public function delete()
   {
+    // getでid受け取り
     $id = $this->input->get('id', true);
     if (!empty($id)) {
       // 論理削除
       $data = null;
-      $data = [
-        'deleted_flag' => 1
-      ];
+      $data = ['deleted_flag' => 1];
       if ($this->Customer_model->soft_delete($id, $data)) {
         $this->session->set_flashdata('message', '顧客情報を削除しました');
         header('location:/customer');
@@ -228,14 +165,17 @@ class Customer extends CI_controller
   public function customer_register()
   {
     if(!empty($_SESSION['id'])){
-      $data = array(
-        'name' => $this->security->get_csrf_token_name(),
-        'hash' => $this->security->get_csrf_hash()
-      );
+      // csrf対策
+      // $data = array(
+      //   'name' => $this->security->get_csrf_token_name(),
+      //   'hash' => $this->security->get_csrf_hash()
+      // );
+      // サイドメニュー用
       $user_id = $_SESSION['id'];
       $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       $data['user_name'] = $user_name;
-      $this->load->view('customer_registerform_view', $data);
+      // 顧客新規登録フォーム表示
+      $this->load->view('customer/customer_registerform_view', $data);
     }else{
        // sessionなし、ログイン画面へ
        header('location:/login');
@@ -252,92 +192,18 @@ class Customer extends CI_controller
 
       // バリデーション
       $input_name = $this->input->post('name', true);
-      $this->form_validation->set_rules(
-        'name',
-        'お客様名',
-        'required|trim',
-        array(
-          'required' => "%sが未入力です。",
-        )
-      );
       $input_kana = $this->input->post('kana', true);
-      $this->form_validation->set_rules(
-        'kana',
-        'お客様名(カナ)',
-        'trim',
-      );
       $input_name_title = $this->input->post('name_title', true);
       $input_mail = $this->input->post('mail', true);
-      $this->form_validation->set_rules(
-        'mail',
-        'メールアドレス',
-        'trim|regex_match[/^[0-9a-z_.\/?-]+@([0-9a-z-]+\.)+[0-9a-z-]+$/]',
-        array(
-          'regex_match' => "%sは正しい形式で入力してください",
-        )
-      );
       $input_post = $this->input->post('post', true);
-      $this->form_validation->set_rules(
-        'post',
-        '郵便番号',
-        'trim|numeric|regex_match[/^\d{7}$/]',
-        array(
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
       $input_prefecture = $this->input->post('prefecture', true);
-
       $input_address1 = $this->input->post('address1', true);
-      $this->form_validation->set_rules(
-        'address1',
-        '住所1',
-        'trim',
-      );
       $input_address2 = $this->input->post('address2', true);
-      $this->form_validation->set_rules(
-        'address2',
-        '住所2',
-        'trim',
-      );
       $input_tel = $this->input->post('tel', true);
-      $this->form_validation->set_rules(
-        'tel',
-        '電話番号',
-        'trim|numeric|regex_match[/^0\d{9,10}$/]',
-        array(
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
       $input_fax = $this->input->post('fax', true);
-      $this->form_validation->set_rules(
-        'fax',
-        'FAX番号',
-        'trim|numeric|regex_match[/^0\d{9,10}$/]',
-        array(
-          'numeric' => "%sは半角数字・ハイフンなしで入力してください",
-          'regex_match' => "%sは半角数字・ハイフンなしで入力してください",
-        )
-      );
       $input_customer_group = $this->input->post('customer_group', true);
-      $this->form_validation->set_rules(
-        'customer_group',
-        '部門',
-        'trim',
-      );
       $input_position = $this->input->post('position', true);
-      $this->form_validation->set_rules(
-        'position',
-        '役職',
-        'trim',
-      );
       $input_person = $this->input->post('person', true);
-      $this->form_validation->set_rules(
-        'person',
-        '担当者名',
-        'trim',
-      );      
 
       $data = null;
       $data = [
@@ -356,16 +222,19 @@ class Customer extends CI_controller
         'position' => $input_position,
         'person' => $input_person,
       ];
-      if ($this->form_validation->run() == false) {
+      if ($this->form_validation->run('customer_register') == false) {
         // バリデーションエラーあり
-        $data = array(
-          'name' => $this->security->get_csrf_token_name(),
-          'hash' => $this->security->get_csrf_hash()
-        );
+        // $data = array(
+        //   'name' => $this->security->get_csrf_token_name(),
+        //   'hash' => $this->security->get_csrf_hash()
+        // );
+        // サイドメニュー用
         $user_id = $_SESSION['id'];
-        $user_name = $this->Cloudkaikei_model->fetch_username($user_id['id']);//nameを取得
+        $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
         $data['user_name'] = $user_name;
-        $this->load->view('customer_registerform_view', $data);
+
+        // 新規登録フォームに戻る
+        $this->load->view('customer/customer_registerform_view', $data);
       } else {
         // バリデーションエラーなし
         // DBへ登録
@@ -377,7 +246,8 @@ class Customer extends CI_controller
       }
     } else {
       $this->load->view('sidemenu_view');
-      $this->load->view('customer_list_view');
+      $this->load->view('customer/customer_list_view');
+      exit;
     }
   }
 }

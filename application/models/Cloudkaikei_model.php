@@ -14,7 +14,7 @@ class Cloudkaikei_model extends CI_model
         ->result_array();
     }
 
-    // ユーザーネーム取得
+    // ユーザーネーム取得(サイドメニュー用)
     public function fetch_username($id){
         return $this->db->where('id', $id)
         ->select('name')

@@ -16,11 +16,11 @@ class Adminlogin extends CI_controller
     // 管理者ログイン画面
     public function index()
     {   
-      $data = array(
-        'name' => $this->security->get_csrf_token_name(),
-        'hash' => $this->security->get_csrf_hash()
-      );
-        $this->load->view('adminlogin_view',$data);
+      // $data = array(
+      //   'name' => $this->security->get_csrf_token_name(),
+      //   'hash' => $this->security->get_csrf_hash()
+      // );
+        $this->load->view('admin/adminlogin_view');
     }
 
     // 管理者ログイン実行
@@ -29,10 +29,10 @@ class Adminlogin extends CI_controller
       header("Content-Type: application/json; charset=utf-8");
       if($_SERVER["REQUEST_METHOD"] === "POST"){
         // csrfトークン判定
-        if($this->input->method(TRUE) !== 'POST'){
-          show_404();
-        }
-        $password = $this->input->post('password');
+        // if($this->input->method(TRUE) !== 'POST'){
+        //   show_404();
+        // }
+        $password = $this->input->post('password',true);
         if(empty($password)){
           // ログイン失敗
           echo json_encode(["message" => "パスワードを入力してください"]);
