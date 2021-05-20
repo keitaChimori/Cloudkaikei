@@ -77,6 +77,8 @@ class Admin extends CI_controller
                 $input_fax = $this->input->post('fax', true);
                 $input_bankname = $this->input->post('bank_name', true);
                 $input_bankaccount = $this->input->post('bank_account', true);
+                $input_password = "sample_password";
+                $hash_password = password_hash($input_password, PASSWORD_DEFAULT); // passwordハッシュ化
              
                 $data = [];
                 $data = [
@@ -91,6 +93,7 @@ class Admin extends CI_controller
                     'fax' => $input_fax,
                     'bank_name' => $input_bankname,
                     'bank_account' => $input_bankaccount,
+                    'password' => $hash_password,
                 ];
                 // バリデーションチェック
                 if ($this->form_validation->run('admin_register') == false) {
@@ -190,6 +193,7 @@ class Admin extends CI_controller
                     'bank_name' => $input_bankname,
                     'bank_account' => $input_bankaccount,
                 ];
+
                 // バリデーションチェック
                 if ($this->form_validation->run('admin_edit') == false) {
                     // $data = array(

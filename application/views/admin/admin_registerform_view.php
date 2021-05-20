@@ -109,13 +109,13 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町</small></label>
+                        <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町４丁目8-15</small></label>
                         <input type="text" name="address1" id="inputAddress1" class="form-control" value="<?php echo set_value('address1'); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress2">住所2<small class="ml-3">例:４丁目8-15 銀天街ビル1F</small></label>
+                        <label for="inputAddress2">住所2<small class="ml-3">例:銀天街ビル1F</small></label>
                         <input type="text" name="address2" id="inputAddress2" class="form-control" value="<?php echo set_value('address2'); ?>">
                       </div>
                     </div>

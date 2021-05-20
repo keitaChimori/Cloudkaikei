@@ -24,10 +24,7 @@
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <h4>編集フォーム</h4>
-      </ul>
+      <h4 class="mt-2">編集フォーム</h4>
     </nav>
 
     <!-- サイドメニュー表示 -->
@@ -103,13 +100,13 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町</small></label>
+                        <label for="inputAddress1">住所1<small class="ml-3">例:松山市湊町４丁目8-15</small></label>
                         <input type="text" name="address1" id="inputAddress1" class="form-control" value="<?php echo set_value('address1', $info['address1']); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress2">住所2<small class="ml-3">例:４丁目8-15 銀天街ビル1F</small></label>
+                        <label for="inputAddress2">住所2<small class="ml-3">例:銀天街ビル1F</small></label>
                         <input type="text" name="address2" id="inputAddress2" class="form-control" value="<?php echo set_value('address2', $info['address2']); ?>">
                       </div>
                     </div>
@@ -147,6 +144,7 @@
           <!-- button -->
           <div class="form-group row justify-content-center">
             <!-- <input type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>"> -->
+            <input type="hidden" name="user_id" value="<?php echo $info['id']; ?>">
             <input type="submit" value="変更を保存" name="btn" id="btn_submit" class="btn btn-success px-5 mx-5">
             <a href="<?= base_url() ?>Admin/editlist" class="btn btn-secondary">戻る</a>
           </div>
