@@ -17,7 +17,7 @@ class invoice_model extends CI_model
     public function invoice_id()
     {
         return $this->db->where("delete_flag", 0)
-                        // ->select("id")
+                                    // ->select("id")
                         ->get('invoice')
                         ->result_array();
     }

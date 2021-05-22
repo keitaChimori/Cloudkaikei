@@ -20,13 +20,11 @@ class Customer extends CI_controller
   {
     if(!empty($_SESSION['id'])){
       $user_id = $_SESSION['id'];
-     
-      //user_nameを取得(サイドメニュー用)
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);
-      $data['user_name'] = $user_name;
 
+      //user_nameを取得(サイドメニュー用)
+      $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);
       //nameが未登録の場合はmypageを表示
-      if(empty($user_name['name'])){
+      if(empty($data['user_name'])){
         header('location:/Mypage');
         exit;
       }else{
@@ -62,11 +60,10 @@ class Customer extends CI_controller
       }
       // サイドメニューユーザー名表示用
       $user_id = $_SESSION['id'];
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
-      $data['user_name'] = $user_name;
-
+      $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
+      
       // 編集フォーム表示
-      $this->load->view('customer/customer_editform_view', $data,$user_name);
+      $this->load->view('customer/customer_editform_view', $data);
     } else {
       // sessionなし、ログイン画面へ
       header('location:/login');
@@ -172,8 +169,7 @@ class Customer extends CI_controller
       // );
       // サイドメニュー用
       $user_id = $_SESSION['id'];
-      $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
-      $data['user_name'] = $user_name;
+      $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
       // 顧客新規登録フォーム表示
       $this->load->view('customer/customer_registerform_view', $data);
     }else{
@@ -230,8 +226,7 @@ class Customer extends CI_controller
         // );
         // サイドメニュー用
         $user_id = $_SESSION['id'];
-        $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
-        $data['user_name'] = $user_name;
+        $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
 
         // 新規登録フォームに戻る
         $this->load->view('customer/customer_registerform_view', $data);

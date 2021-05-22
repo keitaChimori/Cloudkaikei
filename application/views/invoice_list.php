@@ -36,11 +36,9 @@
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <h4>請求書</h4>
-        <?php var_dump($invoice); ?>
-      </ul>
+      <h4 class="mt-2">請求書</h4>
+      <?php var_dump($info); ?>
+      
     </nav>
 
     <!-- サイドメニュー表示 -->
@@ -80,7 +78,7 @@
                                 <?php foreach ($customer as $value_c) : ?>
                                   <?php
                                   if ($value['customer'] == $value_c['id']) {
-                                    echo $value_c['name'] . "　御中";
+                                    echo $value_c['name'];
                                   }
                                   ?>
                                 <?php endforeach; ?>
@@ -122,7 +120,7 @@
                                                           echo $invoice['id'];
                                                         } ?>" class="btn-sm">削除</a>
                             <form method="POST" name="invoice_pdf" action="Pdf_create.php">                           
-                              <a href="/Pdf_create" class="btn-sm" onclick="document.invoice_pdf.submit();">請求書出力</a>
+                              <a href="/Pdf_create?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm" onclick="document.invoice_pdf.submit();">請求書出力</a>
                               <input type="hidden" name="data" value="">
                             </form> 
                             <a href="" class="btn-sm">納品書出力</a>
@@ -273,7 +271,7 @@
                                     <!-- /.col -->
                                   </div>
                                   <!-- /.row -->
-                                  <b>振込先：<?php echo $value_u['bank_name']; ?></b>
+                                  <b>振込先：<?php echo $value_u['bank_name']; ?></b><br>
                                   <b>　口座：<?php echo $value_u['bank_account']; ?></b>
                                   <br>
                                   <br>
@@ -349,6 +347,7 @@
   <script src="<?= base_url() ?>assets/js/pages/dashboard.js"></script>
   <!-- preview機能追加 -->
   <script src="<?= base_url() ?>assets/js/preview.js"></script>
+
   <script>
     // カレントページ表示
     $(document).ready(function() {

@@ -22,22 +22,24 @@ class Invoice extends CI_controller
 
             // サイドメニューの名前表示用
             $user_id = $_SESSION['id'];
-            $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
-            $data['user_name'] = $user_name;
+            $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
+
             //nameが未登録の場合はmypageを表示
-            if(empty($user_name['name'])){
+            if(empty($data['user_name'])){
                 header('location:/Mypage');
                 exit;
             }else{
                 // nameが登録済の場合は請求書TOP表示
                 $id = null;
                 $id = $this->input->get("id");
+
                 if (!empty($id) && !is_numeric($id)) {
                     show_404();
                 }
-                $data['id'] = $this->Invoice_model->invoice_id();
-                $data['info'] = $this->Invoice_model->detail_preview($id);
-                $data['invoice'] = $this->Invoice_model->invoice_preview($id);
+
+                $data['id'] = $this->Invoice_model->invoice_id();//invoiceテーブル取得
+                $data['info'] = $this->Invoice_model->detail_preview($id);//invoice_detailテーブル取得
+                $data['invoice'] = $this->Invoice_model->invoice_preview($id);//選択した請求書のinveoceデータ取得
                 $data['user'] = $this->Invoice_model->load_user();
                 $data['customer'] = $this->Invoice_model->load_customer();
                 $this->load->view('invoice_list', $data);
@@ -46,6 +48,7 @@ class Invoice extends CI_controller
                     redirect(base_url('/invoice'));
                 }
             }
+
         } else {
             // sessionなし、ログイン画面へ
             header('location:/login');
