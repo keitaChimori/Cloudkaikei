@@ -30,8 +30,8 @@ class Mypage extends CI_controller
                 //user_dataを取得
                 $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id);
                 //nameを取得(サイドメニュー用)
-                $user_name = $this->Cloudkaikei_model->fetch_username($user_id);
-                $data['user_name'] = $user_name;
+                $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);
+                
                 // マイページ表示
                 $this->load->view('mypage_view', $data);
             } else {

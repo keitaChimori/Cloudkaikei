@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>売上台帳</title>
+  <title>売上台帳 | CloudKaikei</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,12 +23,8 @@
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <h4>売上台帳</h4>
-        <?php var_dump($this->session->userdata()); ?>
-        
-      </ul>
+      <h4 class="mt-2">売上台帳</h4>
+      <?php //var_dump($this->session->userdata()); ?>
     </nav>
 
     <!-- サイドメニュー表示 -->

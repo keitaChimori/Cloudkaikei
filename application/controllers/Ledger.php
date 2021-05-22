@@ -19,11 +19,12 @@ class Ledger extends CI_controller
     public function index()
     {
         if (!empty($_SESSION['id'])) {
+            // サイドメニュー用
             $user_id = $_SESSION['id'];
-            $user_name = $this->Cloudkaikei_model->fetch_username($user_id); //nameを取得
-            $data['user_name'] = $user_name;
+            $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id); //nameを取得
+            // $data['user_name'] = $user_name;
             //nameが未登録の場合はmypageを表示
-            if (empty($user_name['name'])) {
+            if (empty($data['user_name'])) {
                 header('location:/Mypage');
                 exit;
             } else {
