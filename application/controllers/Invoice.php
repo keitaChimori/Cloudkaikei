@@ -22,10 +22,10 @@ class Invoice extends CI_controller
 
             // サイドメニューの名前表示用
             $user_id = $_SESSION['id'];
-            $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
-
+            $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
+            $data['user_name'] = $user_name;
             //nameが未登録の場合はmypageを表示
-            if(empty($data['user_name'])){
+            if(empty($user_name['name'])){
                 header('location:/Mypage');
                 exit;
             }else{
@@ -37,16 +37,21 @@ class Invoice extends CI_controller
                     show_404();
                 }
 
-                $data['id'] = $this->Invoice_model->invoice_id();//invoiceテーブル取得
-                $data['info'] = $this->Invoice_model->detail_preview($id);//invoice_detailテーブル取得
-                $data['invoice'] = $this->Invoice_model->invoice_preview($id);//選択した請求書のinveoceデータ取得
-                $data['user'] = $this->Invoice_model->load_user();
-                $data['customer'] = $this->Invoice_model->load_customer();
+                $data['id'] = $this->Invoice_model->invoice_id($user_id);//請求書一覧用invoiceテーブル取得
+                $data['invoice'] = $this->Invoice_model->invoice_preview($id,$user_id);//選択した請求書のinveoceデータ取得
+                $data['info'] = $this->Invoice_model->detail_preview($id,$user_id);//invoice_detailテーブル取得
+                $data['user'] = $this->Invoice_model->load_user($user_id);//請求書用ユーザー情報取得
+                $data['customer'] = $this->Invoice_model->load_customer($user_id);//選択した請求書の顧客名取得
+                //crsfトークン作成
+                $data['csrf'] = array(
+                    'name' => $this->security->get_csrf_token_name(),
+                    'hash' => $this->security->get_csrf_hash()
+                );
                 $this->load->view('invoice_list', $data);
 
-                if ($data['invoice']['delete_flag'] == 1) {
-                    redirect(base_url('/invoice'));
-                }
+                // if ($data['invoice']['delete_flag'] == 1) {
+                //     redirect(base_url('/invoice'));
+                // }
             }
 
         } else {
@@ -87,8 +92,13 @@ class Invoice extends CI_controller
             $user_name = $this->Cloudkaikei_model->fetch_username($user_id);//nameを取得
             $data['user_name'] = $user_name;
 
-            $data['user'] = $this->Invoice_model->load_user();
-            $data['customer'] = $this->Invoice_model->load_customer();
+            $data['user'] = $this->Invoice_model->load_user($user_id);
+            $data['customer'] = $this->Invoice_model->load_customer($user_id);
+            //crsfトークン作成
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
             $this->load->view('invoice_individual.php', $data);
 
             // 請求書の登録
@@ -106,6 +116,7 @@ class Invoice extends CI_controller
                 $date = $this->input->post("date", true);
                 $date = str_replace('-', '', $date);
                 $register_invoice = [
+                    'user_id' => $user_id,
                     'date' => $date,
                     'customer' => $this->input->post("customer", true),
                     'total' => $total,
@@ -156,16 +167,21 @@ class Invoice extends CI_controller
             if (!empty($id) && !is_numeric($id)) {
                 show_404();
             }
-            $data['invoice'] = $this->Invoice_model->invoice_preview($id);
-            $data['info'] = $this->Invoice_model->detail_preview($id);
-            $data['user'] = $this->Invoice_model->load_user();
-            $data['customer'] = $this->Invoice_model->load_customer();
+
+            $data['invoice'] = $this->Invoice_model->invoice_preview($id, $user_id); //選択した請求書のinveoceデータ取得
+            $data['info'] = $this->Invoice_model->detail_preview($id,$user_id); //選択したinvoice_detailデータ取得
+            $data['user'] = $this->Invoice_model->load_user($user_id); //ユーザー情報取得
+            $data['customer'] = $this->Invoice_model->load_customer($user_id);//選択した請求書の顧客名取得
+            //crsfトークン作成
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
             $this->load->view('invoice_edit_view.php', $data);
 
             if ($data['invoice']['delete_flag'] == 1) {
                 redirect(base_url('/invoice'));
             }
-
 
             // 請求書の登録
             if (!empty($this->input->post("product_name"))) {

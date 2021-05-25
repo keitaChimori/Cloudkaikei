@@ -8,16 +8,20 @@ class Ledger_model extends CI_model
         $this->load->database();
     }
 
-    public function load_invoice(){
-        return $this->db->where('delete_flag',0)
+    // 売上台帳一覧
+    public function load_invoice($user_id){
+        return $this->db->where('user_id',$user_id)
+                        ->where('delete_flag',0)
                         ->order_by('id', 'ASC')
                         ->get('invoice')
                         ->result_array();
     }
 
-    public function load_customer(){
-        return $this->db
-                    ->get('customer')
-                    ->result_array();
+    // 売上台帳「取引先を選んでください」のプルダウン
+    public function load_customer($user_id){
+        return $this->db->where('user_id',$user_id)
+                        ->where('deleted_flag',0)
+                        ->get('customer')
+                        ->result_array();
     }
 }

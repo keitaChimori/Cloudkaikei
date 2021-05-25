@@ -1,5 +1,5 @@
 <!-- ********************************** -->
-<!-- ***  管理者画面 ユーザーリスト *** -->
+<!-- ***  管理者画面 登録ユーザーリスト *** -->
 <!-- ********************************** -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -32,7 +32,7 @@
     <?php $this->load->view('sidemenu_admin_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper pb-3">
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <div class="container-fluid" style="text-align:center;">
@@ -100,9 +100,12 @@
         </table>
       </section>
     </div><!-- /.content-wrapper -->
+    
 
     <!-- footer表示 -->
-    <?php $this->load->view('footer_view'); ?>
+    <footer>
+      <?php $this->load->view('footer_view'); ?>
+    </footer>
   
   </div><!-- ./wrapper -->
 

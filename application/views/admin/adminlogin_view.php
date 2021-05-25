@@ -29,6 +29,7 @@
       <div class="card-body login-card-body">
         <p class="login-box-msg">ログインしてください。</p>
 
+        <!-- ログインフォーム -->
         <form method="post" id="form">
           <div class="input-group mb-3">
             <input type="password" class="form-control" name="password" id="password" placeholder="Password">
@@ -40,7 +41,8 @@
           </div>
 
           <div class="row">
-            <!-- <input id="token" type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>"> -->
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <button type="submit" class="btn btn-primary btn-block" name="submit">ログイン</button>
           </div>
         </form>
@@ -61,7 +63,7 @@
         type: "POST",
         data: {
           "password": $('#password').val(),
-          // "csrf_test_name": csrf_hash,
+          "csrf_test_name": csrf_hash,
         },
         dataType: "json",
       }).then(
@@ -70,6 +72,7 @@
             // ログイン成功
             window.location.href = '/Admin/user_list';
           } else {
+            // ログイン失敗
             alert(data.message);
             form.reset();
           }

@@ -46,17 +46,8 @@
     <?php $this->load->view('sidemenu_view'); ?>
 
     <div class="content-wrapper">
-
+      <p class="m-0">　※数字は半角数字で入力してください。</p>
       <form action="" method="post">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <div class="container-fluid">
-            <div class="col-sm-6">
-              <h1>請求書編集</h1>
-            </div>
-          </div><!-- /.container-fluid -->
-        </section>
-
         <section class="content">
           <div class="container-fluid">
             <div class="row">
@@ -128,10 +119,8 @@
                         echo $value_u['address1'] . $value_u['address2'];
                         ?>
                       </address>
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
+                    </div><!-- /.col -->
+                  </div><!-- /.row -->
 
                   <!-- Table row -->
                   <div class="row">
@@ -163,32 +152,31 @@
                             <?php } ?>
                         </tbody>
                       </table>
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
+                    </div><!-- /.col -->
+                  </div><!-- /.row -->
                   <input id="btnAdd" type="button" value="＋" style="width:50px; height:50px; border-radius:100%; float:right;" class="btn btn-success" />
                   <b>備考欄</b><br>
-                  <input type="text" name="note" value="<?php echo $invoice['note']; ?>" size="40">
-                </div>
-                <!-- /.invoice -->
+                  <!-- <input type="text" name="note" value="<?php echo $invoice['note']; ?>" size="40"> -->
+                  <textarea name="note" id="note" cols="70" rows="2"><?php echo $invoice['note']; ?></textarea>
+                </div><!-- /.invoice -->
               </div><!-- /.col -->
             </div><!-- /.row -->
           </div><!-- /.container-fluid -->
         </section>
-        <input type="submit" value="登録">
-        <!-- /.content -->
+
+        <div class="text-center">
+          <!-- csrfトークン埋め込み -->
+          <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
+          <input type="submit" value="編集" class="btn btn-primary w-25">
+        </div><!-- /.content -->
       </form>
     </div>
+  </div><!-- ./wrapper -->
 
-    <!-- /.content-wrapper -->
-    <!-- <footer class="main-footer no-print"> -->
-    <!-- <b>備考欄</b><br> -->
-    <!-- <text>サンプルサンプルサンプルサンプルサンプル</text> -->
-    <!-- </footer> -->
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+  <!-- footer表示 -->
+  <footer>
+    <?php $this->load->view('footer_view'); ?>
+  </footer>
 
   <!-- jQuery -->
   <script src="<?= base_url() ?>assets/jquery/jquery.min.js"></script>

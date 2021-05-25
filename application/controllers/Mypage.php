@@ -26,12 +26,15 @@ class Mypage extends CI_controller
             $user_id = $_SESSION['id'];
 
             if (!empty($user_id)) {
-                
                 //user_dataを取得
                 $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id);
                 //nameを取得(サイドメニュー用)
                 $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);
-                
+                //crsfトークン作成
+                $data['csrf'] = array(
+                    'name' => $this->security->get_csrf_token_name(),
+                    'hash' => $this->security->get_csrf_hash()
+                );
                 // マイページ表示
                 $this->load->view('mypage_view', $data);
             } else {
@@ -50,7 +53,9 @@ class Mypage extends CI_controller
     {
         // マイページ情報登録
         if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+            // ユーザーID受け取り
             $id = $this->input->post('user_id', true);
+
             // 値受け取り
             $input_name = $this->input->post('name', true);
             $input_kana = $this->input->post('kana', true);
@@ -63,7 +68,6 @@ class Mypage extends CI_controller
             $input_fax = $this->input->post('fax', true);    
             $input_bankname = $this->input->post('bank_name', true);
             $input_bankaccount = $this->input->post('bank_account', true);
-            
 
             $data = [];
             $data = [
@@ -81,13 +85,17 @@ class Mypage extends CI_controller
             ];
             // バリデーションチェック
             if ($this->form_validation->run('mypage') == false) {
-                // csrf
-                $data = array(
+                // バリデーションエラーあり
+                $user_id = $_SESSION['id'];
+                //user_dataを取得
+                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($user_id);
+                //nameを取得(サイドメニュー用)
+                $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id);
+                //crsfトークン作成
+                $data['csrf'] = array(
                     'name' => $this->security->get_csrf_token_name(),
                     'hash' => $this->security->get_csrf_hash()
                 );
-                // バリデーションエラーあり
-                $data['info'] = $this->Cloudkaikei_model->fetch_userdata($id);
                 $this->load->view('mypage_view', $data);
             } else {
                 // バリデーションエラーなし // DBへ編集登録

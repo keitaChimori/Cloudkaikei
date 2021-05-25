@@ -24,11 +24,13 @@
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <h4 class="mt-2">売上台帳</h4>
-      <?php //var_dump($this->session->userdata()); ?>
+      <?php //var_dump($info); ?>
     </nav>
 
     <!-- サイドメニュー表示 -->
-    <?php $this->load->view('sidemenu_view'); ?>
+    <aside>
+      <?php $this->load->view('sidemenu_view'); ?>
+    </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -61,6 +63,8 @@
               </script>
             </div>
             <div class="col-md-6" style="text-align: center;">
+              <!-- csrfトークン埋め込み -->
+              <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
               <input type="button" value="絞り込む" id="button">
               <span>　</span>
               <input type="button" value="すべて表示" id="button2">
@@ -81,7 +85,7 @@
                   <th>取引番号</th>
                   <th>請求日</th>
                   <th>取引先</th>
-                  <th>取引金額</th>
+                  <th>取引金額(税込)</th>
                   <th>備考</th>
                 </tr>
               </thead>
@@ -104,7 +108,7 @@
                         <?php if (!empty($customer)) : ?>
                           <?php foreach ($customer as $value_c) : ?>
                             <?php
-                            if ($value['customer'] == $value_c['id']) {
+                            if ($value['customer'] === $value_c['id']) {
                               echo "\n" . $value_c['name'] . "\n";
                             }
                             ?>

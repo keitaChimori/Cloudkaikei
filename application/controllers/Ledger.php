@@ -21,17 +21,22 @@ class Ledger extends CI_controller
         if (!empty($_SESSION['id'])) {
             // サイドメニュー用
             $user_id = $_SESSION['id'];
-            $data['user_name'] = $this->Cloudkaikei_model->fetch_username($user_id); //nameを取得
-            // $data['user_name'] = $user_name;
+            $user_name = $this->Cloudkaikei_model->fetch_username($user_id); //nameを取得
+            $data['user_name'] = $user_name;
             //nameが未登録の場合はmypageを表示
-            if (empty($data['user_name'])) {
+            if (empty($user_name['name'])) {
                 header('location:/Mypage');
                 exit;
             } else {
                 // nameが登録済の場合は売上台帳表示
                 $data['active'] = $this->input->get('active', true);
-                $data['info'] = $this->Cloudkaikei_model->load_invoice();
-                $data['customer'] = $this->Ledger_model->load_customer();
+                $data['info'] = $this->Ledger_model->load_invoice($user_id);
+                $data['customer'] = $this->Ledger_model->load_customer($user_id);
+                //crsfトークン作成
+                $data['csrf'] = array(
+                    'name' => $this->security->get_csrf_token_name(),
+                    'hash' => $this->security->get_csrf_hash()
+                );
                 $this->load->view('ledger_view', $data);
             }
         } else {

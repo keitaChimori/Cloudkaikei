@@ -48,11 +48,12 @@ class Admin extends CI_controller
     public function registerform()
     {
         if(!empty($_SESSION['admin_login'])){
-            // $data = array(
-            //     'name' => $this->security->get_csrf_token_name(),
-            //     'hash' => $this->security->get_csrf_hash()
-            //   );
-            $this->load->view('admin/admin_registerform_view');
+        //crsfトークン作成
+        $data['csrf'] = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+            $this->load->view('admin/admin_registerform_view',$data);
         }else{
             //ログイン失敗 // セッションが無ければログイン画面へ
             header('location:/Adminlogin');
@@ -97,12 +98,13 @@ class Admin extends CI_controller
                 ];
                 // バリデーションチェック
                 if ($this->form_validation->run('admin_register') == false) {
-                    // $data = array(
-                    //     'name' => $this->security->get_csrf_token_name(),
-                    //     'hash' => $this->security->get_csrf_hash()
-                    //   );
                     // バリデーションエラーあり
-                    $this->load->view('admin/admin_registerform_view');
+                    //crsfトークン作成
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $this->load->view('admin/admin_registerform_view',$data);
                     
                 } else {
                     // バリデーションエラーなし // DBへ編集登録
@@ -126,7 +128,8 @@ class Admin extends CI_controller
     {
         if (!empty($_SESSION['admin_login'])) {
             $data['info'] = $this->Admin_model->all_data();
-            $this->load->view('admin/admin_editlist_view', $data);
+             
+            $this->load->view('admin/admin_editlist_view',$data);
         } else {
             //ログイン失敗 // セッションが無ければログイン画面へ
             header('location:/Adminlogin');
@@ -139,14 +142,15 @@ class Admin extends CI_controller
     {
         if (!empty($_SESSION['admin_login'])) {
             $id = $this->input->get('id', true);
-            if (!is_numeric($id)) {
+            if (empty($id) || !is_numeric($id)) {
                 return show_404();
             }
             if (!empty($id)) {
-                // $data = [
-                //     'name' => $this->security->get_csrf_token_name(),
-                //     'hash' => $this->security->get_csrf_hash(),
-                // ];
+                //crsfトークン作成
+                $data['csrf'] = array(
+                    'name' => $this->security->get_csrf_token_name(),
+                    'hash' => $this->security->get_csrf_hash()
+                );
                 $data['info'] = $this->Admin_model->load($id);
                 if (is_null($data['info'])) {
                     return show_404();
@@ -196,12 +200,13 @@ class Admin extends CI_controller
 
                 // バリデーションチェック
                 if ($this->form_validation->run('admin_edit') == false) {
-                    // $data = array(
-                    //     'name' => $this->security->get_csrf_token_name(),
-                    //     'hash' => $this->security->get_csrf_hash()
-                    // );
-                    $data['info'] = $this->Admin_model->load($id);
                     // バリデーションエラーあり
+                    //crsfトークン作成
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['info'] = $this->Admin_model->load($id);
                     $this->load->view('admin/admin_editpage_view', $data);
                 } else {
                     // バリデーションエラーなし // DBへ編集登録

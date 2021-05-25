@@ -40,6 +40,7 @@
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
+            <small class="text-primary">半角数字・半角英字をそれぞれ1文字以上含む</small>
           </div>
           
           <label for="password2" class="form-label">新しいパスワード【確認用】</label>
@@ -54,6 +55,8 @@
 
           <div class="row">
             <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
+             <!-- csrfトークン埋め込み -->
+             <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <button type="submit" class="btn btn-primary btn-block" id="btn_submit" name="submit">パスワード再設定</button>
           </div>
         </form>
@@ -76,6 +79,9 @@
 
   $('#form').on('submit', function() {
     event.preventDefault();
+    var csrf_name = $("#token").attr('name'); // viewに生成されたトークンのname取得
+    var csrf_hash = $("#token").val(); // viewに生成されたトークンのハッシュ取得
+
     $.ajax({
       url: "/login/password_reissue_done",
       type: "POST",
@@ -83,6 +89,7 @@
         'password1': $('#password1').val(),
         'password2': $('#password2').val(),
         'email': $('#email').val(),
+        "csrf_test_name": csrf_hash,
       },
       dataType: "json",
     }).then(

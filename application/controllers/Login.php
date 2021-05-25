@@ -20,7 +20,12 @@ class Login extends CI_controller
   // ユーザーログイン画面表示
   public function index()
   {
-    $this->load->view('userLogin/userlogin_view');
+    //crsfトークン作成
+    $data['csrf'] = array(
+      'name' => $this->security->get_csrf_token_name(),
+      'hash' => $this->security->get_csrf_hash()
+    );
+    $this->load->view('userLogin/userlogin_view',$data);
   }
 
   // ログインチェック
@@ -76,7 +81,12 @@ class Login extends CI_controller
   // 新規登録画面表示
   public function register()
   {
-    $this->load->view('userLogin/userregister_view');
+    //crsfトークン作成
+    $data['csrf'] = array(
+      'name' => $this->security->get_csrf_token_name(),
+      'hash' => $this->security->get_csrf_hash()
+    );
+    $this->load->view('userLogin/userregister_view',$data);
   }
 
   // 新規登録実行
@@ -96,10 +106,15 @@ class Login extends CI_controller
 
       // バリデーション判定
       if ($this->form_validation->run('user_register') == false) {
-        // 失敗
+        // 登録失敗
+        //crsfトークン作成
+        $data['csrf'] = array(
+          'name' => $this->security->get_csrf_token_name(),
+          'hash' => $this->security->get_csrf_hash()
+        );
         $this->load->view('userLogin/userregister_view', $data);
       } else {
-        // 成功
+        // 登録成功
         $hash_password = password_hash($password, PASSWORD_DEFAULT); // passwordハッシュ化
         $data = null;
         $data = [
@@ -126,7 +141,7 @@ class Login extends CI_controller
             $mail->Port     = 587;  // TCPポートを指定（tlsの場合は465や587）
 
             // 送受信先設定（第二引数は省略可）
-            $mail->setFrom('sendmailtest.programming@gmail.com', 'クラウド会計');   // 送信者
+            $mail->setFrom('sendmailtest.programming@gmail.com', 'CloudKaikei');   // 送信者
             // $mail->addReplyTo('info@example.com', 'CodexWorld');    // 返信先
 
             $mail->addAddress($email);    // 宛先
@@ -134,8 +149,8 @@ class Login extends CI_controller
             $mail->isHTML(true);
             // 送信内容設定
             $passReissueToken = md5(uniqid(rand(), true));
-            $mail->Subject = 'クラウド会計サービス【新規登録完了】';
-            $mailContent = "<h1>クラウド会計サービス【新規登録完了】</h1>
+            $mail->Subject = 'CloudKaikeiサービス【新規登録完了】';
+            $mailContent = "<h1>CloudKaikeiサービス【新規登録完了】</h1>
                   <p>ご登録ありがとうございます。新規登録が完了しました。<br>
                   下記URLのログインページからログインを行ってください。<br>
                   <a href='http://cloudkaikei.work/login'>http://cloudkaikei.work/login</a></p>";
@@ -178,7 +193,12 @@ class Login extends CI_controller
   // パスワード再発行画面表示
   public function password_reissue()
   {
-    $this->load->view('userLogin/password_reissue_view');
+    //crsfトークン作成
+    $data['csrf'] = array(
+      'name' => $this->security->get_csrf_token_name(),
+      'hash' => $this->security->get_csrf_hash()
+    );
+    $this->load->view('userLogin/password_reissue_view',$data);
   }
 
   // パスワード忘れフォーム
@@ -205,8 +225,7 @@ class Login extends CI_controller
       try {
         $this->load->library('phpmailer_lib');
 
-        $mail = $this->phpmailer_lib->load();
-
+        $mail = $this->phpmailer_lib->load();        
         
         $mail->CharSet = 'utf-8'; // 文字エンコードを指定
         $mail->isSMTP();    // SMTPの使用宣言
@@ -218,7 +237,7 @@ class Login extends CI_controller
         $mail->Port     = 587;  // TCPポートを指定（tlsの場合は465や587）
 
         // 送受信先設定（第二引数は省略可）
-        $mail->setFrom('sendmailtest.programming@gmail.com', 'クラウド会計');   // 送信者
+        $mail->setFrom('sendmailtest.programming@gmail.com', 'CloudKaikei');   // 送信者
         // $mail->addReplyTo('info@example.com', 'CodexWorld');    // 返信先
 
         $mail->addAddress($email);  // 宛先
@@ -226,8 +245,8 @@ class Login extends CI_controller
         $mail->isHTML(true);
         // 送信内容設定
         $passReissueToken = md5(uniqid(rand(), true));
-        $mail->Subject = 'クラウド会計サービス【パスワード再設定】';
-        $mailContent = "<h1>クラウド会計サービス【パスワード再設定】</h1>
+        $mail->Subject = 'CloudKaikeiサービス【パスワード再設定】';
+        $mailContent = "<h1>CloudKaikeiサービス【パスワード再設定】</h1>
             <p>下記URLから新しいパスワードの再設定を完了させてください。</p><br>
             <a href='http://cloudkaikei.work/login/password_reissue_form?passReset=$code'>http://cloudkaikei.work/login/password_reissue_form?passReset=$code</a>";
         $mail->Body = $mailContent;
@@ -257,6 +276,11 @@ class Login extends CI_controller
       $key = 'g--YESw-F3LyGXDgGh*QqEt|7.kY8&4L'; // 鍵
       $email = openssl_decrypt(hex2bin($code), 'AES-128-ECB', $key);
       $data['email'] = $email;
+      //crsfトークン作成
+      $data['csrf'] = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+      );
       $this->load->view('userLogin/password_reissue_form_view', $data);
     }
   }
@@ -307,15 +331,15 @@ class Login extends CI_controller
             $mail->Port     = 587;  // TCPポートを指定（tlsの場合は465や587）
 
             // 送受信先設定（第二引数は省略可）
-            $mail->setFrom('sendmailtest.programming@gmail.com', 'クラウド会計');   // 送信者
+            $mail->setFrom('sendmailtest.programming@gmail.com', 'CloudKaikei');   // 送信者
             // $mail->addReplyTo('info@example.com', 'CodexWorld');    // 返信先
             $mail->addAddress($email); // 宛先
 
             $mail->isHTML(true);
             // 送信内容設定
             $passReissueToken = md5(uniqid(rand(), true));
-            $mail->Subject = 'クラウド会計サービス【パスワード再設定完了】';
-            $mailContent = "<h1>クラウド会計サービス【パスワード再設定完了】</h1>
+            $mail->Subject = 'CloudKaikeiサービス【パスワード再設定完了】';
+            $mailContent = "<h1>CloudKaikeiサービス【パスワード再設定完了】</h1>
                 <p>パスワードの再設定が完了しました。</p>";
             $mail->Body = $mailContent;
             $mail->send(); //送信
@@ -341,13 +365,6 @@ class Login extends CI_controller
   {
     $this->load->view('userLogin/password_reissue_finish_view');
   }
-
-
-  // エラー画面
-  // public function error()
-  // {
-  //   $this->load->view('');
-  // }
 
   // ユーザーページログアウト
   public function user_logout()

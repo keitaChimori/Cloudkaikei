@@ -135,7 +135,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputBank">振込先金融機関</label>
-                        <input name="bank_name" type="text" id="inputBank" class="form-control" placeholder="例）〇〇銀行" value="<?php echo set_value('bank_name', $info['bank_name']); ?>">
+                        <input name="bank_name" type="text" id="inputBank" class="form-control" placeholder="例）〇〇銀行□□支店" value="<?php echo set_value('bank_name', $info['bank_name']); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -153,6 +153,8 @@
           <div class="form-group row justify-content-center">
             <div>
               <input type="hidden" name="user_id" value="<?php echo $info['id'] ?>">
+              <!-- csrfトークン埋め込み -->
+              <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
               <input type="submit" value="変更を保存" class="btn btn-success mr-4 px-5">
               <button type="button" onclick="history.back()" class="btn btn-secondary">戻る</button>
             </div>

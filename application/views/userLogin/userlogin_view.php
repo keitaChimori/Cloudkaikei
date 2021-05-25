@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ユーザーログイン  | CloudKaikei</title>
+  <title>ユーザーログイン | CloudKaikei</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -61,6 +61,8 @@
           </div>
 
           <div class="row">
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <button type="submit" class="btn btn-primary btn-block mb-4" id="btn_submit" name="submit">ログイン</button>
           </div>
         </form>
@@ -88,12 +90,16 @@
     //Ajax 
     $('#form').on('submit', function() {
       event.preventDefault();
+      var csrf_name = $("#token").attr('name'); // viewに生成されたトークンのname取得
+      var csrf_hash = $("#token").val(); // viewに生成されたトークンのハッシュ取得
+
       $.ajax({
         url: "/login/login_check",
         type: "POST",
         data: {
           'Email': $('#Email').val(),
           'password': $('#password').val(),
+          "csrf_test_name": csrf_hash,
         },
         dataType: "json",
       }).then(
@@ -103,6 +109,7 @@
             window.location.href = '/ledger';
           } else {
             alert(data.message);
+            // form.reset();
           }
         })
     });

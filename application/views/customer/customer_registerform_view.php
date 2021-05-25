@@ -30,8 +30,7 @@
     <?php $this->load->view('sidemenu_view'); ?>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <br>
+    <div class="content-wrapper"><br>
       <!-- Main content -->
       <section class="content">
         <form action="/customer/customer_register_done" method="post" id="form">
@@ -161,9 +160,10 @@
 
           <!-- button -->
           <div class="form-group row justify-content-center">
-              <!-- <input type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>"> -->
-              <input type="submit" name="btn_submit" id="btn_submit" value="新規登録" class="btn btn-success px-5 mr-3">
-              <a href="<?= base_url() ?>customer" class="btn btn-secondary">戻る</a>
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
+            <input type="submit" name="btn_submit" id="btn_submit" value="新規登録" class="btn btn-success px-5 mr-3">
+            <a href="<?= base_url() ?>customer" class="btn btn-secondary">戻る</a>
           </div>
         
         </form>
@@ -172,7 +172,9 @@
     </div><!-- /.content-wrapper -->
 
     <!-- footer表示 -->
-    <?php $this->load->view('footer_view'); ?>
+    <footer>
+      <?php $this->load->view('footer_view'); ?>
+    </footer>
 
   </div><!-- ./wrapper -->
   

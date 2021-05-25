@@ -101,7 +101,9 @@
     </div><!-- /.content-wrapper -->
 
     <!-- footer表示 -->
-    <?php $this->load->view('footer_view'); ?>
+    <footer>
+      <?php $this->load->view('footer_view'); ?>
+    </footer>
 
   </div><!-- ./wrapper -->
 

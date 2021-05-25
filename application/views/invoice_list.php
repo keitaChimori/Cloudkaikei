@@ -37,12 +37,14 @@
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <h4 class="mt-2">請求書</h4>
-      <?php var_dump($info); ?>
-      
+      <?php //var_dump($invoice); ?>
+
     </nav>
 
     <!-- サイドメニュー表示 -->
-    <?php $this->load->view('sidemenu_view'); ?>
+    <aside>
+      <?php $this->load->view('sidemenu_view'); ?>
+    </aside>
 
     <!-- Main Content Wrapper.-->
     <div class="content-wrapper">
@@ -88,21 +90,16 @@
                         <?php endif; ?>
                       </li>
                     </ul>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
               </div>
 
               <div class="col-md-8">
                 <!-- TABLE: LATEST ORDERS -->
                 <div class="card">
-                  <!-- /.card-header -->
 
                   <div class="card-body p-0">
-                    <div class="table-responsive">
-                    </div>
-                    <!-- /.table-responsive -->
+
                   </div>
 
                   <div class="tab-content">
@@ -112,18 +109,48 @@
                         <!-- Content Header (Page header) -->
                         <section class="content-header">
                           <div class="container-fluid">
-                            <a href="/invoice/register" class="btn-sm">新規登録</a>
-                            <a href="/invoice/edit?id=<?php if (!empty($invoice['id'])) {
-                                                        echo $invoice['id'];
-                                                      } ?>" class="btn-sm">編集</a>
-                            <a href="/invoice/delete?id=<?php if (!empty($invoice['id'])) {
-                                                          echo $invoice['id'];
-                                                        } ?>" class="btn-sm">削除</a>
-                            <form method="POST" name="invoice_pdf" action="Pdf_create.php">                           
-                              <a href="/Pdf_create?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm" onclick="document.invoice_pdf.submit();">請求書出力</a>
-                              <input type="hidden" name="data" value="">
-                            </form> 
-                            <a href="" class="btn-sm">納品書出力</a>
+                            <!-- 新規作成ボタン -->
+                            <div class="btn btn-primary">
+                              <a href="/invoice/register" class="btn-sm text-white">新規作成</a>
+                            </div>
+
+                            <!-- 編集ボタン -->
+                            <?php if (!empty($invoice)) : ?>
+                              <div class="btn btn-primary">
+                                <a href="/invoice/edit?id=<?php if (!empty($invoice['id'])) {
+                                                            echo $invoice['id'];
+                                                          } ?>" class="btn-sm text-white">編集
+                                </a>
+                              </div>
+                            <?php endif; ?>
+
+                            <!-- 削除ボタン -->
+                            <?php if (!empty($invoice)) : ?>
+                              <div class="btn btn-danger">
+                                <a href="/invoice/delete?id=<?php if (!empty($invoice['id'])) {
+                                                              echo $invoice['id'];
+                                                            } ?>" class="btn-sm text-white" onclick="return disp()">削除
+                                </a>
+                              </div>
+                            <?php endif; ?>
+                            
+
+                            <!-- 請求書出力ボタン -->
+                            <?php if (!empty($id)) : ?>
+                              <div class="btn btn-info">
+                                <form method="POST" name="invoice_pdf" action="Pdf_create.php">
+                                  <a href="/Pdf_create?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm text-white" onclick="document.invoice_pdf.submit();">請求書出力</a>
+                                  <input type="hidden" name="data" value="">
+                                </form>
+                              </div>
+                            <?php endif; ?>
+
+                            <!-- 納品書出力ボタン -->
+                            <?php if (!empty($id)) : ?>
+                              <div class="btn btn-info">
+                                <a href="" class="btn-sm text-white">納品書出力</a>
+                              </div>
+                            <?php endif; ?>
                           </div><!-- /.container-fluid -->
                         </section>
 
@@ -163,13 +190,11 @@
                                           ?>
                                         </small>
                                       </h4>
-                                    </div>
-                                    <!-- /.col -->
-                                  </div>
-                                  <!-- info row -->
+                                    </div><!-- /.col -->
+                                  </div><!-- /.row -->
                                   <div class="row invoice-info">
-                                    <div class="col-sm-4 invoice-col">
-                                      <b>請求書番号: <?php if (!empty($info[0]['invoice_id'])) {
+                                    <div class="col-sm-8 invoice-col">
+                                      <b>請求書番号: <?php if (!empty($invoice) && !empty($info[0]['invoice_id'])) {
                                                   echo $info[0]['invoice_id'];
                                                 } ?></b><br>
                                       <br>
@@ -192,10 +217,8 @@
                                         ?>
                                         <br>
                                       </address>
-                                    </div>
-                                    <!-- /.col -->
-                                  </div>
-                                  <!-- /.row -->
+                                    </div><!-- /.col -->
+                                  </div><!-- /.row -->
 
                                   <!-- Table row -->
                                   <div class="row">
@@ -212,8 +235,10 @@
                                         </thead>
                                         <tbody>
                                           <?php
-                                          // print_r($info);
+                                          //print_r($info);
                                           $line = count($info);
+                                          // print_r($line);
+
                                           $total = 0;
                                           ?>
                                           <?php for ($i = 0; $i < $line; $i++) { ?>
@@ -232,21 +257,18 @@
                                           <?php } ?>
                                         </tbody>
                                       </table>
-                                    </div>
-                                    <!-- /.col -->
-                                  </div>
-                                  <!-- /.row -->
+                                    </div><!-- /.col -->
+                                  </div><!-- /.row -->
 
                                   <div class="row">
-                                    <!-- accepted payments column -->
-
-                                    <!-- /.col -->
                                     <div class="col-6" id="amount">
                                       <div class="table-responsive">
                                         <table class="table">
                                           <tr>
                                             <th style="width:50%">小計:</th>
-                                            <td><?php echo number_format($total); ?>円</td>
+                                            <td>
+                                              <?php echo number_format($total); ?>円
+                                            </td>
                                           </tr>
                                           <tr>
                                             <th>消費税:</th>
@@ -267,10 +289,8 @@
                                           </tr>
                                         </table>
                                       </div>
-                                    </div>
-                                    <!-- /.col -->
-                                  </div>
-                                  <!-- /.row -->
+                                    </div><!-- /.col -->
+                                  </div><!-- /.row -->
                                   <b>振込先：<?php echo $value_u['bank_name']; ?></b><br>
                                   <b>　口座：<?php echo $value_u['bank_account']; ?></b>
                                   <br>
@@ -281,34 +301,29 @@
                                             echo $invoice['note'];
                                           } ?></text>
                                   </footer>
-                                </div>
-                                <!-- /.invoice -->
+                                </div><!-- /.invoice -->
                               </div><!-- /.col -->
                             </div><!-- /.row -->
                           </div><!-- /.container-fluid -->
-                        </section>
-                        <!-- /.content -->
+                        </section><!-- /.content -->
                         <!-- /.content-wrapper -->
-                      </div>
-                      <!-- ./wrapper -->
+                      </div><!-- ./wrapper -->
                     </div>
                   </div>
-                </div>
-                <!-- /.card -->
+                </div><!-- /.card -->
               </div>
             </div>
           </div>
         </section>
       </section>
     </div><!-- /.content-wrapper -->
-    <!-- footer表示 -->
+
+  <!-- footer表示 -->
+  <footer>
     <?php $this->load->view('footer_view'); ?>
+  </footer>
 
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
-
-
+  </div><!-- ./wrapper -->
 
   <!-- script -->
   <!-- jQuery -->
@@ -355,6 +370,16 @@
         $('.nav li a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
       } else $('.nav li a:eq(0)').addClass('active');
     });
+
+    // 削除確認メッセージ
+    function disp() {
+      // 削除確認メッセージ
+      if (window.confirm('本当に削除しますか？')) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   </script>
 </body>
 
