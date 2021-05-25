@@ -57,6 +57,7 @@
                 <span class="fas fa-lock"></span>
               </div>
             </div>
+            <small class="text-primary">半角数字・半角英字をそれぞれ1文字以上含む</small>
           </div>
 
           <label for="password2" class="form-label">パスワード【確認用】</label>
@@ -70,6 +71,8 @@
           </div>
 
           <div class="row mb-4">
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <button type="submit" class="btn btn-primary btn-block" name="submit" id="btn_submit" value="submit">新規登録</button>
           </div>
         </form>

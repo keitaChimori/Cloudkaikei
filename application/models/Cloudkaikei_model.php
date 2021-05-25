@@ -35,11 +35,11 @@ class Cloudkaikei_model extends CI_model
         ->update('user_data',$data);
     }
 
-    public function load_invoice(){
-        return $this->db->order_by('id', 'ASC')
-        ->get('invoice')
-        ->result_array();
-    }
+    // public function load_invoice(){
+    //     return $this->db->order_by('id', 'ASC')
+    //     ->get('invoice')
+    //     ->result_array();
+    // }
 
     public function edit_update($id,$data)
     {

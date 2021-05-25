@@ -27,7 +27,7 @@
 
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg">登録したメールアドレスを入力してください。パスワード再発行用のメールを送信します。</p>
+        <p class="mx-2">登録したメールアドレスをフォームに入力してください。パスワード再発行用のメールを送信します。</p>
 
         <!-- パスワード再発行フォーム -->
         <form method="POST" id="form">
@@ -41,6 +41,8 @@
           </div>
 
           <div class="row">
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <button type="submit" class="btn btn-primary btn-block mb-3" id="btn_submit" name="submit">パスワード再発行メール送信</button>
             <div class="loading m-auto small pb-2">
               <i class="fas fa-spinner fa-pulse fa-3x fa-fw" style="display: none;"></i>
@@ -77,11 +79,15 @@
     // Ajax
     $('#form').on('submit', function() {
       event.preventDefault();
+      var csrf_name = $("#token").attr('name'); // viewに生成されたトークンのname取得
+      var csrf_hash = $("#token").val(); // viewに生成されたトークンのハッシュ取得
+
       $.ajax({
         url: "/login/reissue_sendmail",
         type: "POST",
         data: {
           'email': $('#email').val(),
+          "csrf_test_name": csrf_hash,
         },
         dataType: "json",
       }).then(

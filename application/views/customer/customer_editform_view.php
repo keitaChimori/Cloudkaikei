@@ -48,13 +48,13 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label for="inputName">お客様名<span class="badge badge-danger">必須</span></label>
-                        <input type="text" name="name" id="inputName" class="form-control" value="<?php echo set_value('name', $info['name']); ?>">
+                        <input type="text" name="name" id="inputName" class="form-control" placeholder="例）サンプル株式会社" value="<?php echo set_value('name', $info['name']); ?>">
                       </div>
                     </div>
                     <div class="col-md-5">
                       <div class="form-group">
                         <label for="inputKanaName">お客様名(カナ)</label>
-                        <input type="text" name="kana" id="inputKanaName" class="form-control" value="<?php echo set_value('kana', $info['kana']); ?>">
+                        <input type="text" name="kana" id="inputKanaName" class="form-control" placeholder="例）サンプルカブシキカイシャ" value="<?php echo set_value('kana', $info['kana']); ?>">
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -78,12 +78,12 @@
 
                   <div class="form-group">
                     <label for="inputMail">メールアドレス</label>
-                    <input type="email" name="mail" id="inputMail" class="form-control" value="<?php echo set_value('mail', $info['mail']); ?>">
+                    <input type="email" name="mail" id="inputMail" class="form-control" placeholder="例）sample.email@sample.jp"  value="<?php echo set_value('mail', $info['mail']); ?>">
                   </div>
 
                   <div class="form-group w-25">
-                    <label for="inputPost">郵便番号(ハイフンなし)</label>
-                    <input type="text" name="post" id="inputPost" class="form-control" value="<?php echo set_value('post', $info['post']); ?>">
+                    <label for="inputPost">郵便番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="text" name="post" id="inputPost" class="form-control" placeholder="例）1234567" value="<?php echo set_value('post', $info['post']); ?>">
                   </div>
 
                   <div class="form-group w-25">
@@ -107,45 +107,45 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress1">住所1(市町村番地)</label>
-                        <input type="text" name="address1" id="inputAddress1" class="form-control" value="<?php echo set_value('address1', $info['address1']); ?>">
+                        <label for="inputAddress1">住所1 <small class="text-danger">(市区町村番地)</small></label>
+                        <input type="text" name="address1" id="inputAddress1" class="form-control" placeholder="例）○○市□□□町1丁目1-11" value="<?php echo set_value('address1', $info['address1']); ?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputAddress2">住所2(建物名)</label>
-                        <input type="text" name="address2" id="inputAddress2" class="form-control" value="<?php echo set_value('address2', $info['address2']); ?>">
+                        <label for="inputAddress2">住所2 <small class="text-danger">(建物名)</small></label>
+                        <input type="text" name="address2" id="inputAddress2" class="form-control" placeholder="例）△△△ビル1F" value="<?php echo set_value('address2', $info['address2']); ?>">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group w-25">
-                    <label for="inputPhone">電話番号(ハイフンなし)</label>
-                    <input type="tel" name="tel" id="inputPhone" class="form-control" value="<?php echo set_value('tel', $info['tel']); ?>">
+                    <label for="inputPhone">電話番号 <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="tel" name="tel" id="inputPhone" class="form-control" placeholder="例）01234567890" value="<?php echo set_value('tel', $info['tel']); ?>">
                   </div>
 
                   <div class="form-group w-25">
-                    <label for="inputFax">FAX(ハイフンなし)</label>
-                    <input type="text" name="fax" id="inputFax" class="form-control" value="<?php echo set_value('fax', $info['fax']); ?>">
+                    <label for="inputFax">FAX <small class="text-danger">(半角数字・ハイフンなし)</small></label>
+                    <input type="text" name="fax" id="inputFax" class="form-control" placeholder="例）09876543211" value="<?php echo set_value('fax', $info['fax']); ?>">
                   </div>
 
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="customer_group">部門</label>
-                        <input type="text" name="customer_group" id="customer_group" class="form-control" value="<?php echo set_value('customer_group', $info['customer_group']); ?>">
+                        <input type="text" name="customer_group" id="customer_group" class="form-control" placeholder="例）営業部" value="<?php echo set_value('customer_group', $info['customer_group']); ?>">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="position">役職</label>
-                        <input type="text" name="position" id="position" class="form-control" value="<?php echo set_value('position', $info['position']); ?>">
+                        <input type="text" name="position" id="position" class="form-control" placeholder="例）部長" value="<?php echo set_value('position', $info['position']); ?>">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="person">担当者名</label>
-                        <input type="text" name="person" id="person" class="form-control" value="<?php echo set_value('person', $info['person']); ?>">
+                        <input type="text" name="person" id="person" class="form-control" placeholder="例） 田中 太郎" value="<?php echo set_value('person', $info['person']); ?>">
                       </div>
                     </div>
                   </div>
@@ -159,19 +159,21 @@
           <div class="form-group row justify-content-center">
            <div>
               <input type="hidden" name="user_id" value="<?php echo $info['id']; ?>">
-              <!-- <input type="hidden" name="<?= $name ?>" value="<?= $hash ?>"> --><!-- csrf用 -->
+              <!-- csrfトークン埋め込み -->
+              <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
               <input type="submit" name="btn_submit" id="btn_submit" value="変更を保存" class="btn btn-success px-5 mx-4">
               <a href="<?= base_url() ?>customer" class="btn btn-secondary">戻る</a>
            </div>
           </div>
         </form>
-
       </section>
       <br>
     </div><!-- /.content-wrapper -->
 
     <!-- footer表示 -->
-    <?php $this->load->view('footer_view'); ?>
+    <footer>
+      <?php $this->load->view('footer_view'); ?>
+    </footer>
     
   </div><!-- ./wrapper -->
 

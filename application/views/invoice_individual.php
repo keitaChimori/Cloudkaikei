@@ -1,5 +1,5 @@
 <!-- ******************************** -->
-<!-- *****    請求書新規登録    ***** -->
+<!-- *****    請求書新規作成    ***** -->
 <!-- ******************************** -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>請求書新規登録</title>
+  <title>請求書新規作成 | CloudKaikei</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -38,7 +38,7 @@
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
-        <h4>請求書新規登録</h4>
+        <h4>請求書新規作成</h4>
       </ul>
     </nav>
 
@@ -48,7 +48,8 @@
     <div class="content-wrapper">
 
       <form action="" method="post">
-        <br>
+        
+        <p class="m-0">　※数字は半角数字で入力してください。</p>
         <section class="content">
           <div class="container-fluid">
             <div class="row">
@@ -128,10 +129,10 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td><input type="text" name="product_name[]" value="材料"></td>
-                            <td><input type="text" name="price[]" value="10000"></td>
-                            <td><input type="text" name="num[]" value="10"></td>
-                            <td><input type="text" name="unit[]" value="個"></td>
+                            <td><input type="text" class="pr-5" name="product_name[]" value="" placeholder="部品A"></td>
+                            <td><input type="text" name="price[]" value="" placeholder="1000"></td>
+                            <td><input type="text" name="num[]" value="" placeholder="1"></td>
+                            <td><input type="text" class="w-50" name="unit[]" value="" placeholder="個"></td>
                             <td><input class="btnDelete" type="button" value="削除" /></td>
                         </tbody>
                       </table>
@@ -142,19 +143,28 @@
                   <input id="btnAdd" type="button" value="＋" style="width:50px; height:50px; border-radius:100%; float:right;" class="btn btn-success" />
                   <br>
                   <b>備考欄</b><br>
-                  <input type="text" name="note" value="なし" size="40">
+                  <!-- <input type="text" name="note" value="" placeholder="なし" size="60" > -->
+                  <textarea name="note" id="note" cols="70" rows="2"></textarea>
                 </div><!-- /.invoice -->
               </div><!-- /.col -->
             </div><!-- /.row -->
           </div><!-- /.container-fluid -->
         </section>
-        <input type="submit" value="送信する">
+
+        <!-- ボタン -->
+        <div class="text-center">
+          <!-- csrfトークン埋め込み -->
+          <input id="token" type="hidden" name="<?= $csrf['name'];?>" value="<?= $csrf['hash'];?>">
+          <input type="submit" value="作成する" class="btn btn-primary w-25">
+        </div>
         <!-- /.content -->
       </form>
     </div>
 
     <!-- footer表示 -->
-    <?php $this->load->view('footer_view'); ?>
+    <footer>
+      <?php $this->load->view('footer_view'); ?>
+    </footer>
 
   </div>
   <!-- ./wrapper -->

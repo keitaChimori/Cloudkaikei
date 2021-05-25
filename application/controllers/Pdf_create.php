@@ -43,6 +43,7 @@ class Pdf_create extends CI_controller
       $invoice_detail_data = $this->Invoice_model->detail_preview($invoice_id);//PDF化するinvoice_detailテーブルデータを取得
       $user_data = $this->Pdf_model->fetch_userdata($invoice_data['user_id']);//ユーザー情報を取得
 
+
       //顧客名
       $customer = $this->Pdf_model->fetch_customerdata($invoice_data['customer']);
       $customer = $customer['name'];

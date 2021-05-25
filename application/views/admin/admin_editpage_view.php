@@ -143,7 +143,8 @@
 
           <!-- button -->
           <div class="form-group row justify-content-center">
-            <!-- <input type="hidden" name="<?= $name; ?>" value="<?= $hash; ?>"> -->
+            <!-- csrfトークン埋め込み -->
+            <input id="token" type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>">
             <input type="hidden" name="user_id" value="<?php echo $info['id']; ?>">
             <input type="submit" value="変更を保存" name="btn" id="btn_submit" class="btn btn-success px-5 mx-5">
             <a href="<?= base_url() ?>Admin/editlist" class="btn btn-secondary">戻る</a>

@@ -37,7 +37,7 @@ $config = array(
   'password_reissue' => array(
     array(
       'field' => 'password1',
-      'label' => 'パスワード',
+      'label' => '新しいパスワード',
       'rules' => 'trim|required|regex_match[/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{5,20}$/i]|matches[password2]',
       'errors' => array(
         'required' => '{field}が未入力です',
@@ -47,7 +47,7 @@ $config = array(
     ),
     array(
       'field' => 'password2',
-      'label' => 'パスワード【確認用】',
+      'label' => '新しいパスワード【確認用】',
       'rules' => 'required',
       'errors' => array(
         'required' => '{field}が未入力です',
