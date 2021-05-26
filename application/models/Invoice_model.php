@@ -49,7 +49,7 @@ class invoice_model extends CI_model
             return $this->db->from('invoice')
                             ->join('invoice_detail', 'invoice_detail.invoice_id = invoice.id')
                             ->where('user_id',$user_id)
-                            ->where("delete_flag", 0)
+                            ->where("deleted_at", 0)
                             ->get()
                             ->result_array();            
         }

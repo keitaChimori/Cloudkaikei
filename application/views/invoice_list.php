@@ -138,17 +138,17 @@
                             <!-- 請求書出力ボタン -->
                             <?php if (!empty($id)) : ?>
                               <div class="btn btn-info">
-                                <form method="POST" name="invoice_pdf" action="Pdf_create.php">
-                                  <a href="/Pdf_create?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm text-white" onclick="document.invoice_pdf.submit();">請求書出力</a>
-                                  <input type="hidden" name="data" value="">
-                                </form>
+                                <a href="/Pdf_invoice?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm text-white">請求書出力
+                                </a>                     
                               </div>
                             <?php endif; ?>
 
                             <!-- 納品書出力ボタン -->
                             <?php if (!empty($id)) : ?>
                               <div class="btn btn-info">
-                                <a href="" class="btn-sm text-white">納品書出力</a>
+                                <a href="/Pdf_delivery?invoice_id=<?php echo $info[0]['invoice_id']; ?>" class="btn-sm text-white">
+                                納品書出力
+                                </a> 
                               </div>
                             <?php endif; ?>
                           </div><!-- /.container-fluid -->
