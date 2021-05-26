@@ -2,7 +2,7 @@
 require_once('application/third_party/tcpdf/tcpdf.php');
 require_once('application/third_party/tcpdf/autoload.php');
 
-class Pdf_create extends CI_controller
+class Pdf_delivery extends CI_controller
 {
   
     // デフォルトの設定
@@ -23,38 +23,38 @@ class Pdf_create extends CI_controller
 
     public function index()
     {
-      // $input_data = $this->input->post('data');
-      // var_dump($input_data);
-      // exit;
-
       $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
 
       $pdf->setPrintHeader( false );
       
-      $pdf->setSourceFile("application/third_party/tcpdf/Cloudkaikei.pdf");
+      $pdf->setSourceFile("application/third_party/tcpdf/Cloudkaikei_delivery.pdf");
       $pdf->AddPage();
       $tpl = $pdf->importPage(1);
       $pdf->useTemplate($tpl);
 
-
-      // 請求書情報の取得
+      // 納品書情報の取得
+      $user_id = $_SESSION['id'];
       $invoice_id = $this->input->get("invoice_id");//PDF化するID取得
-      $invoice_data = $this->Invoice_model->invoice_preview($invoice_id);//PDF化するinvoiceテーブルデータを取得
-      $invoice_detail_data = $this->Invoice_model->detail_preview($invoice_id);//PDF化するinvoice_detailテーブルデータを取得
+      // var_dump($invoice_id);
+      // exit;
+      if(empty($invoice_id) || is_numeric($invoice_id) === false){
+        return show_404();
+      }
+      $invoice_data = $this->Invoice_model->invoice_preview($invoice_id,$user_id);//PDF化するinvoiceテーブルデータを取得
+      $invoice_detail_data = $this->Invoice_model->detail_preview($invoice_id,$user_id);//PDF化するinvoice_detailテーブルデータを取得
       $user_data = $this->Pdf_model->fetch_userdata($invoice_data['user_id']);//ユーザー情報を取得
-
 
       //顧客名
       $customer = $this->Pdf_model->fetch_customerdata($invoice_data['customer']);
       $customer = $customer['name'];
-      // 請求日
+      // 納品日
       $date = $this->Pdf_model->fetch_customerdata($invoice_data['customer']);
       $y = substr($date['updated_at'],0,4);
       $m = substr($date['updated_at'],5,2);
       $d = substr($date['updated_at'],8,2);
       $date = $y."年".$m.'月'.$d."日";
 
-      // 請求書番号
+      // 納品書番号
         // $invoice_id;
       // ユーザー名
       $user_name = $user_data['name'];
@@ -77,17 +77,23 @@ class Pdf_create extends CI_controller
       $tax = $total * 0.1;
       // 合計金額
       $total_tax = $total + $tax; 
-      // 銀行
-      $user_bank = $user_data['bank_name'];
-      // 口座番号
-      $bank_account = $user_data['bank_account'];
       // 備考欄
       $note = $invoice_data['note'];
-      
+      function mb_wordwrap( $str, $width=51, $break=PHP_EOL, $encode="UTF-8" )
+      {
+        $c = mb_strlen($str, $encode);
+        $arr = [];
+        for ($i=0; $i<=$c; $i+=$width) {
+          $arr[] = mb_substr($str, $i, $width, $encode);
+        }
+        return implode($break, $arr);
+      }
+      $note = mb_wordwrap($note,51,"<br/>");
+
       // //$pdf->SetFont('kozminproregular', スタイル, サイズ);
       // //$pdf->Text(x座標, y座標, テキスト);
 
-      $pdf->SetFont('kozminproregular', '',16 );
+      $pdf->SetFont('kozminproregular', '',14 );
       $pdf->Text(24, 40, htmlspecialchars( $customer ));
       
       $pdf->SetFont('kozminproregular', '',12 );
@@ -120,14 +126,8 @@ class Pdf_create extends CI_controller
       $pdf->SetFont('kozminproregular', '',14 );
       $pdf->Text(158, 225, htmlspecialchars( '¥'.number_format($total_tax) ));
       
-      $pdf->SetFont('kozminproregular', '',12 );
-      $pdf->Text(41, 210, htmlspecialchars( $user_bank ));
-
-      $pdf->SetFont('kozminproregular', '',12 );
-      $pdf->Text(41, 218, htmlspecialchars( $bank_account ));
-      
       $pdf->SetFont('kozminproregular', '',10 );
-      $pdf->Text(22, 251, htmlspecialchars( $note ));
+      $pdf->Text(22, 251, $note );
 
       // 以下 詳細・内訳
       $invoice_detail_count = count($invoice_detail_data);
@@ -173,16 +173,13 @@ class Pdf_create extends CI_controller
         $pdf->SetFont('kozminproregular', '',13 );//単価
         $pdf->Text(103, $x, htmlspecialchars( '¥'.number_format($price[$i]) ));
         $pdf->SetFont('kozminproregular', '',13 );//数量
-        $pdf->Text(142, $x, htmlspecialchars( $num[$i] ));
+        $pdf->Text(144, $x, htmlspecialchars( $num[$i] ));
         $pdf->SetFont('kozminproregular', '',13 );//合計
         $pdf->Text(168, $x, htmlspecialchars( '¥'.number_format($detail_total[$i]) ));
       }
       
-      // $pdf->SetFont('kozminproregular', '',13 );//詳細
-      // $pdf->Text(25, 150, htmlspecialchars( '詳細１' ));
-      
       //$pdf->Output(出力時のファイル名, 出力モード);
       ob_end_clean();
-      $pdf->Output("invoice_Cloudkaikei.pdf", "I");
+      $pdf->Output("delivery_Cloudkaikei.pdf", "D");
     }
 }
