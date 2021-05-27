@@ -12,6 +12,7 @@ class Admin extends CI_controller
         $this->load->model('Admin_model');
         $this->load->library('javascript');
         $this->load->library('form_validation');
+        date_default_timezone_set('Asia/Tokyo');
     }
 
     // 管理者ログイン画面TOP表示 ユーザーリスト表示
@@ -95,6 +96,8 @@ class Admin extends CI_controller
                     'bank_name' => $input_bankname,
                     'bank_account' => $input_bankaccount,
                     'password' => $hash_password,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
                 ];
                 // バリデーションチェック
                 if ($this->form_validation->run('admin_register') == false) {
@@ -196,6 +199,7 @@ class Admin extends CI_controller
                     'fax' => $input_fax,
                     'bank_name' => $input_bankname,
                     'bank_account' => $input_bankaccount,
+                    'updated_at' => date("Y-m-d H:i:s")
                 ];
 
                 // バリデーションチェック
@@ -265,7 +269,10 @@ class Admin extends CI_controller
             }
             // 論理削除
             $data = null;
-            $data = ['delete_flag' => 1];
+            $data = [
+                'delete_flag' => 1,
+                'updated_at' => date("Y-m-d H:i:s")
+            ];
             if ($this->Admin_model->soft_delete($id, $data)) {
                 $this->session->set_flashdata('message', '登録情報を削除しました');
                 header('location:/Admin/deletelist');

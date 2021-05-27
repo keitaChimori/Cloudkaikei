@@ -13,6 +13,7 @@ class Customer extends CI_controller
     $this->load->model('Cloudkaikei_model');
     $this->load->library('javascript');
     $this->load->library('form_validation');
+    date_default_timezone_set('Asia/Tokyo');
   }
 
   // 顧客リスト表示
@@ -107,6 +108,7 @@ class Customer extends CI_controller
         'customer_group' => $input_customer_group,
         'position' => $input_position,
         'person' => $input_person,
+        'updated_at' => date("Y-m-d H:i:s")
       ];
       // バリデーションチェック
       if ($this->form_validation->run('customer_edit') == false) {
@@ -147,7 +149,10 @@ class Customer extends CI_controller
     if (!empty($id)) {
       // 論理削除
       $data = null;
-      $data = ['deleted_flag' => 1];
+      $data = [
+        'deleted_flag' => 1,
+        'updated_at' => date("Y-m-d H:i:s")
+      ];
       if ($this->Customer_model->soft_delete($id, $data)) {
         $this->session->set_flashdata('message', '顧客情報を削除しました');
         header('location:/customer');
@@ -217,6 +222,8 @@ class Customer extends CI_controller
         'customer_group' => $input_customer_group,
         'position' => $input_position,
         'person' => $input_person,
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s")
       ];
       if ($this->form_validation->run('customer_register') == false) {
         // バリデーションエラーあり
