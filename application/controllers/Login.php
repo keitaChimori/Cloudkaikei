@@ -15,6 +15,7 @@ class Login extends CI_controller
     $this->load->model('Login_model');
     $this->load->library('javascript');
     $this->load->library('form_validation');
+    date_default_timezone_set('Asia/Tokyo');
   }
 
   // ユーザーログイン画面表示
@@ -120,6 +121,8 @@ class Login extends CI_controller
         $data = [
           'mail' => $email,
           'password' => $hash_password,
+          'created_at' => date("Y-m-d H:i:s"),
+          'updated_at' => date("Y-m-d H:i:s")
         ];
 
         // DBへ登録
@@ -179,6 +182,8 @@ class Login extends CI_controller
             'customer_group' => '営業部',
             'position' => '部長',
             'person' => '田中 太郎',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
           ];
           $this->Customer_model->add_sampledata($sample_data);
 
@@ -309,6 +314,8 @@ class Login extends CI_controller
         $data = [
           'mail' => $email,
           'password' => $hash_password,
+          'created_at' => date("Y-m-d H:i:s"),
+          'updated_at' => date("Y-m-d H:i:s")
         ];
 
         // DBへ登録

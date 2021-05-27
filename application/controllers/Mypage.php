@@ -17,6 +17,7 @@ class Mypage extends CI_controller
         $this->load->model('Cloudkaikei_model');
         $this->load->library('javascript');
         $this->load->library('form_validation');
+        date_default_timezone_set('Asia/Tokyo');
     }
 
     // マイページ表示
@@ -82,6 +83,7 @@ class Mypage extends CI_controller
                 'fax' => $input_fax,
                 'bank_name' => $input_bankname,
                 'bank_account' => $input_bankaccount,
+                'updated_at' => date("Y-m-d H:i:s")
             ];
             // バリデーションチェック
             if ($this->form_validation->run('mypage') == false) {

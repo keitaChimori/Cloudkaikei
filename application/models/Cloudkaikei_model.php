@@ -32,7 +32,7 @@ class Cloudkaikei_model extends CI_model
     // ユーザーデータの更新
     public function edit_userdata($id,$data){
         return $this->db->where('id',$id)
-        ->update('user_data',$data);
+                        ->update('user_data',$data);
     }
 
     // public function load_invoice(){
