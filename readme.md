@@ -1,11 +1,13 @@
 # 『Cloudkaikei』クラウド会計システム
  
-# 『Cloudkaikei』とは？
+## 『Cloudkaikei』とは？
+---
 あなたがお使いの会計ソフトは使いやすいですか？様々な便利機能を使いこなせていますか？  
 
 『Cloudkaikei』は、必要な機能を厳選してシンプルな構成にすることで、ユーザーの利便性向上、会計業務の時間短縮化を目指したシンプルなクラウド会計システムです。  
 
-# 主な機能
+## 主な機能
+---
 >・ユーザー登録、ログイン・ログアウト機能  
 >・請求書の作成、編集、削除、出力機能  
 >・納品書の作成、編集、削除、出力機能  
@@ -26,7 +28,8 @@
 請求書印刷画面
 ![cloudkaikei-invoice-pdf](https://user-images.githubusercontent.com/74399351/149625744-69bcda16-530f-4106-84c9-9d38040676ad.png)
 
-# 環境構築
+## 環境構築
+---
 ・Apache 2.4.4  
 ・PHP 7.4.26  
 ・Mysql(MariaDB)  5.7.32   
@@ -43,7 +46,8 @@ https://cloudkaikei.tech-chimorin.work/
 ※サンプルアカウントのため、個人情報の入力は行わないでください。
 
  
-# 設計
+## 設計
+---
 [要件定義書](https://docs.google.com/spreadsheets/d/1RGFOXIpzeYyQMJoYSdzphmNytun8wKuNGV3F-M9HFlw/edit#gid=0)  
 [基本定義書](https://docs.google.com/spreadsheets/d/1vfO2egjp4vU4YyKb8m-FAJvEUfF5jPtBUXcgEpoB1NQ/edit#gid=0)  
 [画面定義書](https://docs.google.com/spreadsheets/d/1CBFguupffHES6iMOHlKd8jCk-B2aAzzNBSi0N7FKCOk/edit#gid=0)  
